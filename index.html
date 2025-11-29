@@ -1,9 +1,188 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>bgirgin.dev</title>
-  </head>
-  <body>
-    <h1>Welcome to my site</h1>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tarık Girgin — Portfolio</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 60px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 36px;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            margin-bottom: 5px;
+            font-size: 22px;
+            border-bottom: 1px solid #000;
+            width: fit-content;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 40px;
+            height: max-content;
+        }
+
+        .sidebar p {
+            opacity: 0.8;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            border-bottom: 1px solid black;
+        }
+
+        a:hover {
+            opacity: 0.6;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .project-item {
+            margin-bottom: 25px;
+        }
+
+        .pcb-image {
+            width: 100%;
+            border: 1px solid #000;
+            margin-top: 8px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        
+        <!-- LEFT SIDEBAR -->
+        <div class="sidebar">
+            <h1>Tarık Girgin</h1>
+            <p>Embedded Systems • Electronics • PCB Design • Software</p>
+
+            <p>Email: <a href="mailto:girginbora30@gmail.com">girginbora30@gmail.com</a></p>
+            <p>GitHub: <a href="https://github.com/bgirginn" target="_blank">github.com/bgirginn</a></p>
+            <p>Location: Türkiye</p>
+        </div>
+
+        <!-- RIGHT CONTENT -->
+        <div>
+
+            <!-- ABOUT -->
+            <div class="section">
+                <h2>About Me</h2>
+                <p>
+                    I am an embedded systems & electronics engineer focused on PCB design, IoT devices, 
+                    RF communication, firmware development (C / Rust / Python), and high-performance 
+                    hardware systems. I create end-to-end products — from circuit design to firmware and backend.
+                </p>
+            </div>
+
+            <!-- SKILLS -->
+            <div class="section">
+                <h2>Skills</h2>
+                <ul>
+                    <li>Embedded C / Rust / Python</li>
+                    <li>PCB Design (KiCad, Altium-style workflow)</li>
+                    <li>LoRa / RF Systems (SX1276, Semtech ecosystem)</li>
+                    <li>ARM Cortex-M (STM32, RP2040)</li>
+                    <li>ESP32 / Wi-Fi / BLE</li>
+                    <li>Linux Systems • Arch • Debian • Raspberry Pi</li>
+                    <li>Reverse Engineering • Firmware Analysis</li>
+                </ul>
+            </div>
+
+            <!-- PROJECTS -->
+            <div class="section">
+                <h2>Projects</h2>
+
+                <div class="project-item">
+                    <strong>LoRa Telemetry Board — SX1276</strong>
+                    <p>
+                        A custom-engineered telemetry board using Semtech SX1276. Features power-safe architecture, 
+                        dedicated RF filtering, dual VBAT rails, LM1117 regulators, and full OR-ing protection system.
+                    </p>
+                </div>
+
+                <div class="project-item">
+                    <strong>Avionics Interface Board</strong>
+                    <p>
+                        Modular flight-computer-inspired PCB system for rockets and UAVs. Includes sensor bus, 
+                        power conditioning, fault tolerance and mission-profile logging.
+                    </p>
+                </div>
+
+                <div class="project-item">
+                    <strong>ESP32 Marauder-Style IoT Toolkit</strong>
+                    <p>
+                        Custom ESP32-based IoT hacking & scanning tool with Rust CLI + web dashboard.
+                    </p>
+                </div>
+
+                <div class="project-item">
+                    <strong>Custom Linux Distribution — BoraOS</strong>
+                    <p>
+                        An Arch-based lightweight OS with Hyprland/XFCE builds, optimized for development workflow.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PCB SHOWCASE -->
+            <div class="section">
+                <h2>PCB Showcase</h2>
+
+                <p>Some of my PCB design work:</p>
+
+                <!-- PCB images here - you can upload images to GitHub repo -->
+                <img src="pcb1.png" class="pcb-image" alt="PCB Design 1">
+                <img src="pcb2.png" class="pcb-image" alt="PCB Design 2">
+                <img src="pcb3.png" class="pcb-image" alt="PCB Design 3">
+            </div>
+
+            <!-- CODE LINKS -->
+            <div class="section">
+                <h2>Code & Repositories</h2>
+                <ul>
+                    <li><a href="https://github.com/bgirginn/LoRa-Telemetry">LoRa Telemetry Firmware</a></li>
+                    <li><a href="https://github.com/bgirginn/Avionics-Board">Avionics Board</a></li>
+                    <li><a href="https://github.com/bgirginn/ESP32-Marauder">ESP32 Marauder</a></li>
+                    <li><a href="https://github.com/bgirginn">All Repos →</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</body>
 </html>
