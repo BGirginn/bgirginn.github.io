@@ -1,188 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bora Girgin — Portfolio</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #ffffff;
-            color: #000000;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 60px;
-        }
-
-        @media (max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        h1 {
-            margin-top: 0;
-            font-size: 36px;
-            letter-spacing: -1px;
-        }
-
-        h2 {
-            margin-bottom: 5px;
-            font-size: 22px;
-            border-bottom: 1px solid #000;
-            width: fit-content;
-        }
-
-        .sidebar {
-            position: sticky;
-            top: 40px;
-            height: max-content;
-        }
-
-        .sidebar p {
-            opacity: 0.8;
-        }
-
-        a {
-            color: black;
-            text-decoration: none;
-            border-bottom: 1px solid black;
-        }
-
-        a:hover {
-            opacity: 0.6;
-        }
-
-        .section {
-            margin-bottom: 50px;
-        }
-
-        .project-item {
-            margin-bottom: 25px;
-        }
-
-        .pcb-image {
-            width: 100%;
-            border: 1px solid #000;
-            margin-top: 8px;
-        }
-
-        ul {
-            padding-left: 20px;
-            margin-top: 8px;
-        }
-
-    </style>
+    <title>Bora Girgin — Embedded Systems Engineer</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-        
-        <!-- LEFT SIDEBAR -->
-        <div class="sidebar">
-            <h1>Bora Girgin</h1>
-            <p>Embedded Systems • Electronics • PCB Design • Software</p>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BG</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="pcb.html" class="nav-link">PCB Gallery</a>
+                <a href="cv.html" class="nav-link">CV</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
-            <p>Email: <a href="mailto:girginbora30@gmail.com">girginbora30@gmail.com</a></p>
-            <p>GitHub: <a href="https://github.com/bgirginn" target="_blank">github.com/bgirginn</a></p>
-            <p>Location: Türkiye</p>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-background">
+            <canvas id="particleCanvas"></canvas>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="fade-in">Bora</span>
+                <span class="fade-in delay-1">Girgin</span>
+            </h1>
+            <p class="hero-tagline fade-in delay-2">Embedded Systems Engineer</p>
+            <p class="hero-subtitle fade-in delay-3">Electronics • PCB Design • IoT • Firmware</p>
+
+            <div class="hero-cta fade-in delay-4">
+                <a href="projects.html" class="btn btn-primary">View Projects</a>
+                <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+            </div>
         </div>
 
-        <!-- RIGHT CONTENT -->
-        <div>
-
-            <!-- ABOUT -->
-            <div class="section">
-                <h2>About Me</h2>
-                <p>
-                    I am an embedded systems & electronics engineer focused on PCB design, IoT devices, 
-                    RF communication, firmware development (C / Rust / Python), and high-performance 
-                    hardware systems. I create end-to-end products — from circuit design to firmware and backend.
-                </p>
-            </div>
-
-            <!-- SKILLS -->
-            <div class="section">
-                <h2>Skills</h2>
-                <ul>
-                    <li>Embedded C / Rust / Python</li>
-                    <li>PCB Design (KiCad, Altium-style workflow)</li>
-                    <li>LoRa / RF Systems (SX1276, Semtech ecosystem)</li>
-                    <li>ARM Cortex-M (STM32, RP2040)</li>
-                    <li>ESP32 / Wi-Fi / BLE</li>
-                    <li>Linux Systems • Arch • Debian • Raspberry Pi</li>
-                    <li>Reverse Engineering • Firmware Analysis</li>
-                </ul>
-            </div>
-
-            <!-- PROJECTS -->
-            <div class="section">
-                <h2>Projects</h2>
-
-                <div class="project-item">
-                    <strong>LoRa Telemetry Board — SX1276</strong>
-                    <p>
-                        A custom-engineered telemetry board using Semtech SX1276. Features power-safe architecture, 
-                        dedicated RF filtering, dual VBAT rails, LM1117 regulators, and full OR-ing protection system.
-                    </p>
-                </div>
-
-                <div class="project-item">
-                    <strong>Avionics Interface Board</strong>
-                    <p>
-                        Modular flight-computer-inspired PCB system for rockets and UAVs. Includes sensor bus, 
-                        power conditioning, fault tolerance and mission-profile logging.
-                    </p>
-                </div>
-
-                <div class="project-item">
-                    <strong>ESP32 Marauder-Style IoT Toolkit</strong>
-                    <p>
-                        Custom ESP32-based IoT hacking & scanning tool with Rust CLI + web dashboard.
-                    </p>
-                </div>
-
-                <div class="project-item">
-                    <strong>Custom Linux Distribution — BoraOS</strong>
-                    <p>
-                        An Arch-based lightweight OS with Hyprland/XFCE builds, optimized for development workflow.
-                    </p>
-                </div>
-            </div>
-
-            <!-- PCB SHOWCASE -->
-            <div class="section">
-                <h2>PCB Showcase</h2>
-
-                <p>Some of my PCB design work:</p>
-
-                <!-- PCB images here - you can upload images to GitHub repo -->
-                <img src="pcb1.png" class="pcb-image" alt="PCB Design 1">
-                <img src="pcb2.png" class="pcb-image" alt="PCB Design 2">
-                <img src="pcb3.png" class="pcb-image" alt="PCB Design 3">
-            </div>
-
-            <!-- CODE LINKS -->
-            <div class="section">
-                <h2>Code & Repositories</h2>
-                <ul>
-                    <li><a href="https://github.com/bgirginn/LoRa-Telemetry">LoRa Telemetry Firmware</a></li>
-                    <li><a href="https://github.com/bgirginn/Avionics-Board">Avionics Board</a></li>
-                    <li><a href="https://github.com/bgirginn/ESP32-Marauder">ESP32 Marauder</a></li>
-                    <li><a href="https://github.com/bgirginn">All Repos →</a></li>
-                </ul>
-            </div>
-
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-arrow"></div>
         </div>
-    </div>
+    </section>
+
+    <!-- QUICK INTRO CARDS -->
+    <section class="intro-cards">
+        <div class="container">
+            <div class="card-grid">
+                <div class="intro-card" data-aos="fade-up">
+                    <div class="card-icon">💻</div>
+                    <h3>Firmware Development</h3>
+                    <p>Expert in C, Rust, and Python for embedded systems</p>
+                </div>
+                <div class="intro-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon">⚡</div>
+                    <h3>PCB Design</h3>
+                    <p>Professional circuit board design using KiCad</p>
+                </div>
+                <div class="intro-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon">📡</div>
+                    <h3>RF Systems</h3>
+                    <p>LoRa, SX1276, and wireless communication</p>
+                </div>
+                <div class="intro-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">🔧</div>
+                    <h3>IoT Solutions</h3>
+                    <p>ESP32, STM32, ARM Cortex-M platforms</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURED PROJECTS PREVIEW -->
+    <section class="featured-preview">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Featured Work</h2>
+            <div class="projects-grid">
+                <a href="projects.html#lora" class="project-preview" data-aos="fade-up">
+                    <div class="project-number">01</div>
+                    <h3>LoRa Telemetry System</h3>
+                    <p>SX1276-based telemetry with power-safe architecture</p>
+                    <span class="project-arrow">→</span>
+                </a>
+                <a href="projects.html#avionics" class="project-preview" data-aos="fade-up" data-aos-delay="100">
+                    <div class="project-number">02</div>
+                    <h3>Avionics Board</h3>
+                    <p>Flight computer for rockets and UAVs</p>
+                    <span class="project-arrow">→</span>
+                </a>
+                <a href="projects.html#esp32" class="project-preview" data-aos="fade-up" data-aos-delay="200">
+                    <div class="project-number">03</div>
+                    <h3>ESP32 IoT Toolkit</h3>
+                    <p>Security research tool with Rust CLI</p>
+                    <span class="project-arrow">→</span>
+                </a>
+            </div>
+            <div class="text-center" data-aos="fade-up">
+                <a href="projects.html" class="btn btn-primary">View All Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS OVERVIEW -->
+    <section class="skills-overview">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Technical Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-category" data-aos="fade-right">
+                    <h3>Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">Rust</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Assembly</span>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-right" data-aos-delay="100">
+                    <h3>Hardware</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">STM32</span>
+                        <span class="skill-tag">ESP32</span>
+                        <span class="skill-tag">RP2040</span>
+                        <span class="skill-tag">ARM Cortex-M</span>
+                    </div>
+                </div>
+                <div class="skill-category" data-aos="fade-right" data-aos-delay="200">
+                    <h3>Tools</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">KiCad</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Linux</span>
+                        <span class="skill-tag">GDB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Bora Girgin</h4>
+                    <p>Embedded Systems Engineer specializing in IoT, PCB design, and firmware development.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="projects.html">Projects</a>
+                    <a href="pcb.html">PCB Gallery</a>
+                    <a href="cv.html">CV</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                    <a href="mailto:girginbora30@gmail.com">Email</a>
+                    <a href="contact.html">Contact Form</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Bora Girgin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .project-detail {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 60px;
+            margin-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-detail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .project-header {
+            margin-bottom: 30px;
+        }
+
+        .project-header h2 {
+            font-size: 42px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .project-tag {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: var(--primary-color);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .project-content {
+            color: var(--text-secondary);
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .project-content h3 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin: 30px 0 15px;
+        }
+
+        .project-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .project-content li {
+            padding: 8px 0 8px 30px;
+            position: relative;
+        }
+
+        .project-content li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .tech-specs {
+            background: rgba(167, 139, 250, 0.05);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .tech-specs h4 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .page-hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-dark) 50%);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .page-hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .projects-section {
+            padding: 80px 0 120px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BG</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link active">Projects</a>
+                <a href="pcb.html" class="nav-link">PCB Gallery</a>
+                <a href="cv.html" class="nav-link">CV</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">Projects</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Detailed technical breakdowns of my embedded systems work</p>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section class="projects-section">
+        <div class="container">
+
+            <!-- PROJECT 1: LORA TELEMETRY -->
+            <div class="project-detail" id="lora" data-aos="fade-up">
+                <div class="project-header">
+                    <h2>LoRa Telemetry Board — SX1276</h2>
+                    <div class="project-tags">
+                        <span class="project-tag">LoRa</span>
+                        <span class="project-tag">SX1276</span>
+                        <span class="project-tag">RF Design</span>
+                        <span class="project-tag">Embedded C</span>
+                        <span class="project-tag">Power Management</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p>
+                        A professional-grade long-range telemetry system designed for UAVs, rockets, and remote sensing
+                        applications.
+                        Built around the Semtech SX1276 LoRa transceiver, this board achieves ranges exceeding 10km with
+                        robust data integrity.
+                    </p>
+
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>SX1276 LoRa transceiver with optimized RF matching network</li>
+                        <li>Dual VBAT rail system with automatic failover for mission-critical applications</li>
+                        <li>LM1117 voltage regulators with comprehensive power filtering</li>
+                        <li>Full OR-ing diode protection preventing reverse current flow</li>
+                        <li>Dedicated RF filtering stages for clean signal transmission</li>
+                        <li>Low-power sleep modes for battery-powered deployments</li>
+                    </ul>
+
+                    <div class="tech-specs">
+                        <h4>Technical Specifications</h4>
+                        <ul>
+                            <li><strong>Frequency:</strong> 868 MHz (EU) / 915 MHz (US)</li>
+                            <li><strong>Transmit Power:</strong> Up to +20 dBm</li>
+                            <li><strong>Sensitivity:</strong> -148 dBm @ SF12/BW125kHz</li>
+                            <li><strong>Range:</strong> 10+ km (line of sight)</li>
+                            <li><strong>Supply Voltage:</strong> 3.3V - 5.5V dual rail</li>
+                            <li><strong>Current Consumption:</strong> 120mA TX, 12mA RX, 0.2µA sleep</li>
+                        </ul>
+                    </div>
+
+                    <h3>Design Highlights</h3>
+                    <ul>
+                        <li>Custom impedance-matched antenna circuit for optimal VSWR</li>
+                        <li>4-layer PCB with dedicated ground plane and RF isolation</li>
+                        <li>ESD protection on all external interfaces</li>
+                        <li>Temperature-compensated crystal oscillator for frequency stability</li>
+                        <li>SPI interface with DMA support for high-speed data transfer</li>
+                    </ul>
+
+                    <h3>Software Stack</h3>
+                    <p>
+                        Firmware written in embedded C with HAL abstraction layer. Implements LoRaWAN Class A protocol
+                        with custom MAC layer for point-to-point communication. Features include adaptive data rate,
+                        packet acknowledgment, and automatic retransmission with exponential backoff.
+                    </p>
+                </div>
+            </div>
+
+            <!-- PROJECT 2: AVIONICS BOARD -->
+            <div class="project-detail" id="avionics" data-aos="fade-up">
+                <div class="project-header">
+                    <h2>Avionics Interface Board</h2>
+                    <div class="project-tags">
+                        <span class="project-tag">STM32</span>
+                        <span class="project-tag">IMU</span>
+                        <span class="project-tag">Data Logging</span>
+                        <span class="project-tag">Real-time OS</span>
+                        <span class="project-tag">CAN Bus</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p>
+                        Modular flight computer system designed for high-power rocketry and UAV applications. Features
+                        sensor fusion,
+                        real-time data logging, and autonomous flight control capabilities.
+                    </p>
+
+                    <h3>System Architecture</h3>
+                    <ul>
+                        <li>STM32F4 ARM Cortex-M4 @ 180 MHz with FPU</li>
+                        <li>9-axis IMU (gyroscope, accelerometer, magnetometer)</li>
+                        <li>Barometric pressure sensor for altitude estimation</li>
+                        <li>High-speed SD card interface for flight data recording</li>
+                        <li>CAN bus for modular sensor expansion</li>
+                        <li>GPS module with UART interface</li>
+                        <li>Redundant power supply with battery backup</li>
+                    </ul>
+
+                    <div class="tech-specs">
+                        <h4>Performance Characteristics</h4>
+                        <ul>
+                            <li><strong>Sensor Sample Rate:</strong> 1000 Hz (IMU), 50 Hz (GPS)</li>
+                            <li><strong>Altitude Resolution:</strong> ±0.1 meter</li>
+                            <li><strong>Data Logging:</strong> Up to 32GB microSD, 10MB/s write speed</li>
+                            <li><strong>Operating Range:</strong> -40°C to +85°C</li>
+                            <li><strong>G-Force Rating:</strong> Tested up to 25G acceleration</li>
+                        </ul>
+                    </div>
+
+                    <h3>Software Features</h3>
+                    <ul>
+                        <li>FreeRTOS-based multitasking architecture</li>
+                        <li>Kalman filter for sensor fusion and state estimation</li>
+                        <li>Configurable deployment events (parachute, staging, etc.)</li>
+                        <li>Real-time telemetry transmission over LoRa</li>
+                        <li>Post-flight data analysis with CSV export</li>
+                        <li>USB configuration interface</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PROJECT 3: ESP32 TOOLKIT -->
+            <div class="project-detail" id="esp32" data-aos="fade-up">
+                <div class="project-header">
+                    <h2>ESP32 Marauder-Style IoT Toolkit</h2>
+                    <div class="project-tags">
+                        <span class="project-tag">ESP32</span>
+                        <span class="project-tag">Wi-Fi</span>
+                        <span class="project-tag">BLE</span>
+                        <span class="project-tag">Rust</span>
+                        <span class="project-tag">Security Research</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p>
+                        Security research platform built on ESP32 for wireless protocol analysis, network scanning, and
+                        IoT penetration testing.
+                        Features custom Rust firmware and web-based dashboard for real-time monitoring.
+                    </p>
+
+                    <h3>Capabilities</h3>
+                    <ul>
+                        <li>Wi-Fi scanning and packet capture (monitor mode)</li>
+                        <li>Bluetooth Low Energy device enumeration and analysis</li>
+                        <li>Network traffic analysis and visualization</li>
+                        <li>Custom beacon frame injection</li>
+                        <li>Real-time spectrum analysis display</li>
+                        <li>Web-based control interface via AP mode</li>
+                    </ul>
+
+                    <div class="tech-specs">
+                        <h4>Technical Stack</h4>
+                        <ul>
+                            <li><strong>MCU:</strong> ESP32-WROOM-32D (dual-core 240 MHz)</li>
+                            <li><strong>Firmware:</strong> Rust with esp-idf framework</li>
+                            <li><strong>Interface:</strong> OLED display, buttons, web UI</li>
+                            <li><strong>Storage:</strong> 4MB flash for firmware and logs</li>
+                            <li><strong>Connectivity:</strong> Wi-Fi 802.11 b/g/n, BLE 4.2</li>
+                        </ul>
+                    </div>
+
+                    <h3>Development Highlights</h3>
+                    <ul>
+                        <li>Memory-safe Rust implementation with zero-cost abstractions</li>
+                        <li>Async/await pattern for concurrent wireless operations</li>
+                        <li>WebSocket-based real-time data streaming</li>
+                        <li>Custom packet parsers for 802.11 and BLE protocols</li>
+                        <li>Interactive CLI over serial for advanced scripting</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PROJECT 4: BORAOS -->
+            <div class="project-detail" id="boraos" data-aos="fade-up">
+                <div class="project-header">
+                    <h2>BoraOS — Custom Linux Distribution</h2>
+                    <div class="project-tags">
+                        <span class="project-tag">Arch Linux</span>
+                        <span class="project-tag">Hyprland</span>
+                        <span class="project-tag">XFCE</span>
+                        <span class="project-tag">System Design</span>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <p>
+                        Lightweight, developer-focused Linux distribution built on Arch Linux base. Optimized for
+                        embedded development
+                        workflow with pre-configured toolchains, IDE integrations, and custom automation scripts.
+                    </p>
+
+                    <h3>Core Features</h3>
+                    <ul>
+                        <li>Dual desktop environment support (Hyprland for Wayland, XFCE for X11)</li>
+                        <li>Pre-installed embedded development toolchains (ARM, RISC-V, AVR)</li>
+                        <li>Custom package repository for electronics tools</li>
+                        <li>Automated build scripts for cross-compilation</li>
+                        <li>Optimized kernel configuration for development workloads</li>
+                        <li>Docker integration for reproducible builds</li>
+                    </ul>
+
+                    <h3>Included Toolchains</h3>
+                    <ul>
+                        <li>GCC/Clang cross-compilers for ARM Cortex-M/A</li>
+                        <li>Rust with embedded targets (thumbv7em, riscv32)</li>
+                        <li>OpenOCD, GDB, and debugging tools</li>
+                        <li>KiCad, FreeCAD for hardware design</li>
+                        <li>PlatformIO, STM32CubeIDE integration</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Bora Girgin</h4>
+                    <p>Embedded Systems Engineer specializing in IoT, PCB design, and firmware development.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="projects.html">Projects</a>
+                    <a href="pcb.html">PCB Gallery</a>
+                    <a href="cv.html">CV</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                    <a href="mailto:girginbora30@gmail.com">Email</a>
+                    <a href="contact.html">Contact Form</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

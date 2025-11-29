@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV — Bora Girgin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .cv-section {
+            padding: 80px 0 120px;
+        }
+
+        .cv-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 60px;
+        }
+
+        .cv-header {
+            text-align: center;
+            padding-bottom: 40px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 40px;
+        }
+
+        .cv-header h1 {
+            font-size: 48px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .cv-header .title {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .cv-contact {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            color: var(--text-secondary);
+        }
+
+        .cv-contact a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .cv-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .cv-block {
+            margin-bottom: 50px;
+        }
+
+        .cv-block h2 {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+        }
+
+        .cv-item {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid rgba(96, 165, 250, 0.3);
+        }
+
+        .cv-item h3 {
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .cv-item .meta {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .cv-item p,
+        .cv-item li {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .cv-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .cv-item li {
+            padding: 5px 0 5px 25px;
+            position: relative;
+        }
+
+        .cv-item li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+        }
+
+        .skills-grid-cv {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-group {
+            background: rgba(96, 165, 250, 0.05);
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .skill-group h4 {
+            color: var(--primary-color);
+            font-size: 16px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-group ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-group li {
+            color: var(--text-secondary);
+            padding: 4px 0;
+            font-size: 14px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-dark) 50%);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .page-hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BG</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="pcb.html" class="nav-link">PCB Gallery</a>
+                <a href="cv.html" class="nav-link active">CV</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">Curriculum Vitae</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Professional background and qualifications</p>
+        </div>
+    </section>
+
+    <!-- CV SECTION -->
+    <section class="cv-section">
+        <div class="container">
+            <div class="cv-container" data-aos="fade-up">
+
+                <!-- HEADER -->
+                <div class="cv-header">
+                    <h1>Bora Girgin</h1>
+                    <p class="title">Embedded Systems Engineer</p>
+                    <div class="cv-contact">
+                        <span>📧 <a href="mailto:girginbora30@gmail.com">girginbora30@gmail.com</a></span>
+                        <span>💻 <a href="https://github.com/bgirginn" target="_blank">github.com/bgirginn</a></span>
+                        <span>📍 Türkiye</span>
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="cv-block">
+                    <h2>Professional Summary</h2>
+                    <p style="color: var(--text-secondary); font-size: 16px; line-height: 1.8;">
+                        Embedded systems engineer with extensive experience in PCB design, firmware development,
+                        and IoT solutions. Specializing in RF systems, real-time operating systems, and
+                        low-level hardware-software integration. Proven track record in developing mission-critical
+                        systems for aerospace, telecommunications, and industrial applications.
+                    </p>
+                </div>
+
+                <!-- TECHNICAL SKILLS -->
+                <div class="cv-block">
+                    <h2>Technical Skills</h2>
+                    <div class="skills-grid-cv">
+                        <div class="skill-group">
+                            <h4>Languages</h4>
+                            <ul>
+                                <li>Embedded C</li>
+                                <li>Rust</li>
+                                <li>Python</li>
+                                <li>Assembly (ARM)</li>
+                            </ul>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Hardware</h4>
+                            <ul>
+                                <li>STM32 Family</li>
+                                <li>ESP32 / ESP8266</li>
+                                <li>ARM Cortex-M</li>
+                                <li>RP2040 / Raspberry Pi</li>
+                            </ul>
+                        </div>
+                        <div class="skill-group">
+                            <h4>PCB Design</h4>
+                            <ul>
+                                <li>KiCad</li>
+                                <li>Altium Designer</li>
+                                <li>RF Circuit Design</li>
+                                <li>Power Electronics</li>
+                            </ul>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Protocols</h4>
+                            <ul>
+                                <li>I2C / SPI / UART</li>
+                                <li>CAN Bus</li>
+                                <li>LoRaWAN</li>
+                                <li>Modbus / RS-485</li>
+                            </ul>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Wireless</h4>
+                            <ul>
+                                <li>LoRa / SX1276</li>
+                                <li>Wi-Fi / BLE</li>
+                                <li>RF Design</li>
+                                <li>Antenna Matching</li>
+                            </ul>
+                        </div>
+                        <div class="skill-group">
+                            <h4>Tools & OS</h4>
+                            <ul>
+                                <li>Git / GitHub</li>
+                                <li>Linux (Arch / Debian)</li>
+                                <li>GDB / OpenOCD</li>
+                                <li>Docker</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROJECTS & EXPERIENCE -->
+                <div class="cv-block">
+                    <h2>Key Projects</h2>
+
+                    <div class="cv-item">
+                        <h3>LoRa Telemetry Board</h3>
+                        <p class="meta">Long-Range Wireless Communication System</p>
+                        <ul>
+                            <li>Designed 4-layer PCB with SX1276 LoRa transceiver achieving 10+ km range</li>
+                            <li>Implemented power-safe architecture with dual VBAT rails and OR-ing protection</li>
+                            <li>Developed custom LoRaWAN firmware with adaptive data rate and packet acknowledgment</li>
+                            <li>Optimized RF matching network for maximum transmission efficiency</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-item">
+                        <h3>Avionics Interface Board</h3>
+                        <p class="meta">Flight Computer for Rockets & UAVs</p>
+                        <ul>
+                            <li>Architected real-time flight control system using STM32F4 with FreeRTOS</li>
+                            <li>Implemented Kalman filter for 9-axis IMU sensor fusion at 1000 Hz</li>
+                            <li>Designed fault-tolerant power distribution with battery backup</li>
+                            <li>Created modular CAN bus architecture for sensor expansion</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-item">
+                        <h3>ESP32 IoT Security Toolkit</h3>
+                        <p class="meta">Wireless Protocol Analysis Platform</p>
+                        <ul>
+                            <li>Developed Rust-based firmware for Wi-Fi and BLE packet analysis</li>
+                            <li>Built web-based dashboard with real-time spectrum visualization</li>
+                            <li>Implemented custom 802.11 and BLE protocol parsers</li>
+                            <li>Created async/await architecture for concurrent wireless operations</li>
+                        </ul>
+                    </div>
+
+                    <div class="cv-item">
+                        <h3>BoraOS Linux Distribution</h3>
+                        <p class="meta">Developer-Focused Embedded Linux</p>
+                        <ul>
+                            <li>Built custom Arch-based distribution optimized for embedded development</li>
+                            <li>Pre-configured cross-compilation toolchains for ARM, RISC-V, and AVR</li>
+                            <li>Integrated dual desktop environment (Hyprland/XFCE) support</li>
+                            <li>Created automated build scripts and custom package repository</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- EXPERTISE AREAS -->
+                <div class="cv-block">
+                    <h2>Core Competencies</h2>
+                    <div class="cv-item">
+                        <ul>
+                            <li>Low-level firmware development and bare-metal programming</li>
+                            <li>Real-time operating systems (FreeRTOS, Zephyr)</li>
+                            <li>RF circuit design and wireless communication protocols</li>
+                            <li>Power management and battery-operated systems</li>
+                            <li>Sensor fusion and signal processing algorithms</li>
+                            <li>Hardware-software co-design and system integration</li>
+                            <li>Design for manufacturing (DFM) and design for test (DFT)</li>
+                            <li>Debugging and troubleshooting complex embedded systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Download Button -->
+                <div class="text-center">
+                    <a href="#" class="btn btn-primary download-btn">
+                        <span>📥</span>
+                        <span>Download PDF Version</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Bora Girgin</h4>
+                    <p>Embedded Systems Engineer specializing in IoT, PCB design, and firmware development.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="projects.html">Projects</a>
+                    <a href="pcb.html">PCB Gallery</a>
+                    <a href="cv.html">CV</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                    <a href="mailto:girginbora30@gmail.com">Email</a>
+                    <a href="contact.html">Contact Form</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

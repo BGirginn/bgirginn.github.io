@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PCB Gallery — Bora Girgin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .pcb-gallery {
+            padding: 80px 0 120px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .gallery-item {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 50px rgba(96, 165, 250, 0.3);
+        }
+
+        .gallery-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(167, 139, 250, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--primary-color);
+        }
+
+        .gallery-info {
+            padding: 25px;
+        }
+
+        .gallery-info h3 {
+            color: #fff;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .gallery-info p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .gallery-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .spec-badge {
+            background: rgba(96, 165, 250, 0.1);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .page-hero {
+            padding: 150px 0 80px;
+            text-align: center;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, var(--bg-dark) 50%);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        .page-hero p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .upload-note {
+            background: rgba(167, 139, 250, 0.1);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .upload-note strong {
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">BG</a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="pcb.html" class="nav-link active">PCB Gallery</a>
+                <a href="cv.html" class="nav-link">CV</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-up">PCB Design Gallery</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Professional circuit board designs and hardware solutions</p>
+        </div>
+    </section>
+
+    <!-- PCB GALLERY SECTION -->
+    <section class="pcb-gallery">
+        <div class="container">
+
+            <div class="upload-note" data-aos="fade-up">
+                <strong>📌 Note:</strong> PCB images can be uploaded to this directory. Update the gallery items below
+                with actual image paths.
+            </div>
+
+            <div class="gallery-grid">
+
+                <!-- PCB ITEM 1: LoRa Telemetry -->
+                <div class="gallery-item" data-aos="fade-up">
+                    <div class="gallery-image-placeholder">📡</div>
+                    <div class="gallery-info">
+                        <h3>LoRa Telemetry Board</h3>
+                        <p>4-layer PCB with RF optimized design, SX1276 transceiver, and power management system.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">4 Layers</span>
+                            <span class="spec-badge">RF Design</span>
+                            <span class="spec-badge">868/915 MHz</span>
+                            <span class="spec-badge">KiCad</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PCB ITEM 2: Avionics Board -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="gallery-image-placeholder">🚀</div>
+                    <div class="gallery-info">
+                        <h3>Avionics Interface Board</h3>
+                        <p>Flight computer PCB with STM32, IMU sensor fusion, and CAN bus expansion.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">6 Layers</span>
+                            <span class="spec-badge">STM32F4</span>
+                            <span class="spec-badge">IMU</span>
+                            <span class="spec-badge">CAN Bus</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PCB ITEM 3: ESP32 Development -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="gallery-image-placeholder">💻</div>
+                    <div class="gallery-info">
+                        <h3>ESP32 Development Kit</h3>
+                        <p>Custom ESP32 board with USB-C, LiPo charging, OLED display connector.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">2 Layers</span>
+                            <span class="spec-badge">ESP32</span>
+                            <span class="spec-badge">USB-C</span>
+                            <span class="spec-badge">LiPo</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PCB ITEM 4: Power Distribution -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="gallery-image-placeholder">⚡</div>
+                    <div class="gallery-info">
+                        <h3>High-Current Power Board</h3>
+                        <p>Buck/boost converter with multiple voltage rails and current monitoring.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">2 Layers</span>
+                            <span class="spec-badge">30A Max</span>
+                            <span class="spec-badge">3.3V/5V/12V</span>
+                            <span class="spec-badge">Monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PCB ITEM 5: Sensor Hub -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="400">
+                    <div class="gallery-image-placeholder">🔬</div>
+                    <div class="gallery-info">
+                        <h3>Multi-Sensor Hub</h3>
+                        <p>Modular sensor interface board with I2C, SPI, and analog inputs.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">4 Layers</span>
+                            <span class="spec-badge">I2C/SPI</span>
+                            <span class="spec-badge">16-bit ADC</span>
+                            <span class="spec-badge">Modular</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PCB ITEM 6: RF Amplifier -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="500">
+                    <div class="gallery-image-placeholder">📶</div>
+                    <div class="gallery-info">
+                        <h3>RF Power Amplifier</h3>
+                        <p>Low-noise amplifier for 2.4 GHz with impedance matching network.</p>
+                        <div class="gallery-specs">
+                            <span class="spec-badge">2 Layers</span>
+                            <span class="spec-badge">2.4 GHz</span>
+                            <span class="spec-badge">LNA</span>
+                            <span class="spec-badge">High Gain</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Bora Girgin</h4>
+                    <p>Embedded Systems Engineer specializing in IoT, PCB design, and firmware development.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="projects.html">Projects</a>
+                    <a href="pcb.html">PCB Gallery</a>
+                    <a href="cv.html">CV</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                    <a href="mailto:girginbora30@gmail.com">Email</a>
+                    <a href="contact.html">Contact Form</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
