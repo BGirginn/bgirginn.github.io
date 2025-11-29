@@ -127,6 +127,19 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===========================
 // PARTICLE ANIMATION
 // ===========================
+// Utility: Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 class ParticleSystem {
     constructor(canvas) {
         this.canvas = canvas;
@@ -139,7 +152,9 @@ class ParticleSystem {
         this.init();
         this.animate();
 
-        window.addEventListener('resize', () => this.resize());
+        // Debounce resize to prevent performance issues (200ms)
+        const debouncedResize = debounce(() => this.resize(), 200);
+        window.addEventListener('resize', debouncedResize);
     }
 
     resize() {
@@ -236,30 +251,43 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Mobile menu toggle
+// Mobile nav toggle with scroll lock
 if (navToggle && navMenu) {
     navToggle.addEventListener('click', (e) => {
         e.stopPropagation();
-        navMenu.classList.toggle('active');
+        const isActive = navMenu.classList.toggle('active');
         navToggle.classList.toggle('active');
-    });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
+        // Lock/unlock body scroll on mobile
+        if (isActive) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
         }
     });
-}
 
-// Close mobile menu on link click
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        if (navMenu) navMenu.classList.remove('active');
-        if (navToggle) navToggle.classList.remove('active');
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navMenu && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
     });
-});
+
+    // Close menu when clicking a link
+    if (navMenu) {
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                navToggle.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+}
 
 // ===========================
 // CV NAVIGATION SCROLL TRACKING
