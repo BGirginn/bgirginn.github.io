@@ -44,41 +44,27 @@ body {
     position: relative;
 }
 
-/* CIRCULAR REVEAL ANIMATION FOR THEME TRANSITION */
-body::before {
-    content: '';
-    position: fixed;
-    top: var(--theme-transition-y, 50%);
-    left: var(--theme-transition-x, 50%);
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: var(--bg-dark);
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0;
-}
-
-body.theme-transitioning::before {
-    opacity: 1;
-    animation: circularReveal 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes circularReveal {
-    0% {
-        width: 0;
-        height: 0;
-    }
-
-    100% {
-        width: 300vmax;
-        height: 300vmax;
-    }
-}
-
 [data-theme="light"] body {
     background: linear-gradient(135deg, #f7f5f2 0%, #ede9e3 100%);
+}
+
+/* ===========================
+   CIRCULAR REVEAL ANIMASYONU
+=========================== */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+/* Eski görüntü altta kalsın */
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+/* Yeni görüntü HER ZAMAN üstte olsun ve maskelensin */
+::view-transition-new(root) {
+    z-index: 9999;
 }
 
 .container {

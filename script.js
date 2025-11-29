@@ -1,66 +1,73 @@
 // ===========================
-// THEME TOGGLE
+// THEME TOGGLE WITH VIEW TRANSITION API
 // ===========================
 function initTheme() {
     const theme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', theme);
+    updateThemeIcon(theme);
 }
 
-function toggleTheme(event) {
+function updateThemeIcon(theme) {
+    document.querySelectorAll('#themeIcon').forEach(icon => {
+        icon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    });
+}
+
+function performThemeSwitch() {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    // Get button position for circular reveal animation
-    let button = null;
-    if (event) {
-        // Try to get the button from the event
-        button = event.currentTarget || event.target.closest('#themeToggle') || document.getElementById('themeToggle');
-    } else {
-        button = document.getElementById('themeToggle');
-    }
-
-    if (button) {
-        const rect = button.getBoundingClientRect();
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-
-        // Set CSS variables for animation origin
-        document.body.style.setProperty('--theme-transition-x', `${x}px`);
-        document.body.style.setProperty('--theme-transition-y', `${y}px`);
-    }
-
-    // Start circular reveal animation
-    document.body.classList.add('theme-transitioning');
-
-    // Change theme immediately so it shows through the circle
-    requestAnimationFrame(() => {
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
-
-        // Update all theme icons on the page
-        document.querySelectorAll('#themeIcon').forEach(icon => {
-            icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-        });
-    });
-
-    // Remove animation class after completion
-    setTimeout(() => {
-        document.body.classList.remove('theme-transitioning');
-    }, 700);
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
 }
 
 // Initialize theme on load
 initTheme();
 
-// Theme toggle button listener - handle all theme buttons on page
-document.querySelectorAll('#themeToggle').forEach(button => {
-    button.addEventListener('click', (e) => toggleTheme(e));
-    // Set initial icon
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const themeIcon = button.querySelector('#themeIcon');
-    if (themeIcon) {
-        themeIcon.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
+// Theme toggle with circular reveal from button position
+document.addEventListener('click', (event) => {
+    const toggleBtn = event.target.closest('#themeToggle');
+    if (!toggleBtn) return;
+
+    // Fallback for browsers without View Transition API
+    if (!document.startViewTransition) {
+        performThemeSwitch();
+        return;
     }
+
+    // Get click position
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y)
+    );
+
+    // Start View Transition
+    const transition = document.startViewTransition(() => {
+        performThemeSwitch();
+    });
+
+    // Animate circular reveal from click position
+    transition.ready.then(() => {
+        // ARTIK TERS ÇEVİRME YOK: Her zaman küçükten büyüğe açıl
+        const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`
+        ];
+
+        document.documentElement.animate(
+            {
+                clipPath: clipPath,
+            },
+            {
+                duration: 500,
+                easing: 'ease-in',
+                // Her zaman YENİ gelen görüntüyü animasyonla aç
+                pseudoElement: '::view-transition-new(root)',
+            }
+        );
+    });
 });
 
 // ===========================
