@@ -4,7 +4,23 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bora Girgin — Embedded Systems Engineer</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Bora Girgin - Electrical & Electronics Engineering student specializing in IoT, embedded systems, LoRa networks, and PCB design. Portfolio showcasing TUBITAK-funded projects and robotics work." />
+    <meta name="keywords"
+        content="Bora Girgin, Embedded Systems, IoT, LoRa, ESP32, STM32, PCB Design, KiCAD, Arduino, Electrical Engineering" />
+    <meta name="author" content="Bora Girgin" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bora Girgin - Embedded Systems & IoT Engineer" />
+    <meta property="og:description"
+        content="Portfolio of embedded systems projects, IoT solutions, and PCB designs by electrical engineering student Bora Girgin." />
+    <meta property="og:url" content="https://bgirgin.dev" />
+
+    <title>Bora Girgin — Embedded Systems & IoT</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
@@ -18,11 +34,12 @@
         <div class="nav-container">
             <a href="index.html" class="nav-logo">Bora Girgin</a>
             <div class="nav-menu" id="navMenu">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="projects.html" class="nav-link">Projects</a>
-                <a href="pcb.html" class="nav-link">Design Gallery</a>
+                <a href="index.html" class="nav-link active" data-en="Home" data-tr="Ana Sayfa">Home</a>
+                <a href="projects.html" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
+                <a href="pcb.html" class="nav-link" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
+                    Gallery</a>
                 <a href="cv.html" class="nav-link">CV</a>
-                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
                 <button class="nav-btn" id="themeToggle" title="Toggle theme">
@@ -48,17 +65,21 @@
                 <span class="fade-in">Bora</span>
                 <span class="fade-in delay-1">Girgin</span>
             </h1>
-            <p class="hero-tagline fade-in delay-2">Electrical & Electronics Engineering Student</p>
-            <p class="hero-subtitle fade-in delay-3">IoT • Embedded Systems • PCB Design</p>
+            <p class="hero-tagline fade-in delay-2" data-en="Electrical & Electronics Engineering Student"
+                data-tr="Elektrik ve Elektronik Mühendisliği Öğrencisi">Electrical & Electronics Engineering Student</p>
+            <p class="hero-subtitle fade-in delay-3" data-en="IoT • Embedded Systems • PCB Design"
+                data-tr="IoT • Gömülü Sistemler • PCB Tasarımı">IoT • Embedded Systems • PCB Design</p>
 
             <div class="hero-cta fade-in delay-4">
-                <a href="projects.html" class="btn btn-primary">View Projects</a>
-                <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+                <a href="projects.html" class="btn btn-primary" data-en="View Projects" data-tr="Projeleri Gör">View
+                    Projects</a>
+                <a href="contact.html" class="btn btn-secondary" data-en="Get in Touch" data-tr="İletişim">Get in
+                    Touch</a>
             </div>
         </div>
 
         <div class="scroll-indicator">
-            <span>Scroll</span>
+            <span data-en="Scroll Down" data-tr="Aşağı Kaydır">Scroll Down</span>
             <div class="scroll-arrow"></div>
         </div>
     </section>
@@ -68,24 +89,25 @@
         <div class="container">
             <div class="card-grid">
                 <div class="intro-card" data-aos="fade-up">
-                    <div class="card-icon">💻</div>
-                    <h3>Firmware Development</h3>
-                    <p>Expert in C, Rust, and Python for embedded systems</p>
+                    <div class="card-icon">⚡</div>
+                    <h3 data-en="Embedded Systems" data-tr="Gömülü Sistemler">Embedded Systems</h3>
+                    <p data-en="Developing IoT solutions with ESP32, STM32, and Arduino platforms"
+                        data-tr="ESP32, STM32 ve Arduino ile IoT çözümleri">Developing IoT
+                        solutions with ESP32, STM32, and Arduino platforms</p>
                 </div>
                 <div class="intro-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="card-icon">⚡</div>
-                    <h3>PCB Design</h3>
-                    <p>Professional circuit board design using KiCad</p>
+                    <div class="card-icon">📡</div>
+                    <h3 data-en="Wireless Communication" data-tr="Kablosuz İletişim">Wireless Communication</h3>
+                    <p data-en="LoRa networks and industrial automation systems"
+                        data-tr="LoRa ağları ve endüstriyel otomasyon sistemleri">LoRa networks and industrial
+                        automation systems</p>
                 </div>
                 <div class="intro-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="card-icon">📡</div>
-                    <h3>RF Systems</h3>
-                    <p>LoRa, SX1276, and wireless communication</p>
-                </div>
-                <div class="intro-card" data-aos="fade-up" data-aos-delay="300">
                     <div class="card-icon">🔧</div>
-                    <h3>IoT Solutions</h3>
-                    <p>ESP32, STM32, ARM Cortex-M platforms</p>
+                    <h3 data-en="Hardware Design" data-tr="Donanım Tasarımı">Hardware Design</h3>
+                    <p data-en="PCB design and circuit development with KiCAD"
+                        data-tr="KiCAD ile PCB tasarımı ve devre geliştirme">PCB design and circuit development with
+                        KiCAD</p>
                 </div>
             </div>
         </div>
@@ -94,13 +116,16 @@
     <!-- FEATURED WORK -->
     <section class="featured-preview">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Recent Work</h2>
+            <h2 class="section-title" data-aos="fade-up" data-en="Recent Work" data-tr="Son Çalışmalar">Recent Work</h2>
             <div class="projects-grid">
                 <a href="projects.html#lora-control" class="project-card" data-aos="fade-up">
                     <div class="project-icon">🔌</div>
                     <div class="project-info">
-                        <h3>LoRa Factory Automation</h3>
-                        <p>TUBITAK-funded industrial automation using LoRa wireless communication for Talu Textile</p>
+                        <h3 data-en="LoRa Factory Automation" data-tr="LoRa Fabrika Otomasyonu">LoRa Factory Automation
+                        </h3>
+                        <p data-en="TUBITAK-funded industrial automation using LoRa wireless communication for Talu Textile"
+                            data-tr="Talu Tekstil için LoRa kablosuz iletişim kullanan TÜBİTAK destekli endüstriyel otomasyon">
+                            TUBITAK-funded industrial automation using LoRa wireless communication for Talu Textile</p>
                         <div class="project-tags">
                             <span>LoRa</span>
                             <span>ESP32</span>
@@ -112,12 +137,15 @@
                 <a href="projects.html#arduino-car" class="project-card" data-aos="fade-up" data-aos-delay="100">
                     <div class="project-icon">🤖</div>
                     <div class="project-info">
-                        <h3>Bluetooth Robotics Car</h3>
-                        <p>Award-winning autonomous vehicle with LIDAR tracking and robotic arm for competition</p>
+                        <h3 data-en="Bluetooth Robotics Car" data-tr="Bluetooth Robotik Araba">Bluetooth Robotics Car
+                        </h3>
+                        <p data-en="Award-winning autonomous vehicle with LIDAR tracking and robotic arm for competition"
+                            data-tr="Yarışma için LIDAR takibi ve robotik kol ile ödüllü otonom araç">Award-winning
+                            autonomous vehicle with LIDAR tracking and robotic arm for competition</p>
                         <div class="project-tags">
                             <span>Arduino</span>
                             <span>LIDAR</span>
-                            <span>Robotics</span>
+                            <span data-en="Robotics" data-tr="Robotik">Robotics</span>
                         </div>
                     </div>
                     <span class="project-arrow">→</span>
@@ -132,33 +160,34 @@
     <!-- SKILLS OVERVIEW -->
     <section class="skills-overview">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Technical Expertise</h2>
+            <h2 class="section-title" data-aos="fade-up" data-en="Technical Skills" data-tr="Teknik Yetenekler">
+                Technical Skills</h2>
             <div class="skills-grid">
                 <div class="skill-category" data-aos="fade-right">
-                    <h3>Languages</h3>
+                    <h3 data-en="Programming" data-tr="Programlama">Programming</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">C</span>
-                        <span class="skill-tag">Rust</span>
                         <span class="skill-tag">Python</span>
-                        <span class="skill-tag">Assembly</span>
+                        <span class="skill-tag">C/C++</span>
+                        <span class="skill-tag">C# / ASP.NET</span>
+                        <span class="skill-tag">Git</span>
                     </div>
                 </div>
                 <div class="skill-category" data-aos="fade-right" data-aos-delay="100">
-                    <h3>Hardware</h3>
+                    <h3 data-en="IoT & Embedded" data-tr="IoT ve Gömülü Sistemler">IoT & Embedded</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">STM32</span>
                         <span class="skill-tag">ESP32</span>
-                        <span class="skill-tag">RP2040</span>
-                        <span class="skill-tag">ARM Cortex-M</span>
+                        <span class="skill-tag">STM32</span>
+                        <span class="skill-tag">Raspberry Pi</span>
+                        <span class="skill-tag">Arduino</span>
                     </div>
                 </div>
                 <div class="skill-category" data-aos="fade-right" data-aos-delay="200">
-                    <h3>Tools</h3>
+                    <h3 data-en="Engineering Tools" data-tr="Mühendislik Araçları">Engineering Tools</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">KiCad</span>
-                        <span class="skill-tag">Git</span>
-                        <span class="skill-tag">Linux</span>
-                        <span class="skill-tag">GDB</span>
+                        <span class="skill-tag">KiCAD</span>
+                        <span class="skill-tag">MATLAB</span>
+                        <span class="skill-tag">AutoCAD</span>
+                        <span class="skill-tag">Proteus</span>
                     </div>
                 </div>
             </div>

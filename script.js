@@ -6,59 +6,116 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', theme);
 }
 
-function toggleTheme() {
+function toggleTheme(event) {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
 
-    // Update icon
-    const themeIcon = document.getElementById('themeIcon');
-    if (themeIcon) {
-        themeIcon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+    // Get button position for circular reveal animation
+    let button = null;
+    if (event) {
+        // Try to get the button from the event
+        button = event.currentTarget || event.target.closest('#themeToggle') || document.getElementById('themeToggle');
+    } else {
+        button = document.getElementById('themeToggle');
     }
+
+    if (button) {
+        const rect = button.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
+
+        // Set CSS variables for animation origin
+        document.body.style.setProperty('--theme-transition-x', `${x}px`);
+        document.body.style.setProperty('--theme-transition-y', `${y}px`);
+    }
+
+    // Start circular reveal animation
+    document.body.classList.add('theme-transitioning');
+
+    // Change theme immediately so it shows through the circle
+    requestAnimationFrame(() => {
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+
+        // Update all theme icons on the page
+        document.querySelectorAll('#themeIcon').forEach(icon => {
+            icon.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        });
+    });
+
+    // Remove animation class after completion
+    setTimeout(() => {
+        document.body.classList.remove('theme-transitioning');
+    }, 700);
 }
 
 // Initialize theme on load
 initTheme();
 
-// Theme toggle button listener
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-    themeToggle.addEventListener('click', toggleTheme);
+// Theme toggle button listener - handle all theme buttons on page
+document.querySelectorAll('#themeToggle').forEach(button => {
+    button.addEventListener('click', (e) => toggleTheme(e));
     // Set initial icon
     const currentTheme = document.documentElement.getAttribute('data-theme');
-    const themeIcon = document.getElementById('themeIcon');
+    const themeIcon = button.querySelector('#themeIcon');
     if (themeIcon) {
         themeIcon.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
     }
-}
+});
 
 // ===========================
 // LANGUAGE TOGGLE
 // ===========================
+function translatePage(lang) {
+    document.querySelectorAll('[data-en][data-tr]').forEach(el => {
+        // CRITICAL: Skip hero-title to keep "Bora Girgin" unchanged
+        if (el.closest('.hero-title')) {
+            return;
+        }
+
+        const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-tr');
+        if (text) {
+            el.textContent = text;
+        }
+    });
+}
+
 function toggleLanguage() {
     const currentLang = document.documentElement.getAttribute('lang') || 'en';
     const newLang = currentLang === 'en' ? 'tr' : 'en';
+
     document.documentElement.setAttribute('lang', newLang);
     localStorage.setItem('language', newLang);
 
-    // Update button text
-    const langBtn = document.getElementById('langToggle');
-    if (langBtn) {
-        langBtn.textContent = newLang === 'en' ? 'TR' : 'EN';
-    }
+    // Update all text
+    translatePage(newLang);
+
+    // Update button text on all pages
+    document.querySelectorAll('#langToggle').forEach(btn => {
+        btn.textContent = newLang === 'en' ? 'TR' : 'EN';
+    });
 }
 
 // Initialize language
 const savedLang = localStorage.getItem('language') || 'en';
 document.documentElement.setAttribute('lang', savedLang);
 
-const langToggle = document.getElementById('langToggle');
-if (langToggle) {
-    langToggle.addEventListener('click', toggleLanguage);
-    langToggle.textContent = savedLang === 'en' ? 'TR' : 'EN';
-}
+// Translate on page load
+document.addEventListener('DOMContentLoaded', () => {
+    translatePage(savedLang);
+
+    // Update button text
+    document.querySelectorAll('#langToggle').forEach(btn => {
+        btn.textContent = savedLang === 'en' ? 'TR' : 'EN';
+    });
+});
+
+// Add event listener to all language toggles
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('#langToggle').forEach(btn => {
+        btn.addEventListener('click', toggleLanguage);
+    });
+});
 
 // ===========================
 // PARTICLE ANIMATION
@@ -96,8 +153,16 @@ class ParticleSystem {
         }
     }
 
+    getParticleColor() {
+        // Read particle color from CSS variable
+        return getComputedStyle(document.documentElement)
+            .getPropertyValue('--particle-color').trim();
+    }
+
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        const particleColor = this.getParticleColor();
 
         // Update and draw particles
         this.particles.forEach(particle => {
@@ -111,7 +176,7 @@ class ParticleSystem {
             // Draw particle
             this.ctx.beginPath();
             this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = 'rgba(96, 165, 250, 0.6)';
+            this.ctx.fillStyle = particleColor;
             this.ctx.fill();
         });
 
@@ -124,12 +189,16 @@ class ParticleSystem {
 
                 if (distance < this.connectionDistance) {
                     const opacity = (1 - distance / this.connectionDistance) * 0.3;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-                    this.ctx.strokeStyle = `rgba(96, 165, 250, ${opacity})`;
-                    this.ctx.lineWidth = 1;
-                    this.ctx.stroke();
+                    // Extract RGB from particle color and apply opacity
+                    const baseColor = particleColor.match(/\d+/g);
+                    if (baseColor && baseColor.length >= 3) {
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                        this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                        this.ctx.strokeStyle = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${opacity})`;
+                        this.ctx.lineWidth = 1;
+                        this.ctx.stroke();
+                    }
                 }
             }
         }
