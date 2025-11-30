@@ -397,3 +397,58 @@ window.addEventListener('scroll', () => {
         element.style.transform = `translateY(${scrolled * speed}px)`;
     });
 });
+
+// ===========================
+// AUTOMATED DIAGNOSTICS
+// ===========================
+window.addEventListener('load', function () {
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('  🔧 SYSTEM DIAGNOSTICS');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    // Check 1: Ghost layer (pointer-events)
+    const menu = document.querySelector('.nav-menu');
+    const menuStyle = menu ? getComputedStyle(menu) : null;
+    if (menuStyle) {
+        const pointerEvents = menuStyle.pointerEvents;
+        const isActive = menu.classList.contains('active');
+        if (!isActive && pointerEvents !== 'none') {
+            console.error('❌ FAIL: Menu blocking buttons (pointer-events:', pointerEvents, ')');
+        } else {
+            console.log('✅ PASS: Ghost layer removed (pointer-events:', pointerEvents, ')');
+        }
+    }
+
+    // Check 2: Button z-index
+    const themeBtn = document.getElementById('themeToggle');
+    if (themeBtn) {
+        console.log('✅ PASS: Theme button exists');
+        const btnParent = themeBtn.parentElement;
+        if (btnParent) {
+            const parentZ = getComputedStyle(btnParent).zIndex;
+            console.log('ℹ️  INFO: Button container z-index:', parentZ);
+        }
+    } else {
+        console.error('❌ FAIL: Theme button not found');
+    }
+
+    // Check 3: Horizontal scroll detection
+    if (document.body.scrollWidth > window.innerWidth) {
+        console.warn('⚠️  WARN: Horizontal overflow detected (', document.body.scrollWidth, 'px)');
+    } else {
+        console.log('✅ PASS: No horizontal scroll');
+    }
+
+    // Check 4: Critical elements
+    const criticalIds = ['navbar', 'themeToggle', 'langToggle'];
+    criticalIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) {
+            console.error('❌ FAIL: Missing element #' + id);
+        }
+    });
+
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('  Diagnostics Complete');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+});
