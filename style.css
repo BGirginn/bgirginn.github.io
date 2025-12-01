@@ -279,6 +279,12 @@ h6 {
         pointer-events: none;
     }
 
+    /* Light theme mobile menu */
+    [data-theme="light"] .nav-menu {
+        background: #FFFFFF;
+        border-right: 1px solid #E2E8F0;
+    }
+
     .nav-menu.active {
         transform: translateX(0);
         /* Enable clicks only when menu is open */
@@ -312,6 +318,7 @@ h6 {
         font-size: 18px;
     }
 }
+
 
 /* ===========================
    HERO SECTION
@@ -889,6 +896,37 @@ h6 {
         transition: transform 0.3s ease;
         pointer-events: none;
         z-index: 999;
+    }
+
+    /* Light theme mobile menu - comprehensive */
+    [data-theme="light"] .nav-menu {
+        background: #FFFFFF;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="light"] .nav-link {
+        color: #0F172A;
+    }
+
+    [data-theme="light"] .nav-link:hover {
+        color: #2563EB;
+        background: rgba(37, 99, 235, 0.08);
+    }
+
+    [data-theme="light"] .nav-link.active {
+        color: #2563EB;
+        background: rgba(37, 99, 235, 0.12);
+    }
+
+    /* Light theme page backgrounds */
+    [data-theme="light"] .page-hero {
+        background: radial-gradient(ellipse at top, #EEF2FF 0%, #F8FAFC 50%);
+    }
+
+    [data-theme="light"] .intro-cards,
+    [data-theme="light"] .featured-preview,
+    [data-theme="light"] .skills-overview {
+        background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
     }
 
     .nav-menu.active {
