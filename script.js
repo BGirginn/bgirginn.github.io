@@ -1,8 +1,17 @@
 // ===========================
+// DEBUG MODE
+// ===========================
+const DEBUG = false; // Set to false for production
+
+// ===========================
 // THEME TOGGLE WITH VIEW TRANSITION API
 // ===========================
 function initTheme() {
-    const theme = localStorage.getItem('theme') || 'dark';
+    // Check system preference first
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+
     document.documentElement.setAttribute('data-theme', theme);
     updateThemeIcon(theme);
 }
@@ -249,7 +258,7 @@ window.addEventListener('scroll', () => {
     } else {
         navbar.classList.remove('scrolled');
     }
-});
+}, { passive: true });
 
 // Mobile nav toggle with scroll lock
 if (navToggle && navMenu) {
@@ -323,7 +332,7 @@ function updateCVNav() {
 
 // Update CV nav on scroll
 if (document.querySelector('.cv-nav')) {
-    window.addEventListener('scroll', updateCVNav);
+    window.addEventListener('scroll', updateCVNav, { passive: true });
     setTimeout(updateCVNav, 100);
 
     // Update on nav click
@@ -396,12 +405,14 @@ window.addEventListener('scroll', () => {
         const speed = element.dataset.speed || 0.5;
         element.style.transform = `translateY(${scrolled * speed}px)`;
     });
-});
+}, { passive: true });
 
 // ===========================
 // AUTOMATED DIAGNOSTICS
 // ===========================
 window.addEventListener('load', function () {
+    if (!DEBUG) return; // Skip diagnostics in production
+
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('  🔧 SYSTEM DIAGNOSTICS');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -452,3 +463,35 @@ window.addEventListener('load', function () {
     console.log('  Diagnostics Complete');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 });
+
+// ===========================
+// BACK TO TOP BUTTON
+// ===========================
+(function () {
+    // Create back to top button
+    const backToTop = document.createElement('button');
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '↑';
+    backToTop.setAttribute('aria-label', 'Back to top');
+    backToTop.setAttribute('title', 'Back to top');
+    document.body.appendChild(backToTop);
+
+    // Show/hide based on scroll position
+    function toggleBackToTop() {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    }
+
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+    // Scroll to top on click
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+})();

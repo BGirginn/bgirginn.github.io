@@ -12,7 +12,19 @@
     <meta property="og:description" content="Reach out for embedded systems consulting and project collaboration." />
     <meta property="og:url" content="https://bgirgin.dev/contact.html" />
 
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://bgirgin.dev/contact.html" />
+
     <title>Contact — Bora Girgin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#60a5fa" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
+
     <link rel="stylesheet" href="style.css">
     <style>
         .contact-section {
@@ -281,7 +293,8 @@
                         <div class="contact-icon">💻</div>
                         <div class="contact-details">
                             <h3>GitHub</h3>
-                            <a href="https://github.com/bgirginn" target="_blank">github.com/bgirginn</a>
+                            <a href="https://github.com/bgirginn" target="_blank"
+                                rel="noopener noreferrer">github.com/bgirginn</a>
                         </div>
                     </div>
 
@@ -294,10 +307,11 @@
                     </div>
 
                     <div class="social-links">
-                        <a href="https://github.com/bgirginn" target="_blank" class="social-link" title="GitHub">💻</a>
+                        <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer"
+                            class="social-link" title="GitHub">💻</a>
                         <a href="mailto:girginbora30@gmail.com" class="social-link" title="Email">📧</a>
-                        <a href="https://linkedin.com/in/bora-girgin" target="_blank" class="social-link"
-                            title="LinkedIn">💼</a>
+                        <a href="https://linkedin.com/in/bora-girgin" target="_blank" rel="noopener noreferrer"
+                            class="social-link" title="LinkedIn">💼</a>
                     </div>
                 </div>
 
@@ -309,6 +323,14 @@
                         ✓ Message sent successfully! I'll get back to you soon.
                     </div>
 
+                    <!-- 
+                        TODO: Replace YOUR_FORM_ID with your actual Formspree ID
+                        1. Sign up at https://formspree.io
+                        2. Create a new form
+                        3. Copy your form ID
+                        4. Replace YOUR_FORM_ID below
+                        5. Uncomment the JavaScript at the bottom of this file
+                    -->
                     <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                         <div class="form-group">
                             <label for="name">Your Name</label>
@@ -357,7 +379,7 @@
                 </div>
                 <div class="footer-col">
                     <h4>Connect</h4>
-                    <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                    <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="mailto:girginbora30@gmail.com">Email</a>
                     <a href="contact.html">Contact Form</a>
                 </div>
@@ -371,21 +393,23 @@
     <script src="script.js"></script>
     <script>
         // Contact form handling
+        // NOTE: After adding your Formspree ID to the form action above,
+        // uncomment the following code to enable success message:
+
+        /*
         document.getElementById('contactForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.classList.add('show');
-
-            // Reset form
-            this.reset();
-
-            // Hide message after 5 seconds
+            // Show success message after form submission
             setTimeout(() => {
-                successMessage.classList.remove('show');
-            }, 5000);
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.add('show');
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.remove('show');
+                }, 5000);
+            }, 500);
         });
+        */
     </script>
 </body>
 
