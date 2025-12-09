@@ -11,6 +11,13 @@
     <meta property="og:title" content="Contact - Bora Girgin" />
     <meta property="og:description" content="Reach out for embedded systems consulting and project collaboration." />
     <meta property="og:url" content="https://bgirgin.dev/contact.html" />
+    <meta property="og:image" content="https://bgirgin.dev/images/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Contact - Bora Girgin" />
+    <meta name="twitter:description" content="Reach out for embedded systems consulting and project collaboration." />
+    <meta name="twitter:image" content="https://bgirgin.dev/images/og-image.png" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://bgirgin.dev/contact.html" />
@@ -333,27 +340,31 @@
                     -->
                     <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                         <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required placeholder="John Doe">
+                            <label for="name" data-en="Your Name" data-tr="Adınız">Your Name</label>
+                            <input type="text" id="name" name="name" required placeholder="John Doe" 
+                                aria-label="Your full name" autocomplete="name">
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required placeholder="john@example.com">
+                            <label for="email" data-en="Email Address" data-tr="E-posta Adresi">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="john@example.com"
+                                aria-label="Your email address" autocomplete="email">
                         </div>
 
                         <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" name="subject" required placeholder="Project Inquiry">
+                            <label for="subject" data-en="Subject" data-tr="Konu">Subject</label>
+                            <input type="text" id="subject" name="subject" required placeholder="Project Inquiry"
+                                aria-label="Message subject">
                         </div>
 
                         <div class="form-group">
-                            <label for="message">Message</label>
+                            <label for="message" data-en="Message" data-tr="Mesaj">Message</label>
                             <textarea id="message" name="message" required
-                                placeholder="Tell me about your project..."></textarea>
+                                placeholder="Tell me about your project..."
+                                aria-label="Your message"></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary form-submit">
+                        <button type="submit" class="btn btn-primary form-submit" data-en="Send Message" data-tr="Mesaj Gönder">
                             Send Message
                         </button>
                     </form>
@@ -380,6 +391,7 @@
                 <div class="footer-col">
                     <h4>Connect</h4>
                     <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/bora-girgin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                     <a href="mailto:girginbora30@gmail.com">Email</a>
                     <a href="contact.html">Contact Form</a>
                 </div>

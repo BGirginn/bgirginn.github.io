@@ -12,6 +12,13 @@
     <meta property="og:description"
         content="Professional CV showcasing embedded systems projects, certifications, and technical skills." />
     <meta property="og:url" content="https://bgirgin.dev/cv.html" />
+    <meta property="og:image" content="https://bgirgin.dev/images/og-image.png" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="CV - Bora Girgin" />
+    <meta name="twitter:description" content="Professional CV with embedded systems projects and technical skills." />
+    <meta name="twitter:image" content="https://bgirgin.dev/images/og-image.png" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href="https://bgirgin.dev/cv.html" />
@@ -35,6 +42,59 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Print Styles for PDF Export */
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .navbar, .cv-sidebar, .footer, .download-btn, .back-to-top {
+                display: none !important;
+            }
+            
+            .cv-section {
+                padding: 0 !important;
+            }
+            
+            .cv-layout {
+                display: block !important;
+            }
+            
+            .cv-container {
+                background: white !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 20px !important;
+            }
+            
+            .cv-header h1 {
+                color: black !important;
+            }
+            
+            .cv-block h2 {
+                color: #2563EB !important;
+            }
+            
+            .cv-item h3 {
+                color: black !important;
+            }
+            
+            .cv-item p, .cv-item li, .cv-contact {
+                color: #333 !important;
+            }
+            
+            .skill-group {
+                background: #f5f5f5 !important;
+                border-color: #ddd !important;
+            }
+            
+            a {
+                color: #2563EB !important;
+                text-decoration: none !important;
+            }
+        }
+
         .cv-section {
             padding: 120px 0 120px;
         }
@@ -278,6 +338,34 @@
             .cv-sidebar {
                 position: relative;
                 top: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cv-nav {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .cv-nav li {
+                margin-bottom: 0;
+            }
+
+            .cv-nav a {
+                padding: 8px 16px;
+                border-left: none;
+                border-radius: 20px;
+                background: rgba(96, 165, 250, 0.1);
+                border: 1px solid rgba(96, 165, 250, 0.3);
+            }
+
+            .cv-nav a:hover,
+            .cv-nav a.active {
+                background: rgba(96, 165, 250, 0.2);
+                border-color: var(--primary-color);
             }
         }
 
@@ -349,6 +437,9 @@
                                     rel="noopener noreferrer">LinkedIn</a></span>
                             <span>📍 Sakarya, Türkiye</span>
                         </div>
+                        <a href="#" onclick="window.print(); return false;" class="btn btn-primary download-btn" style="margin-top: 25px;">
+                            📄 PDF Olarak İndir / Print
+                        </a>
                     </div>
 
                     <!-- SUMMARY -->
@@ -518,6 +609,7 @@
                 <div class="footer-col">
                     <h4>Connect</h4>
                     <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/bora-girgin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                     <a href="mailto:girginbora30@gmail.com">Email</a>
                     <a href="contact.html">Contact Form</a>
                 </div>
