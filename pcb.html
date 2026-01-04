@@ -33,6 +33,8 @@
     <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
 
     <link rel="stylesheet" href="style.css">
+    <!-- Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <style>
         .pcb-gallery {
             padding: 80px 0 120px;
@@ -154,7 +156,7 @@
                 <a href="projects.html" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
                 <a href="pcb.html" class="nav-link active" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
                     Gallery</a>
-                <a href="cv.html" class="nav-link">CV</a>
+                <a href="cv.html" class="nav-link" data-en="CV" data-tr="Özgeçmiş">CV</a>
                 <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
@@ -163,7 +165,8 @@
                 </button>
                 <button class="nav-btn" id="langToggle" title="Change language">TR</button>
             </div>
-            <div class="nav-toggle" id="navToggle">
+            <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
+                tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -172,10 +175,10 @@
     </nav>
 
     <!-- PAGE HERO -->
-    <section class="page-hero">
+    <section class="page-hero" data-animate="scroll-reveal">
         <div class="container">
-            <h1 data-aos="fade-up">Design Gallery</h1>
-            <p data-aos="fade-up" data-aos-delay="100">Circuit board designs and hardware solutions</p>
+            <h1>Design Gallery</h1>
+            <p>Circuit board designs and hardware solutions</p>
         </div>
     </section>
 
@@ -183,15 +186,12 @@
     <section class="pcb-gallery">
         <div class="container">
 
-            <div class="upload-note" data-aos="fade-up">
-                <strong>📌 Note:</strong> PCB images can be uploaded to this directory. Update the gallery items below
-                with actual image paths.
-            </div>
 
-            <div class="gallery-grid">
+
+            <div class="gallery-grid" data-animate="stagger-cards">
 
                 <!-- PCB ITEM 1: LoRa Telemetry -->
-                <div class="gallery-item" data-aos="fade-up">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">📡</div>
                     <div class="gallery-info">
                         <h3>LoRa Telemetry Board</h3>
@@ -206,7 +206,7 @@
                 </div>
 
                 <!-- PCB ITEM 2: Avionics Board -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">🚀</div>
                     <div class="gallery-info">
                         <h3>Avionics Interface Board</h3>
@@ -221,7 +221,7 @@
                 </div>
 
                 <!-- PCB ITEM 3: ESP32 Development -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">💻</div>
                     <div class="gallery-info">
                         <h3>ESP32 Development Kit</h3>
@@ -236,7 +236,7 @@
                 </div>
 
                 <!-- PCB ITEM 4: Power Distribution -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">⚡</div>
                     <div class="gallery-info">
                         <h3>High-Current Power Board</h3>
@@ -251,7 +251,7 @@
                 </div>
 
                 <!-- PCB ITEM 5: Sensor Hub -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">🔬</div>
                     <div class="gallery-info">
                         <h3>Multi-Sensor Hub</h3>
@@ -266,7 +266,7 @@
                 </div>
 
                 <!-- PCB ITEM 6: RF Amplifier -->
-                <div class="gallery-item" data-aos="fade-up" data-aos-delay="500">
+                <div class="gallery-item card-premium">
                     <div class="gallery-image-placeholder">📶</div>
                     <div class="gallery-info">
                         <h3>RF Power Amplifier</h3>
@@ -307,11 +307,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> Bora Girgin. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 

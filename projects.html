@@ -34,6 +34,8 @@
     <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
 
     <link rel="stylesheet" href="style.css">
+    <!-- Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <style>
         .project-detail {
             background: var(--bg-card);
@@ -157,6 +159,11 @@
 </head>
 
 <body>
+    <!-- SCROLL PROGRESS BAR -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
     <!-- NAVIGATION -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
@@ -166,7 +173,7 @@
                 <a href="projects.html" class="nav-link active" data-en="Projects" data-tr="Projeler">Projects</a>
                 <a href="pcb.html" class="nav-link" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
                     Gallery</a>
-                <a href="cv.html" class="nav-link">CV</a>
+                <a href="cv.html" class="nav-link" data-en="CV" data-tr="Özgeçmiş">CV</a>
                 <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
@@ -175,7 +182,8 @@
                 </button>
                 <button class="nav-btn" id="langToggle" title="Change language">TR</button>
             </div>
-            <div class="nav-toggle" id="navToggle">
+            <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
+                tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -192,130 +200,160 @@
     </section>
 
     <!-- PROJECTS SECTION -->
-    <section class="projects-section">
+    <section class="projects-section" data-animate="scroll-reveal">
         <div class="container">
 
             <!-- PROJECT 1: LORA CONTROL SYSTEM -->
-            <div class="project-detail" id="lora-control" data-aos="fade-up">
-                <div class="project-header">
-                    <h2>LoRa Factory Automation System</h2>
-                    <div class="project-tags">
-                        <span class="project-tag">LoRa</span>
-                        <span class="project-tag">ESP32</span>
-                        <span class="project-tag">Raspberry Pi</span>
-                        <span class="project-tag">C++</span>
-                        <span class="project-tag">TUBITAK</span>
-                        <span class="project-tag">Industrial IoT</span>
+            <div class="accordion-item" id="lora-control">
+                <div class="accordion-header">
+                    <div class="project-header-content">
+                        <h2>LoRa Factory Automation System</h2>
+                        <div class="project-tags">
+                            <span class="project-tag tooltip-wrapper">LoRa<span class="tooltip">Long Range wireless
+                                    protocol</span></span>
+                            <span class="project-tag tooltip-wrapper">ESP32<span class="tooltip">WiFi + BLE
+                                    microcontroller</span></span>
+                            <span class="project-tag tooltip-wrapper">Raspberry Pi<span class="tooltip">Linux-based
+                                    gateway</span></span>
+                            <span class="project-tag">C++</span>
+                            <span class="project-tag tooltip-wrapper">TUBITAK<span class="tooltip">Turkish govt research
+                                    grant</span></span>
+                            <span class="project-tag">Industrial IoT</span>
+                        </div>
+                    </div>
+                    <div class="accordion-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
                 </div>
-                <div class="project-content">
-                    <p>
-                        An automated control system developed for Talu Textile as part of a TUBITAK-funded research
-                        project.
-                        The system uses LoRa wireless technology to enable seamless communication between factory
-                        equipment,
-                        providing real-time monitoring and control capabilities across large industrial facilities.
-                    </p>
+                <div class="accordion-content">
+                    <div class="project-content">
+                        <p>
+                            An automated control system developed for Talu Textile as part of a TUBITAK-funded research
+                            project.
+                            The system uses LoRa wireless technology to enable seamless communication between factory
+                            equipment,
+                            providing real-time monitoring and control capabilities across large industrial facilities.
+                        </p>
 
-                    <h3>Project Overview</h3>
-                    <ul>
-                        <li>Started November 2024 as part of TUBITAK grant program</li>
-                        <li>Collaboration with Talu Textile for real-world industrial deployment</li>
-                        <li>Designed to replace traditional wired control systems with wireless LoRa network</li>
-                        <li>Focus on reliability, range, and low power consumption for 24/7 operation</li>
-                    </ul>
-
-                    <div class="tech-specs">
-                        <h4>System Architecture</h4>
+                        <h3>Project Overview</h3>
                         <ul>
-                            <li><strong>Communication:</strong> LoRa long-range wireless protocol</li>
-                            <li><strong>Nodes:</strong> ESP32 microcontrollers for sensor/actuator control</li>
-                            <li><strong>Gateway:</strong> Raspberry Pi for data aggregation and processing</li>
-                            <li><strong>Programming:</strong> C++ firmware for ESP32, Python backend for Raspberry Pi
-                            </li>
-                            <li><strong>Range:</strong> Multi-kilometer coverage across factory premises</li>
+                            <li>Started November 2024 as part of TUBITAK grant program</li>
+                            <li>Collaboration with Talu Textile for real-world industrial deployment</li>
+                            <li>Designed to replace traditional wired control systems with wireless LoRa network</li>
+                            <li>Focus on reliability, range, and low power consumption for 24/7 operation</li>
                         </ul>
+
+                        <div class="tech-specs">
+                            <h4>System Architecture</h4>
+                            <ul>
+                                <li><strong>Communication:</strong> LoRa long-range wireless protocol</li>
+                                <li><strong>Nodes:</strong> ESP32 microcontrollers for sensor/actuator control</li>
+                                <li><strong>Gateway:</strong> Raspberry Pi for data aggregation and processing</li>
+                                <li><strong>Programming:</strong> C++ firmware for ESP32, Python backend for Raspberry
+                                    Pi
+                                </li>
+                                <li><strong>Range:</strong> Multi-kilometer coverage across factory premises</li>
+                            </ul>
+                        </div>
+
+                        <h3>Technical Implementation</h3>
+                        <ul>
+                            <li>Custom LoRa network protocol optimized for industrial environment</li>
+                            <li>ESP32 nodes handle local sensor readings and actuator control</li>
+                            <li>Raspberry Pi gateway aggregates data from multiple nodes</li>
+                            <li>Real-time monitoring dashboard for factory operators</li>
+                            <li>Failsafe mechanisms for critical control operations</li>
+                        </ul>
+
+                        <h3>Applications & Impact</h3>
+                        <p>
+                            The system enables remote monitoring and control of textile manufacturing equipment,
+                            reducing wiring costs and improving flexibility in factory floor layouts. The wireless
+                            nature allows for easy reconfiguration and expansion as production needs change.
+                        </p>
                     </div>
-
-                    <h3>Technical Implementation</h3>
-                    <ul>
-                        <li>Custom LoRa network protocol optimized for industrial environment</li>
-                        <li>ESP32 nodes handle local sensor readings and actuator control</li>
-                        <li>Raspberry Pi gateway aggregates data from multiple nodes</li>
-                        <li>Real-time monitoring dashboard for factory operators</li>
-                        <li>Failsafe mechanisms for critical control operations</li>
-                    </ul>
-
-                    <h3>Applications & Impact</h3>
-                    <p>
-                        The system enables remote monitoring and control of textile manufacturing equipment,
-                        reducing wiring costs and improving flexibility in factory floor layouts. The wireless
-                        nature allows for easy reconfiguration and expansion as production needs change.
-                    </p>
                 </div>
             </div>
 
             <!-- PROJECT 2: ARDUINO CAR -->
-            <div class="project-detail" id="arduino-car" data-aos="fade-up">
-                <div class="project-header">
-                    <h2>Bluetooth Arduino Robotics Car</h2>
-                    <div class="project-tags">
-                        <span class="project-tag">Arduino</span>
-                        <span class="project-tag">Bluetooth</span>
-                        <span class="project-tag">LIDAR</span>
-                        <span class="project-tag">Robotics</span>
-                        <span class="project-tag">Competition Winner</span>
+            <div class="accordion-item" id="arduino-car">
+                <div class="accordion-header">
+                    <div class="project-header-content">
+                        <h2>Bluetooth Arduino Robotics Car</h2>
+                        <div class="project-tags">
+                            <span class="project-tag tooltip-wrapper">Arduino<span class="tooltip">AVR microcontroller
+                                    platform</span></span>
+                            <span class="project-tag tooltip-wrapper">Bluetooth<span class="tooltip">Wireless control
+                                    module</span></span>
+                            <span class="project-tag tooltip-wrapper">LIDAR<span class="tooltip">Light Detection and
+                                    Ranging</span></span>
+                            <span class="project-tag">Robotics</span>
+                            <span class="project-tag">Competition Winner</span>
+                        </div>
+                    </div>
+                    <div class="accordion-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
                     </div>
                 </div>
-                <div class="project-content">
-                    <p>
-                        A sophisticated robotics project developed for Biga ICDAS Science High School robotics
-                        competition.
-                        The project simulated a space mining vehicle capable of autonomous navigation, object
-                        manipulation,
-                        and wireless control - achieving full mission success with highest accuracy among all
-                        competitors.
-                    </p>
+                <div class="accordion-content">
+                    <div class="project-content">
+                        <p>
+                            A sophisticated robotics project developed for Biga ICDAS Science High School robotics
+                            competition.
+                            The project simulated a space mining vehicle capable of autonomous navigation, object
+                            manipulation,
+                            and wireless control - achieving full mission success with highest accuracy among all
+                            competitors.
+                        </p>
 
-                    <h3>Project Context</h3>
-                    <ul>
-                        <li>Developed between April-May 2020 during high school</li>
-                        <li>Competition theme: Autonomous space mining vehicle prototype</li>
-                        <li>Required integration of multiple sensor systems and robotic manipulation</li>
-                        <li>Completed all competition missions with perfect accuracy</li>
-                    </ul>
-
-                    <div class="tech-specs">
-                        <h4>Hardware Components</h4>
+                        <h3>Project Context</h3>
                         <ul>
-                            <li><strong>Controller:</strong> Arduino microcontroller platform</li>
-                            <li><strong>Wireless:</strong> Bluetooth module for remote control</li>
-                            <li><strong>Distance Sensing:</strong> Infrared (IR) sensor for proximity detection</li>
-                            <li><strong>Navigation:</strong> LIDAR sensor for line tracking</li>
-                            <li><strong>Manipulation:</strong> Electric motor-driven robotic arm</li>
-                            <li><strong>Gripper:</strong> FSR (Force Sensitive Resistor) pressure sensor for claw
-                                control</li>
-                            <li><strong>Additional:</strong> Ultrasonic sensors for obstacle avoidance</li>
+                            <li>Developed between April-May 2020 during high school</li>
+                            <li>Competition theme: Autonomous space mining vehicle prototype</li>
+                            <li>Required integration of multiple sensor systems and robotic manipulation</li>
+                            <li>Completed all competition missions with perfect accuracy</li>
                         </ul>
+
+                        <div class="tech-specs">
+                            <h4>Hardware Components</h4>
+                            <ul>
+                                <li><strong>Controller:</strong> Arduino microcontroller platform</li>
+                                <li><strong>Wireless:</strong> Bluetooth module for remote control</li>
+                                <li><strong>Distance Sensing:</strong> Infrared (IR) sensor for proximity detection</li>
+                                <li><strong>Navigation:</strong> LIDAR sensor for line tracking</li>
+                                <li><strong>Manipulation:</strong> Electric motor-driven robotic arm</li>
+                                <li><strong>Gripper:</strong> FSR (Force Sensitive Resistor) pressure sensor for claw
+                                    control</li>
+                                <li><strong>Additional:</strong> Ultrasonic sensors for obstacle avoidance</li>
+                            </ul>
+                        </div>
+
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li>Precise line following using LIDAR scanning</li>
+                            <li>Object detection and distance measurement with IR sensors</li>
+                            <li>Motorized robotic arm with multiple degrees of freedom</li>
+                            <li>Pressure-sensitive gripper with force feedback</li>
+                            <li>Wireless control via Bluetooth for manual override</li>
+                            <li>Autonomous navigation between waypoints</li>
+                        </ul>
+
+                        <h3>Competition Results</h3>
+                        <p>
+                            The vehicle successfully completed all assigned missions including line tracking, object
+                            pickup,
+                            transportation, and precise placement. The combination of accurate sensor fusion and
+                            reliable
+                            mechanical design resulted in perfect mission execution, earning the highest accuracy award
+                            in the Science High School robotics competition.
+                        </p>
                     </div>
-
-                    <h3>Key Features</h3>
-                    <ul>
-                        <li>Precise line following using LIDAR scanning</li>
-                        <li>Object detection and distance measurement with IR sensors</li>
-                        <li>Motorized robotic arm with multiple degrees of freedom</li>
-                        <li>Pressure-sensitive gripper with force feedback</li>
-                        <li>Wireless control via Bluetooth for manual override</li>
-                        <li>Autonomous navigation between waypoints</li>
-                    </ul>
-
-                    <h3>Competition Results</h3>
-                    <p>
-                        The vehicle successfully completed all assigned missions including line tracking, object pickup,
-                        transportation, and precise placement. The combination of accurate sensor fusion and reliable
-                        mechanical design resulted in perfect mission execution, earning the highest accuracy award
-                        in the Science High School robotics competition.
-                    </p>
                 </div>
             </div>
 
@@ -345,11 +383,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> Bora Girgin. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 

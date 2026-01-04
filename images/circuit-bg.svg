@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" class="circuit-svg">
+  <defs>
+    <linearGradient id="traceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#a78bfa;stop-opacity:0.6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g class="circuit-traces" fill="none" stroke="url(#traceGradient)" stroke-width="1.5" stroke-linecap="round" filter="url(#glow)" opacity="0.4">
+    <!-- Horizontal traces -->
+    <path d="M50,100 L200,100 L220,120 L350,120"/>
+    <path d="M100,180 L280,180 L300,160 L420,160 L440,180 L550,180"/>
+    <path d="M0,250 L150,250 L170,230 L300,230"/>
+    <path d="M200,320 L380,320 L400,300 L520,300 L540,320 L700,320"/>
+    <path d="M50,400 L180,400 L200,420 L350,420"/>
+    <path d="M120,480 L300,480 L320,460 L480,460 L500,480 L650,480"/>
+    
+    <!-- Vertical traces -->
+    <path d="M150,50 L150,150 L170,170 L170,280"/>
+    <path d="M350,0 L350,120"/>
+    <path d="M450,100 L450,200 L430,220 L430,350"/>
+    <path d="M550,180 L550,300"/>
+    <path d="M250,250 L250,400"/>
+    <path d="M600,200 L600,350 L620,370 L620,500"/>
+    
+    <!-- Diagonal connections -->
+    <path d="M300,230 L350,280 L350,350"/>
+    <path d="M420,160 L480,220 L480,300"/>
+    <path d="M180,400 L230,350 L280,350"/>
+    
+    <!-- Via pads (small circles) -->
+    <circle cx="200" cy="100" r="4" fill="#60a5fa" opacity="0.6"/>
+    <circle cx="350" cy="120" r="4" fill="#60a5fa" opacity="0.6"/>
+    <circle cx="550" cy="180" r="4" fill="#a78bfa" opacity="0.6"/>
+    <circle cx="300" cy="230" r="4" fill="#60a5fa" opacity="0.6"/>
+    <circle cx="520" cy="300" r="4" fill="#a78bfa" opacity="0.6"/>
+    <circle cx="350" cy="420" r="4" fill="#60a5fa" opacity="0.6"/>
+    <circle cx="650" cy="480" r="4" fill="#a78bfa" opacity="0.6"/>
+    
+    <!-- IC placeholder shapes -->
+    <rect x="380" y="240" width="60" height="40" rx="4" stroke="#60a5fa" fill="none" opacity="0.3"/>
+    <rect x="150" y="340" width="50" height="35" rx="4" stroke="#a78bfa" fill="none" opacity="0.3"/>
+    <rect x="520" y="380" width="70" height="50" rx="4" stroke="#60a5fa" fill="none" opacity="0.3"/>
+  </g>
+  
+  <!-- Secondary layer - fainter traces -->
+  <g class="circuit-traces-secondary" fill="none" stroke="url(#traceGradient)" stroke-width="1" opacity="0.2">
+    <path d="M700,50 L600,50 L580,70 L500,70"/>
+    <path d="M750,150 L650,150 L630,130 L550,130"/>
+    <path d="M800,350 L680,350 L660,370 L580,370"/>
+    <path d="M720,450 L600,450 L580,430 L480,430"/>
+    <path d="M680,550 L550,550 L530,530 L400,530"/>
+  </g>
+</svg>

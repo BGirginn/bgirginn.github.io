@@ -23,7 +23,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Bora Girgin - Embedded Systems & IoT Engineer" />
-    <meta name="twitter:description" content="Portfolio of embedded systems projects, IoT solutions, and PCB designs." />
+    <meta name="twitter:description"
+        content="Portfolio of embedded systems projects, IoT solutions, and PCB designs." />
     <meta name="twitter:image" content="https://bgirgin.dev/images/og-image.png" />
 
     <!-- Canonical URL -->
@@ -50,6 +51,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Anime.js v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
 </head>
 
 <body>
@@ -65,7 +68,7 @@
                 <a href="projects.html" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
                 <a href="pcb.html" class="nav-link" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
                     Gallery</a>
-                <a href="cv.html" class="nav-link">CV</a>
+                <a href="cv.html" class="nav-link" data-en="CV" data-tr="Özgeçmiş">CV</a>
                 <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
@@ -74,7 +77,8 @@
                 </button>
                 <button class="nav-btn" id="langToggle" title="Change language" aria-label="Switch language">TR</button>
             </div>
-            <div class="nav-toggle" id="navToggle">
+            <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
+                tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -86,18 +90,48 @@
     <section class="hero" id="main-content">
         <div class="hero-background">
             <canvas id="particleCanvas"></canvas>
+            <!-- Circuit SVG Background -->
+            <div class="circuit-bg">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" class="circuit-svg">
+                    <defs>
+                        <linearGradient id="traceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:var(--secondary-color);stop-opacity:0.6" />
+                        </linearGradient>
+                    </defs>
+                    <g class="circuit-traces" fill="none" stroke="url(#traceGradient)" stroke-width="1.5"
+                        stroke-linecap="round" opacity="0.3">
+                        <path d="M50,100 L200,100 L220,120 L350,120" />
+                        <path d="M100,180 L280,180 L300,160 L420,160 L440,180 L550,180" />
+                        <path d="M0,250 L150,250 L170,230 L300,230" />
+                        <path d="M200,320 L380,320 L400,300 L520,300 L540,320 L700,320" />
+                        <path d="M50,400 L180,400 L200,420 L350,420" />
+                        <path d="M120,480 L300,480 L320,460 L480,460 L500,480 L650,480" />
+                        <path d="M150,50 L150,150 L170,170 L170,280" />
+                        <path d="M350,0 L350,120" />
+                        <path d="M450,100 L450,200 L430,220 L430,350" />
+                        <path d="M550,180 L550,300" />
+                        <path d="M250,250 L250,400" />
+                        <path d="M600,200 L600,350 L620,370 L620,500" />
+                        <circle cx="200" cy="100" r="4" fill="var(--primary-color)" opacity="0.5" />
+                        <circle cx="350" cy="120" r="4" fill="var(--primary-color)" opacity="0.5" />
+                        <circle cx="550" cy="180" r="4" fill="var(--secondary-color)" opacity="0.5" />
+                        <circle cx="300" cy="230" r="4" fill="var(--primary-color)" opacity="0.5" />
+                    </g>
+                </svg>
+            </div>
         </div>
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="fade-in">Bora</span>
-                <span class="fade-in delay-1">Girgin</span>
+        <div class="hero-content" data-animate="hero-entry">
+            <h1 class="hero-title" data-animate-text="chars">
+                <span>Bora</span>
+                <span>Girgin</span>
             </h1>
-            <p class="hero-tagline fade-in delay-2" data-en="Electrical & Electronics Engineering Student"
+            <p class="hero-tagline" data-en="Electrical & Electronics Engineering Student"
                 data-tr="Elektrik ve Elektronik Mühendisliği Öğrencisi">Electrical & Electronics Engineering Student</p>
-            <p class="hero-subtitle fade-in delay-3" data-en="IoT • Embedded Systems • PCB Design"
+            <p class="hero-subtitle" data-en="IoT • Embedded Systems • PCB Design"
                 data-tr="IoT • Gömülü Sistemler • PCB Tasarımı">IoT • Embedded Systems • PCB Design</p>
 
-            <div class="hero-cta fade-in delay-4">
+            <div class="hero-cta">
                 <a href="projects.html" class="btn btn-primary" data-en="View Projects" data-tr="Projeleri Gör">View
                     Projects</a>
                 <a href="contact.html" class="btn btn-secondary" data-en="Get in Touch" data-tr="İletişim">Get in
@@ -112,24 +146,24 @@
     </section>
 
     <!-- QUICK INTRO CARDS -->
-    <section class="intro-cards">
+    <section class="intro-cards" data-animate="scroll-reveal">
         <div class="container">
-            <div class="card-grid">
-                <div class="intro-card" data-aos="fade-up">
+            <div class="card-grid" data-animate="stagger-cards">
+                <div class="intro-card card-premium">
                     <div class="card-icon">⚡</div>
                     <h3 data-en="Embedded Systems" data-tr="Gömülü Sistemler">Embedded Systems</h3>
                     <p data-en="Developing IoT solutions with ESP32, STM32, and Arduino platforms"
                         data-tr="ESP32, STM32 ve Arduino ile IoT çözümleri">Developing IoT
                         solutions with ESP32, STM32, and Arduino platforms</p>
                 </div>
-                <div class="intro-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="intro-card card-premium">
                     <div class="card-icon">📡</div>
                     <h3 data-en="Wireless Communication" data-tr="Kablosuz İletişim">Wireless Communication</h3>
                     <p data-en="LoRa networks and industrial automation systems"
                         data-tr="LoRa ağları ve endüstriyel otomasyon sistemleri">LoRa networks and industrial
                         automation systems</p>
                 </div>
-                <div class="intro-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="intro-card card-premium">
                     <div class="card-icon">🔧</div>
                     <h3 data-en="Hardware Design" data-tr="Donanım Tasarımı">Hardware Design</h3>
                     <p data-en="PCB design and circuit development with KiCAD"
@@ -141,11 +175,11 @@
     </section>
 
     <!-- FEATURED WORK -->
-    <section class="featured-preview">
+    <section class="featured-preview" data-animate="scroll-reveal">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up" data-en="Recent Work" data-tr="Son Çalışmalar">Recent Work</h2>
-            <div class="projects-grid">
-                <a href="projects.html#lora-control" class="project-card" data-aos="fade-up">
+            <h2 class="section-title" data-en="Recent Work" data-tr="Son Çalışmalar">Recent Work</h2>
+            <div class="projects-grid" data-animate="stagger-cards">
+                <a href="projects.html#lora-control" class="project-card card-premium">
                     <div class="project-icon">🔌</div>
                     <div class="project-info">
                         <h3 data-en="LoRa Factory Automation" data-tr="LoRa Fabrika Otomasyonu">LoRa Factory Automation
@@ -161,7 +195,7 @@
                     </div>
                     <span class="project-arrow">→</span>
                 </a>
-                <a href="projects.html#arduino-car" class="project-card" data-aos="fade-up" data-aos-delay="100">
+                <a href="projects.html#arduino-car" class="project-card card-premium">
                     <div class="project-icon">🤖</div>
                     <div class="project-info">
                         <h3 data-en="Bluetooth Robotics Car" data-tr="Bluetooth Robotik Araba">Bluetooth Robotics Car
@@ -178,19 +212,20 @@
                     <span class="project-arrow">→</span>
                 </a>
             </div>
-            <div class="text-center" data-aos="fade-up">
-                <a href="projects.html" class="btn btn-primary">View All Projects</a>
+            <div class="text-center">
+                <a href="projects.html" class="btn btn-primary btn-glow" data-en="View All Projects"
+                    data-tr="Tüm Projeler">View All Projects</a>
             </div>
         </div>
     </section>
 
     <!-- SKILLS OVERVIEW -->
-    <section class="skills-overview">
+    <section class="skills-overview" data-animate="scroll-reveal">
         <div class="container">
-            <h2 class="section-title" data-aos="fade-up" data-en="Technical Skills" data-tr="Teknik Yetenekler">
+            <h2 class="section-title" data-en="Technical Skills" data-tr="Teknik Yetenekler">
                 Technical Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-category" data-aos="fade-right">
+            <div class="skills-grid" data-animate="stagger-cards">
+                <div class="skill-category">
                     <h3 data-en="Programming" data-tr="Programlama">Programming</h3>
                     <div class="skill-tags">
                         <span class="skill-tag">Python</span>
@@ -199,7 +234,7 @@
                         <span class="skill-tag">Git</span>
                     </div>
                 </div>
-                <div class="skill-category" data-aos="fade-right" data-aos-delay="100">
+                <div class="skill-category">
                     <h3 data-en="IoT & Embedded" data-tr="IoT ve Gömülü Sistemler">IoT & Embedded</h3>
                     <div class="skill-tags">
                         <span class="skill-tag">ESP32</span>
@@ -208,7 +243,7 @@
                         <span class="skill-tag">Arduino</span>
                     </div>
                 </div>
-                <div class="skill-category" data-aos="fade-right" data-aos-delay="200">
+                <div class="skill-category">
                     <h3 data-en="Engineering Tools" data-tr="Mühendislik Araçları">Engineering Tools</h3>
                     <div class="skill-tags">
                         <span class="skill-tag">KiCAD</span>
@@ -244,11 +279,12 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> Bora Girgin. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="animations.js"></script>
     <script src="script.js"></script>
 </body>
 

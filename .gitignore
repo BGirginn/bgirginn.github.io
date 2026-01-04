@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+__MACOSX/
+
+# Editors
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/

@@ -749,8 +749,10 @@ h6 {
 }
 
 /* ===========================
-   ANIMATIONS
+   ANIMATIONS (Anime.js Enhanced)
 =========================== */
+
+/* Legacy fade-in - kept for fallback */
 .fade-in {
     animation: fadeIn 1s ease forwards;
     opacity: 0;
@@ -782,6 +784,496 @@ h6 {
         opacity: 0;
         transform: translateY(20px);
     }
+}
+
+/* ===========================
+   CIRCUIT SVG BACKGROUND
+=========================== */
+.circuit-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.circuit-bg svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.circuit-bg path,
+.circuit-bg line {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+}
+
+[data-theme="light"] .circuit-bg svg {
+    opacity: 0.4;
+}
+
+/* ===========================
+   SCROLL PROGRESS BAR
+=========================== */
+.scroll-progress {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(96, 165, 250, 0.1);
+    z-index: 999;
+}
+
+.scroll-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    transition: width 0.1s linear;
+}
+
+/* ===========================
+   BUTTONS - Original Simple Style
+=========================== */
+
+/* Primary Button - Simple hover */
+.btn-primary {
+    background: var(--primary-color);
+    color: #fff;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: #4d9cf8;
+    transform: translateY(-2px);
+}
+
+/* Secondary Button - Simple hover */
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary-color);
+    background: rgba(96, 165, 250, 0.1);
+}
+
+/* ===========================
+   CARDS - Simple Hover Effect
+=========================== */
+.card-premium {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card-premium:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    border-color: var(--primary-color);
+}
+
+[data-theme="light"] .card-premium:hover {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ===========================
+   ACCORDION COMPONENT
+=========================== */
+.accordion-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    padding: 20px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.accordion-header:hover {
+    background: rgba(96, 165, 250, 0.05);
+}
+
+.accordion-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.open .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    padding: 0 25px;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.accordion-item.open .accordion-content {
+    padding: 0 25px 25px;
+}
+
+/* ===========================
+   TOOLTIP COMPONENT (UIverse)
+=========================== */
+.tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    background: rgba(20, 20, 25, 0.95);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 1000;
+    pointer-events: none;
+    border: 1px solid var(--border-color);
+}
+
+.tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: rgba(20, 20, 25, 0.95);
+}
+
+.tooltip-wrapper:hover .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-4px);
+}
+
+[data-theme="light"] .tooltip {
+    background: rgba(255, 255, 255, 0.98);
+    color: #0F172A;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .tooltip::after {
+    border-top-color: rgba(255, 255, 255, 0.98);
+}
+
+/* ===========================
+   LOADER COMPONENT (UIverse)
+=========================== */
+.loader {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.loader-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    animation: loaderPulse 0.6s ease-in-out infinite;
+}
+
+.loader-dot:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.loader-dot:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+@keyframes loaderPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(0.5);
+        opacity: 0.5;
+    }
+}
+
+/* Spinner variant */
+.loader-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(96, 165, 250, 0.2);
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===========================
+   ANIMATED INPUTS (UIverse)
+=========================== */
+.input-animated {
+    position: relative;
+}
+
+.input-animated input,
+.input-animated textarea {
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--bg-input, rgba(10, 10, 10, 0.6));
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 16px;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.input-animated input:focus,
+.input-animated textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1);
+    transform: scale(1.01);
+}
+
+.input-animated label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: transparent;
+    padding: 0 4px;
+}
+
+.input-animated input:focus+label,
+.input-animated input:not(:placeholder-shown)+label,
+.input-animated textarea:focus+label,
+.input-animated textarea:not(:placeholder-shown)+label {
+    top: 0;
+    font-size: 12px;
+    color: var(--primary-color);
+    background: var(--bg-dark);
+}
+
+[data-theme="light"] .input-animated input:focus+label,
+[data-theme="light"] .input-animated input:not(:placeholder-shown)+label {
+    background: #fff;
+}
+
+/* ===========================
+   SUCCESS CHECKMARK
+=========================== */
+.success-check {
+    width: 60px;
+    height: 60px;
+}
+
+.success-check .check-circle {
+    stroke: #22c55e;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+}
+
+.success-check .check-path {
+    stroke: #22c55e;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+}
+
+.success-check.animate .check-circle {
+    animation: checkCircle 0.6s ease-out forwards;
+}
+
+.success-check.animate .check-path {
+    animation: checkPath 0.4s 0.4s ease-out forwards;
+}
+
+@keyframes checkCircle {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes checkPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* ===========================
+   PCB EXPLODED VIEW
+=========================== */
+.pcb-exploded-container {
+    position: relative;
+    perspective: 1000px;
+}
+
+.pcb-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.1s linear;
+    will-change: transform;
+}
+
+.pcb-layer-board {
+    z-index: 1;
+}
+
+.pcb-layer-traces {
+    z-index: 2;
+}
+
+.pcb-layer-components {
+    z-index: 3;
+}
+
+.pcb-component {
+    position: absolute;
+    transition: transform 0.3s ease-out, opacity 0.3s ease;
+    will-change: transform, opacity;
+    cursor: pointer;
+}
+
+.pcb-component:hover {
+    z-index: 10;
+    transform: scale(1.1) !important;
+}
+
+/* Component tooltip on hover */
+.pcb-component .component-label {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 25, 0.95);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    margin-bottom: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.pcb-component:hover .component-label {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* PCB Exploded Demo Section */
+.pcb-exploded-demo {
+    margin-bottom: 60px;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.pcb-exploded-demo .section-title {
+    margin-bottom: 8px;
+}
+
+.pcb-exploded-demo .section-subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.pcb-exploded-demo .pcb-exploded-container {
+    width: 100%;
+    max-width: 500px;
+    height: 350px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8));
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.pcb-exploded-demo .pcb-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.exploded-hint {
+    margin-top: 20px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    animation: pulse-hint 2s ease-in-out infinite;
+}
+
+@keyframes pulse-hint {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Accordion improvements for projects */
+.project-header-content h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.5rem;
+}
+
+.accordion-header {
+    padding: 24px 28px;
+}
+
+.accordion-content .project-content {
+    padding: 0 4px 20px;
 }
 
 /* ===========================
@@ -1381,6 +1873,64 @@ h6 {
 
 .back-to-top:active {
     transform: translateY(-2px);
+}
+
+/* ===========================
+   SUCCESS MESSAGE (Contact Form)
+=========================== */
+.success-message {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    margin: 16px 0 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    background: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+    font-weight: 500;
+}
+
+.success-message.show {
+    display: flex;
+}
+
+.success-check {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.success-check .check-circle {
+    fill: none;
+    stroke: #22c55e;
+    stroke-width: 2;
+    stroke-dasharray: 160;
+    stroke-dashoffset: 160;
+}
+
+.success-check .check-path {
+    fill: none;
+    stroke: #22c55e;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+}
+
+.success-check.animate .check-circle {
+    animation: strokeDraw 0.6s ease forwards;
+}
+
+.success-check.animate .check-path {
+    animation: strokeDraw 0.4s ease forwards 0.4s;
+}
+
+@keyframes strokeDraw {
+    to {
+        stroke-dashoffset: 0;
+    }
 }
 
 /* ===========================

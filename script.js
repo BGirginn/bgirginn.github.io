@@ -238,9 +238,12 @@ class ParticleSystem {
     }
 }
 
-// Initialize particle system
+// Initialize particle system (with reduced motion check)
 const particleCanvas = document.getElementById('particleCanvas');
-if (particleCanvas) {
+const prefersReducedMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (particleCanvas && !prefersReducedMotion) {
     new ParticleSystem(particleCanvas);
 }
 
@@ -267,11 +270,22 @@ if (navToggle && navMenu) {
         const isActive = navMenu.classList.toggle('active');
         navToggle.classList.toggle('active');
 
+        // Update aria-expanded for accessibility
+        navToggle.setAttribute('aria-expanded', String(isActive));
+
         // Lock/unlock body scroll on mobile
         if (isActive) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
+        }
+    });
+
+    // Keyboard support for nav toggle
+    navToggle.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navToggle.click();
         }
     });
 
@@ -281,6 +295,7 @@ if (navToggle && navMenu) {
             if (navMenu.classList.contains('active')) {
                 navMenu.classList.remove('active');
                 navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
             }
         }
@@ -292,10 +307,19 @@ if (navToggle && navMenu) {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
                 navToggle.classList.remove('active');
+                navToggle.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
             });
         });
     }
+}
+
+// ===========================
+// FOOTER YEAR AUTO-UPDATE
+// ===========================
+const yearEl = document.getElementById('year');
+if (yearEl) {
+    yearEl.textContent = new Date().getFullYear();
 }
 
 // ===========================

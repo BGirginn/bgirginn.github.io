@@ -41,6 +41,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Anime.js -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
     <style>
         /* Print Styles for PDF Export */
         @media print {
@@ -48,47 +50,53 @@
                 background: white !important;
                 color: black !important;
             }
-            
-            .navbar, .cv-sidebar, .footer, .download-btn, .back-to-top {
+
+            .navbar,
+            .cv-sidebar,
+            .footer,
+            .download-btn,
+            .back-to-top {
                 display: none !important;
             }
-            
+
             .cv-section {
                 padding: 0 !important;
             }
-            
+
             .cv-layout {
                 display: block !important;
             }
-            
+
             .cv-container {
                 background: white !important;
                 border: none !important;
                 box-shadow: none !important;
                 padding: 20px !important;
             }
-            
+
             .cv-header h1 {
                 color: black !important;
             }
-            
+
             .cv-block h2 {
                 color: #2563EB !important;
             }
-            
+
             .cv-item h3 {
                 color: black !important;
             }
-            
-            .cv-item p, .cv-item li, .cv-contact {
+
+            .cv-item p,
+            .cv-item li,
+            .cv-contact {
                 color: #333 !important;
             }
-            
+
             .skill-group {
                 background: #f5f5f5 !important;
                 border-color: #ddd !important;
             }
-            
+
             a {
                 color: #2563EB !important;
                 text-decoration: none !important;
@@ -387,7 +395,7 @@
                 <a href="projects.html" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
                 <a href="pcb.html" class="nav-link" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
                     Gallery</a>
-                <a href="cv.html" class="nav-link active">CV</a>
+                <a href="cv.html" class="nav-link active" data-en="CV" data-tr="Özgeçmiş">CV</a>
                 <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
@@ -396,7 +404,8 @@
                 </button>
                 <button class="nav-btn" id="langToggle" title="Change language">TR</button>
             </div>
-            <div class="nav-toggle" id="navToggle">
+            <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
+                tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -423,7 +432,7 @@
 
             <!-- CV CONTENT -->
             <div class="cv-content">
-                <div class="cv-container" data-aos="fade-up">
+                <div class="cv-container">
 
                     <!-- HEADER -->
                     <div class="cv-header">
@@ -437,13 +446,14 @@
                                     rel="noopener noreferrer">LinkedIn</a></span>
                             <span>📍 Sakarya, Türkiye</span>
                         </div>
-                        <a href="#" onclick="window.print(); return false;" class="btn btn-primary download-btn" style="margin-top: 25px;">
+                        <button type="button" class="btn btn-primary download-btn" id="printCvBtn"
+                            style="margin-top: 25px;">
                             📄 PDF Olarak İndir / Print
-                        </a>
+                        </button>
                     </div>
 
                     <!-- SUMMARY -->
-                    <div class="cv-block" id="summary">
+                    <div class="cv-block" id="summary" data-animate="timeline-reveal">
                         <h2>Professional Summary</h2>
                         <p style="color: var(--text-secondary); font-size: 16px; line-height: 1.8;">
                             A highly motivated and detail-oriented electrical and electronics engineering student with a
@@ -457,7 +467,7 @@
                     </div>
 
                     <!-- EDUCATION -->
-                    <div class="cv-block" id="education">
+                    <div class="cv-block" id="education" data-animate="timeline-reveal">
                         <h2>Education</h2>
 
                         <div class="cv-item">
@@ -475,7 +485,7 @@
                     </div>
 
                     <!-- TECHNICAL SKILLS -->
-                    <div class="cv-block" id="skills">
+                    <div class="cv-block" id="skills" data-animate="timeline-reveal">
                         <h2>Technical Skills</h2>
                         <div class="skills-grid-cv">
                             <div class="skill-group">
@@ -522,7 +532,7 @@
                     </div>
 
                     <!-- PROJECTS -->
-                    <div class="cv-block" id="projects">
+                    <div class="cv-block" id="projects" data-animate="timeline-reveal">
                         <h2>Projects</h2>
 
                         <div class="cv-item">
@@ -556,7 +566,7 @@
                     </div>
 
                     <!-- CERTIFICATIONS -->
-                    <div class="cv-block" id="certifications">
+                    <div class="cv-block" id="certifications" data-animate="timeline-reveal">
                         <h2>Certifications</h2>
                         <div class="cv-item">
                             <ul>
@@ -570,7 +580,7 @@
                     </div>
 
                     <!-- CORE COMPETENCIES -->
-                    <div class="cv-block" id="competencies">
+                    <div class="cv-block" id="competencies" data-animate="timeline-reveal">
                         <h2>Core Competencies</h2>
                         <div class="cv-item">
                             <ul>
@@ -615,12 +625,20 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Bora Girgin. All rights reserved.</p>
+                <p>&copy; <span id="year"></span> Bora Girgin. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <script src="animations.js"></script>
     <script src="script.js"></script>
+    <script>
+        // CV Print button
+        (function () {
+            const btn = document.getElementById('printCvBtn');
+            if (btn) btn.addEventListener('click', () => window.print());
+        })();
+    </script>
 </body>
 
 </html>
