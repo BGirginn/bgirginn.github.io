@@ -368,29 +368,59 @@ if (document.querySelector('.cv-nav')) {
 }
 
 // ===========================
-// SCROLL ANIMATIONS (AOS)
+// SCROLL ANIMATIONS (Enhanced with Motion Tokens)
 // ===========================
-function initAOS() {
+
+// Global motion preference
+const REDUCE_MOTION = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * Initialize scroll reveal system
+ * Uses CSS classes for animation to respect motion tokens
+ */
+function initScrollReveal() {
+    // Elements that should reveal on scroll
+    const revealElements = document.querySelectorAll('[data-aos], [data-reveal], .reveal');
+
+    if (revealElements.length === 0) return;
+
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -80px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('aos-animate');
+                // Apply stagger delay if in a group
+                const container = entry.target.closest('[data-reveal-stagger]');
+                if (container && !REDUCE_MOTION) {
+                    const siblings = Array.from(container.querySelectorAll('[data-aos], [data-reveal], .reveal'));
+                    const index = siblings.indexOf(entry.target);
+                    entry.target.style.transitionDelay = `${index * 60}ms`;
+                }
+
+                // Add revealed class
+                entry.target.classList.add('aos-animate', 'revealed');
+
+                // Stop observing once revealed
+                revealObserver.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    document.querySelectorAll('[data-aos]').forEach(el => {
-        observer.observe(el);
+    revealElements.forEach(el => {
+        // Set initial state (CSS handles this, but ensure consistency)
+        if (!REDUCE_MOTION && !el.classList.contains('aos-animate')) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(var(--lift, 10px))';
+        }
+        revealObserver.observe(el);
     });
 }
 
-// Initialize AOS on page load
-document.addEventListener('DOMContentLoaded', initAOS);
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initScrollReveal);
 
 // ===========================
 // SMOOTH SCROLL
