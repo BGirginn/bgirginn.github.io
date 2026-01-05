@@ -255,9 +255,13 @@
                 <a href="contact.html" class="nav-link active" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
-                <button class="nav-btn" id="themeToggle" title="Toggle theme">
-                    <span id="themeIcon">🌙</span>
-                </button>
+                <!-- DARK/LIGHT TOGGLE (Uiverse animated) -->
+                <div class="toggle-switch">
+                    <label class="switch-label">
+                        <input type="checkbox" id="themeToggleCheckbox" class="checkbox" aria-label="Toggle Dark Mode">
+                        <span class="slider"></span>
+                    </label>
+                </div>
                 <button class="nav-btn" id="langToggle" title="Change language">TR</button>
             </div>
             <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"

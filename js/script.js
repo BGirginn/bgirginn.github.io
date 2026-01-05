@@ -514,10 +514,10 @@ window.addEventListener('load', function () {
     backToTop.innerHTML = `
         <button class="back-to-top-btn" aria-label="Back to top">
             <div class="text">
-                <span>B</span><span>a</span><span>c</span><span>k</span>
+                <span>B</span><span>a</span><span>c</span><span>k</span><span>&nbsp;</span><span>t</span><span>o</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span>
             </div>
             <div class="clone">
-                <span>B</span><span>a</span><span>c</span><span>k</span>
+                <span>B</span><span>a</span><span>c</span><span>k</span><span>&nbsp;</span><span>t</span><span>o</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span>
             </div>
             <svg
                 stroke-width="2"
