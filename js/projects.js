@@ -122,6 +122,81 @@
         });
     }
 
+    /**
+     * Initialize accordion expand/collapse
+     */
+    function initAccordion() {
+        const accordionItems = document.querySelectorAll('.accordion-item');
+
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+
+            if (!header || !content) return;
+
+            // Set initial aria attributes
+            header.setAttribute('role', 'button');
+            header.setAttribute('aria-expanded', 'false');
+            header.setAttribute('tabindex', '0');
+
+            // Click handler
+            header.addEventListener('click', () => toggleAccordion(item, content, header));
+
+            // Keyboard handler
+            header.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleAccordion(item, content, header);
+                }
+            });
+        });
+    }
+
+    /**
+     * Toggle accordion item
+     */
+    function toggleAccordion(item, content, header) {
+        const isOpen = item.classList.contains('open');
+
+        if (isOpen) {
+            // Close
+            if (REDUCE_MOTION) {
+                content.style.height = '0';
+                content.style.opacity = '0';
+            } else {
+                content.style.height = content.scrollHeight + 'px';
+                content.offsetHeight; // Force reflow
+                content.style.transition = 'height var(--dur-3) var(--ease-out), opacity var(--dur-3) var(--ease-out)';
+                content.style.height = '0';
+                content.style.opacity = '0';
+            }
+            item.classList.remove('open');
+            header.setAttribute('aria-expanded', 'false');
+        } else {
+            // Open
+            item.classList.add('open');
+            header.setAttribute('aria-expanded', 'true');
+
+            if (REDUCE_MOTION) {
+                content.style.height = 'auto';
+                content.style.opacity = '1';
+            } else {
+                content.style.transition = 'height var(--dur-3) var(--ease-out), opacity var(--dur-3) var(--ease-out)';
+                content.style.height = content.scrollHeight + 'px';
+                content.style.opacity = '1';
+
+                // Remove fixed height after animation
+                setTimeout(() => {
+                    if (item.classList.contains('open')) {
+                        content.style.height = 'auto';
+                    }
+                }, 260);
+            }
+        }
+    }
+
     // Initialize
     createFilterChips();
+    initAccordion();
 })();
+

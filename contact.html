@@ -29,8 +29,8 @@
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#60a5fa" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#FACC15" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#CA8A04" media="(prefers-color-scheme: light)">
 
     <link rel="stylesheet" href="style.css">
     <!-- Anime.js -->
@@ -281,10 +281,10 @@
     <!-- CONTACT SECTION -->
     <section class="contact-section">
         <div class="container">
-            <div class="contact-grid">
-
+            <div class="contact-info-centered">
                 <!-- CONTACT INFO -->
-                <div class="contact-info card-premium" data-animate="scroll-reveal">
+                <div class="contact-info card-premium" data-animate="scroll-reveal"
+                    style="max-width: 600px; margin: 0 auto;">
                     <h2>Contact Information</h2>
                     <p>
                         Feel free to reach out for collaboration, consulting, or just to say hello.
@@ -324,56 +324,6 @@
                             class="social-link" title="LinkedIn">💼</a>
                     </div>
                 </div>
-
-                <!-- CONTACT FORM -->
-                <div class="contact-form card-premium" data-animate="scroll-reveal">
-                    <h2>Send a Message</h2>
-
-                    <div class="success-message" id="successMessage">
-                        <svg class="success-check" viewBox="0 0 52 52">
-                            <circle class="check-circle" cx="26" cy="26" r="25" />
-                            <path class="check-path" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                        </svg>
-                        <span>Message sent successfully! I'll get back to you soon.</span>
-                    </div>
-
-                    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-                        <div class="form-group input-animated">
-                            <input type="text" id="name" name="name" required placeholder=" "
-                                aria-label="Your full name" autocomplete="name">
-                            <label for="name" data-en="Your Name" data-tr="Adınız">Your Name</label>
-                        </div>
-
-                        <div class="form-group input-animated">
-                            <input type="email" id="email" name="email" required placeholder=" "
-                                aria-label="Your email address" autocomplete="email">
-                            <label for="email" data-en="Email Address" data-tr="E-posta Adresi">Email Address</label>
-                        </div>
-
-                        <div class="form-group input-animated">
-                            <input type="text" id="subject" name="subject" required placeholder=" "
-                                aria-label="Message subject">
-                            <label for="subject" data-en="Subject" data-tr="Konu">Subject</label>
-                        </div>
-
-                        <div class="form-group input-animated">
-                            <textarea id="message" name="message" required placeholder=" "
-                                aria-label="Your message"></textarea>
-                            <label for="message" data-en="Message" data-tr="Mesaj">Message</label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary btn-glow btn-magnetic form-submit"
-                            data-en="Send Message" data-tr="Mesaj Gönder">
-                            <span class="btn-text">Send Message</span>
-                            <span class="btn-loader" style="display: none;">
-                                <span class="loader-dot"></span>
-                                <span class="loader-dot"></span>
-                                <span class="loader-dot"></span>
-                            </span>
-                        </button>
-                    </form>
-                </div>
-
             </div>
         </div>
     </section>
@@ -408,7 +358,6 @@
 
     <script src="js/animations.js"></script>
     <script src="js/script.js"></script>
-    <script src="js/contact.js"></script>
 </body>
 
 </html>

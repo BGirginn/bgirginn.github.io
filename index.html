@@ -39,8 +39,8 @@
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
     <!-- Theme Color -->
-    <meta name="theme-color" content="#60a5fa" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#FACC15" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#CA8A04" media="(prefers-color-scheme: light)">
 
     <!-- Preconnect & Preload -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,6 +56,13 @@
 </head>
 
 <body>
+    <!-- LOADING SCREEN (Uiverse: breezy-ape-20) -->
+    <!-- PASTE HTML HERE -->
+    <div id="loader-wrapper" class="loader-wrapper">
+        <div class="loader-placeholder">Loading...</div>
+    </div>
+    <!-- END LOADING SCREEN -->
+
     <!-- Skip to Content (Accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
@@ -72,9 +79,23 @@
                 <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
             </div>
             <div class="nav-controls">
-                <button class="nav-btn" id="themeToggle" title="Toggle theme" aria-label="Toggle dark/light theme">
-                    <span id="themeIcon">🌙</span>
-                </button>
+                <!-- DARK/LIGHT TOGGLE (Uiverse: fresh-fireant-15) -->
+                <!-- PASTE HTML HERE (Replace the button below) -->
+                <div class="uiverse-toggle-wrapper">
+                    <input type="checkbox" id="themeToggleCheckbox" class="theme-checkbox"
+                        aria-label="Toggle Dark Mode">
+                    <label for="themeToggleCheckbox" class="theme-toggle-placeholder">
+                        <span class="toggle-icon">☀️/🌙</span>
+                    </label>
+                </div>
+
+                <!-- GITHUB BUTTON (Uiverse: rare-treefrog-56) -->
+                <!-- PASTE HTML HERE -->
+                <a href="https://github.com/bgirginn" target="_blank" class="github-btn-placeholder"
+                    aria-label="GitHub">
+                    GitHub
+                </a>
+
                 <button class="nav-btn" id="langToggle" title="Change language" aria-label="Switch language">TR</button>
             </div>
             <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
@@ -134,8 +155,12 @@
             <div class="hero-cta">
                 <a href="projects.html" class="btn btn-primary" data-en="View Projects" data-tr="Projeleri Gör">View
                     Projects</a>
-                <a href="contact.html" class="btn btn-secondary" data-en="Get in Touch" data-tr="İletişim">Get in
-                    Touch</a>
+                <a href="contact.html" class="btn btn-secondary uiverse-touch-me" data-en="Get in Touch"
+                    data-tr="İletişim">
+                    <!-- TOUCH ME ANIMATION (Uiverse: tough-frog-18) -->
+                    <!-- PASTE HTML INSIDE/REPLACE -->
+                    Get in Touch
+                </a>
             </div>
         </div>
 
@@ -302,11 +327,13 @@
                 </div>
                 <div class="footer-col">
                     <h4>Connect</h4>
-                    <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit GitHub profile">GitHub</a>
-                    <a href="https://linkedin.com/in/bora-girgin" target="_blank" rel="noopener noreferrer"
-                        aria-label="Visit LinkedIn profile">LinkedIn</a>
-                    <a href="mailto:girginbora30@gmail.com" aria-label="Send email">Email</a>
+                    <!-- SOCIAL MEDIA LINKS (Uiverse: modern-mouse-31) -->
+                    <!-- PASTE HTML HERE -->
+                    <div class="uiverse-socials-placeholder">
+                        <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
+                        <a href="https://linkedin.com/in/bora-girgin" target="_blank">LinkedIn</a>
+                        <a href="mailto:girginbora30@gmail.com">Email</a>
+                    </div>
                     <a href="contact.html" aria-label="Go to contact form">Contact Form</a>
                 </div>
             </div>

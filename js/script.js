@@ -34,50 +34,74 @@ function performThemeSwitch() {
 initTheme();
 
 // Theme toggle with circular reveal from button position
-document.addEventListener('click', (event) => {
-    const toggleBtn = event.target.closest('#themeToggle');
-    if (!toggleBtn) return;
+document.addEventListener('change', (event) => {
+    // Check if the change event came from our theme checkbox
+    if (event.target.id === 'themeToggleCheckbox') {
+        const isChecked = event.target.checked;
 
-    // Fallback for browsers without View Transition API
-    if (!document.startViewTransition) {
-        performThemeSwitch();
-        return;
-    }
+        // Fallback for browsers without View Transition API
+        if (!document.startViewTransition) {
+            performThemeSwitch();
+            return;
+        }
 
-    // Get click position
-    const x = event.clientX;
-    const y = event.clientY;
-    const endRadius = Math.hypot(
-        Math.max(x, innerWidth - x),
-        Math.max(y, innerHeight - y)
-    );
+        // Get click position - for checkbox we might not have exact click coords easily in 'change' event
+        // SO we approximate or just use center of screen if needed, but let's try to find the label/input rect
+        const rect = event.target.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
 
-    // Start View Transition
-    const transition = document.startViewTransition(() => {
-        performThemeSwitch();
-    });
-
-    // Animate circular reveal from click position
-    transition.ready.then(() => {
-        // ARTIK TERS ÇEVİRME YOK: Her zaman küçükten büyüğe açıl
-        const clipPath = [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`
-        ];
-
-        document.documentElement.animate(
-            {
-                clipPath: clipPath,
-            },
-            {
-                duration: 500,
-                easing: 'ease-in',
-                // Her zaman YENİ gelen görüntüyü animasyonla aç
-                pseudoElement: '::view-transition-new(root)',
-            }
+        const endRadius = Math.hypot(
+            Math.max(x, innerWidth - x),
+            Math.max(y, innerHeight - y)
         );
-    });
+
+        // Start View Transition
+        const transition = document.startViewTransition(() => {
+            // Logic to actually switch the theme content
+            performThemeSwitch();
+        });
+
+        transition.ready.then(() => {
+            const clipPath = [
+                `circle(0px at ${x}px ${y}px)`,
+                `circle(${endRadius}px at ${x}px ${y}px)`
+            ];
+
+            document.documentElement.animate(
+                {
+                    clipPath: clipPath,
+                },
+                {
+                    duration: 500,
+                    easing: 'ease-in',
+                    pseudoElement: '::view-transition-new(root)',
+                }
+            );
+        });
+    }
 });
+
+// Sync Checkbox on Load
+function syncThemeCheckbox(theme) {
+    const checkbox = document.getElementById('themeToggleCheckbox');
+    if (checkbox) {
+        checkbox.checked = theme === 'light'; // Assuming unchecked = dark, checked = light or vice versa. Adjust as needed.
+        // Actually, let's assume Checked = Light (Sun) and Unchecked = Dark (Moon)
+        // Adjust based on user preference
+        checkbox.checked = theme === 'light';
+    }
+}
+// Hook into initTheme
+const originalInitTheme = initTheme; // preserve if needed, but we can just add to it.
+// We'll just call syncThemeCheckbox at the end of the file or modify initTheme.
+// Let's modify initTheme above instead if possible, but since we are replacing chunks, let's just run it here.
+const currentTheme = document.documentElement.getAttribute('data-theme');
+syncThemeCheckbox(currentTheme);
+
+// Also update performThemeSwitch to sync checkbox if triggered programmatically
+// (We can't easily modify performThemeSwitch without replacing it, so we'll just leave it for now
+// since the checkbox IS the trigger usually).
 
 // ===========================
 // LANGUAGE TOGGLE
@@ -446,6 +470,17 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===========================
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
+
+    // Custom Loader Logic
+    const loader = document.getElementById('loader-wrapper');
+    if (loader) {
+        setTimeout(() => {
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500); // Transition duration
+        }, 800); // Minimal display time
+    }
 });
 
 // ===========================
@@ -523,11 +558,11 @@ window.addEventListener('load', function () {
 // ===========================
 (function () {
     // Create back to top button
-    const backToTop = document.createElement('button');
-    backToTop.className = 'back-to-top';
-    backToTop.innerHTML = '↑';
-    backToTop.setAttribute('aria-label', 'Back to top');
-    backToTop.setAttribute('title', 'Back to top');
+    // (Uiverse: hungry-parrot-44)
+    const backToTop = document.createElement('div'); // Changed to div to allow complex HTML
+    backToTop.className = 'back-to-top-wrapper';
+    // PASTE HTML HERE (Inner content)
+    backToTop.innerHTML = '<button class="back-to-top-placeholder" aria-label="Back to top">↑</button>';
     document.body.appendChild(backToTop);
 
     // Show/hide based on scroll position
