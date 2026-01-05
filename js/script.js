@@ -508,12 +508,32 @@ window.addEventListener('load', function () {
 // BACK TO TOP BUTTON
 // ===========================
 (function () {
-    // Create back to top button
-    // (Uiverse: hungry-parrot-44)
-    const backToTop = document.createElement('div'); // Changed to div to allow complex HTML
+    // Create back to top button (Uiverse style)
+    const backToTop = document.createElement('div');
     backToTop.className = 'back-to-top-wrapper';
-    // PASTE HTML HERE (Inner content)
-    backToTop.innerHTML = '<button class="back-to-top-placeholder" aria-label="Back to top">↑</button>';
+    backToTop.innerHTML = `
+        <button class="back-to-top-btn" aria-label="Back to top">
+            <div class="text">
+                <span>B</span><span>a</span><span>c</span><span>k</span>
+            </div>
+            <div class="clone">
+                <span>B</span><span>a</span><span>c</span><span>k</span>
+            </div>
+            <svg
+                stroke-width="2"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                ></path>
+            </svg>
+        </button>
+    `;
     document.body.appendChild(backToTop);
 
     // Show/hide based on scroll position
