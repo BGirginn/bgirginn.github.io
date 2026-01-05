@@ -287,6 +287,50 @@
         </div>
     </section>
 
+    <!-- PCB INSPECTION MODAL -->
+    <div id="pcbModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+        <div class="modal-backdrop" data-close-modal></div>
+        <div class="modal-content">
+            <button class="modal-close" data-close-modal aria-label="Close modal">&times;</button>
+            <h2 id="modalTitle" class="modal-title">PCB Details</h2>
+
+            <!-- Modal Tabs -->
+            <div class="modal-tabs" role="tablist">
+                <button class="modal-tab active" role="tab" aria-selected="true" data-tab="top">Top View</button>
+                <button class="modal-tab" role="tab" aria-selected="false" data-tab="bottom">Bottom View</button>
+                <button class="modal-tab" role="tab" aria-selected="false" data-tab="specs">Specs</button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <div class="modal-panel active" data-panel="top">
+                    <div class="modal-image-placeholder">
+                        <span class="placeholder-icon">🔍</span>
+                        <p>Top view image placeholder</p>
+                    </div>
+                </div>
+                <div class="modal-panel" data-panel="bottom">
+                    <div class="modal-image-placeholder">
+                        <span class="placeholder-icon">🔄</span>
+                        <p>Bottom view image placeholder</p>
+                    </div>
+                </div>
+                <div class="modal-panel" data-panel="specs">
+                    <div class="modal-specs">
+                        <div class="spec-row"><span class="spec-key">Layers:</span><span class="spec-value"
+                                id="specLayers">4</span></div>
+                        <div class="spec-row"><span class="spec-key">Dimensions:</span><span class="spec-value"
+                                id="specDimensions">100mm × 80mm</span></div>
+                        <div class="spec-row"><span class="spec-key">Technology:</span><span class="spec-value"
+                                id="specTech">FR4, Lead-free</span></div>
+                        <div class="spec-row"><span class="spec-key">Design Tool:</span><span class="spec-value"
+                                id="specTool">KiCad 7.0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
@@ -315,9 +359,10 @@
         </div>
     </footer>
 
-    <script src="animations.js"></script>
-    <script src="script.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/script.js"></script>
     <script src="js/gallery-explode.js"></script>
+    <script src="js/gallery-modal.js"></script>
 </body>
 
 </html>

@@ -13,12 +13,20 @@
     --secondary-color: #a78bfa;
     --accent-color: #22d3ee;
     /* Electric cyan for traces */
+    --success-color: #22c55e;
+    /* Success/confirmation green */
     --bg-dark: #0a0a0a;
     --bg-darker: #050505;
+    --bg-muted: #0f0f0f;
+    /* Section alternates */
+    --bg-gradient-start: #1a1a2e;
+    /* Hero gradient start */
     --bg-card: rgba(25, 25, 30, 0.6);
     --bg-card-solid: #161618;
     --text-primary: #e0e0e0;
     --text-secondary: #b0b0b0;
+    --text-hero: #f5f5f5;
+    /* Hero title color */
     --border-color: rgba(255, 255, 255, 0.1);
     --border-glow: rgba(96, 165, 250, 0.3);
     --particle-color: rgba(96, 165, 250, 0.6);
@@ -51,8 +59,11 @@
 [data-theme="light"] {
     --bg-dark: #F8FAFC;
     --bg-card: #FFFFFF;
+    --bg-muted: #f7f5f2;
+    --bg-gradient-start: #ebe7df;
     --text-primary: #0F172A;
     --text-secondary: #475569;
+    --text-hero: #1f1f1f;
     --primary-color: #2563EB;
     --secondary-color: #7C3AED;
     --border-color: #E2E8F0;
@@ -724,6 +735,73 @@ h6 {
 .skill-tag:hover {
     background: rgba(96, 165, 250, 0.2);
     transform: translateY(-2px);
+}
+
+/* ===========================
+   PROOF BADGES (Trust Signals)
+=========================== */
+.proof-badges {
+    padding: 40px 0;
+    background: var(--bg-muted, #0f0f0f);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme="light"] .proof-badges {
+    background: var(--bg-muted, #f7f5f2);
+}
+
+.badges-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px 40px;
+}
+
+.proof-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all var(--dur-2) var(--ease-out);
+}
+
+.proof-badge:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+[data-theme="light"] .proof-badge {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.badge-icon {
+    font-size: 20px;
+}
+
+.badge-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .badges-grid {
+        gap: 12px 16px;
+    }
+
+    .proof-badge {
+        padding: 10px 16px;
+    }
+
+    .badge-label {
+        font-size: 13px;
+    }
 }
 
 /* ===========================
@@ -2086,6 +2164,167 @@ h6 {
     .particle-canvas {
         display: none;
     }
+}
+
+/* ===========================
+   MODAL (PCB Gallery)
+=========================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal[hidden] {
+    display: none;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-card-solid, #161618);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 80vh;
+    overflow: auto;
+    padding: 30px;
+    animation: modalIn var(--dur-3) var(--ease-out);
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+[data-theme="light"] .modal-content {
+    background: #ffffff;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 24px;
+    cursor: pointer;
+    transition: all var(--dur-2) var(--ease-out);
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.modal-title {
+    font-size: 24px;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    padding-right: 40px;
+}
+
+.modal-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+}
+
+.modal-tab {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all var(--dur-2) var(--ease-out);
+}
+
+.modal-tab:hover {
+    background: rgba(96, 165, 250, 0.1);
+    color: var(--primary-color);
+}
+
+.modal-tab.active {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.modal-panel {
+    display: none;
+}
+
+.modal-panel.active {
+    display: block;
+}
+
+.modal-image-placeholder {
+    background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(167, 139, 250, 0.1));
+    border-radius: 12px;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.modal-image-placeholder .placeholder-icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.modal-image-placeholder p {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.modal-specs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(96, 165, 250, 0.05);
+    border-radius: 8px;
+}
+
+.spec-key {
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.spec-value {
+    color: var(--primary-color);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
 }
 
 /* ===========================
