@@ -392,59 +392,10 @@ if (document.querySelector('.cv-nav')) {
 }
 
 // ===========================
-// SCROLL ANIMATIONS (Enhanced with Motion Tokens)
+// SCROLL REVEAL - HANDLED BY animations.js
 // ===========================
-
-// Global motion preference
-const REDUCE_MOTION = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-/**
- * Initialize scroll reveal system
- * Uses CSS classes for animation to respect motion tokens
- */
-function initScrollReveal() {
-    // Elements that should reveal on scroll
-    const revealElements = document.querySelectorAll('[data-aos], [data-reveal], .reveal');
-
-    if (revealElements.length === 0) return;
-
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -80px 0px'
-    };
-
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Apply stagger delay if in a group
-                const container = entry.target.closest('[data-reveal-stagger]');
-                if (container && !REDUCE_MOTION) {
-                    const siblings = Array.from(container.querySelectorAll('[data-aos], [data-reveal], .reveal'));
-                    const index = siblings.indexOf(entry.target);
-                    entry.target.style.transitionDelay = `${index * 60}ms`;
-                }
-
-                // Add revealed class
-                entry.target.classList.add('aos-animate', 'revealed');
-
-                // Stop observing once revealed
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    revealElements.forEach(el => {
-        // Set initial state (CSS handles this, but ensure consistency)
-        if (!REDUCE_MOTION && !el.classList.contains('aos-animate')) {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(var(--lift, 10px))';
-        }
-        revealObserver.observe(el);
-    });
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initScrollReveal);
+// Scroll reveal animations are now unified in js/animations.js
+// This removes duplicate logic that was targeting different selectors
 
 // ===========================
 // SMOOTH SCROLL

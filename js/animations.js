@@ -419,59 +419,13 @@ function initTimelineReveal() {
 }
 
 // ===========================
-// FORM ANIMATIONS
+// FORM ANIMATIONS - REMOVED
 // ===========================
-function initFormAnimations() {
-    const form = document.querySelector('#contactForm');
-    if (!form) return;
-
-    const inputs = form.querySelectorAll('input, textarea');
-
-    inputs.forEach(input => {
-        // Focus animation
-        input.addEventListener('focus', () => {
-            if (AnimationConfig.reducedMotion) return;
-            const parent = input.closest('.form-group');
-            if (parent) {
-                anime({
-                    targets: parent,
-                    scale: [1, 1.02],
-                    duration: AnimationConfig.durations.fast,
-                    easing: AnimationConfig.easings.smooth
-                });
-            }
-        });
-
-        input.addEventListener('blur', () => {
-            if (AnimationConfig.reducedMotion) return;
-            const parent = input.closest('.form-group');
-            if (parent) {
-                anime({
-                    targets: parent,
-                    scale: [1.02, 1],
-                    duration: AnimationConfig.durations.fast,
-                    easing: AnimationConfig.easings.smooth
-                });
-            }
-        });
-    });
-
-    // Form submit animation
-    form.addEventListener('submit', (e) => {
-        const btn = form.querySelector('button[type="submit"]');
-        if (btn && !AnimationConfig.reducedMotion) {
-            anime({
-                targets: btn,
-                scale: [1, 0.95, 1],
-                duration: 300,
-                easing: 'easeInOutQuad'
-            });
-        }
-    });
-}
+// Contact page uses email links only, no form present.
+// Form animations removed to prevent console errors.
 
 // ===========================
-// SUCCESS CHECKMARK
+// SUCCESS CHECKMARK - KEPT FOR FUTURE USE
 // ===========================
 function animateSuccessCheck(container) {
     const successMsg = container || document.querySelector('.success-message');
@@ -495,37 +449,10 @@ function animateSuccessCheck(container) {
 }
 
 // ===========================
-// PCB EXPLODED VIEW
+// PCB EXPLODED VIEW - HANDLED BY gallery-explode.js
 // ===========================
-function initPCBExplodedView() {
-    const container = document.querySelector('[data-animate="exploded-pcb"]');
-    if (!container || AnimationConfig.reducedMotion) return;
-
-    const components = container.querySelectorAll('.pcb-component');
-    if (components.length === 0) return;
-
-    const animation = anime({
-        targets: components,
-        translateY: (el, i) => [0, -20 - (i * 15)],
-        translateX: (el, i) => [0, (i % 2 === 0 ? -10 : 10)],
-        rotate: (el, i) => [0, (i % 2 === 0 ? -3 : 3)],
-        opacity: [1, 0.85],
-        autoplay: false,
-        easing: 'easeOutQuad'
-    });
-
-    // Scroll sync
-    window.addEventListener('scroll', () => {
-        const rect = container.getBoundingClientRect();
-        const start = window.innerHeight * 0.8;
-        const end = -rect.height * 0.5;
-
-        if (rect.top < start && rect.top > end) {
-            const progress = 1 - (rect.top / start);
-            animation.seek(Math.min(progress, 1) * animation.duration);
-        }
-    }, { passive: true });
-}
+// PCB exploded view animation is now handled by GSAP in gallery-explode.js
+// This removes duplicate/conflicting anime.js logic
 
 // ===========================
 // INITIALIZATION
@@ -548,10 +475,9 @@ function initGlobalAnimations() {
     initScrollIndicator();
     initScrollProgress();
     initTimelineReveal();
-    initPCBExplodedView();
+    // PCB exploded view handled by gallery-explode.js (GSAP)
 
-    // Form & accordion
-    initFormAnimations();
+    // Accordion only (form removed - no form on contact page)
     initAccordions();
 
     console.log('✨ Animations initialized', AnimationConfig.reducedMotion ? '(reduced motion)' : '');

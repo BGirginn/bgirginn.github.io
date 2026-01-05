@@ -145,6 +145,119 @@
         .upload-note strong {
             color: var(--secondary-color);
         }
+
+        /* EXPLODED PCB VIEW STYLES */
+        .exploded-section {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(96, 165, 250, 0.05) 50%, var(--bg-dark) 100%);
+        }
+
+        .exploded-section .section-title {
+            text-align: center;
+            font-size: clamp(32px, 5vw, 48px);
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .exploded-section .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 60px;
+        }
+
+        .exploded-pcb {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px;
+            perspective: 1000px;
+        }
+
+        .pcb-layer {
+            width: 100%;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            transition: transform 0.6s ease, opacity 0.6s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .pcb-layer[data-layer="silkscreen-top"] {
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            color: #333;
+        }
+
+        .pcb-layer[data-layer="soldermask-top"],
+        .pcb-layer[data-layer="soldermask-bottom"] {
+            background: linear-gradient(135deg, #2d5a27 0%, #1a3d16 100%);
+        }
+
+        .pcb-layer[data-layer="copper-top"],
+        .pcb-layer[data-layer="copper-bottom"] {
+            background: linear-gradient(135deg, #d4a028 0%, #b8860b 100%);
+        }
+
+        .pcb-layer[data-layer="substrate"] {
+            background: linear-gradient(135deg, #c4a35a 0%, #8b7355 100%);
+            height: 80px;
+        }
+
+        .layer-label {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .pcb-callout {
+            position: absolute;
+            right: -180px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .pcb-callout::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            width: 25px;
+            height: 1px;
+            background: var(--primary-color);
+        }
+
+        .pcb-callout[data-callout="1"] {
+            top: 60px;
+        }
+
+        .pcb-callout[data-callout="2"] {
+            top: 160px;
+        }
+
+        .pcb-callout[data-callout="3"] {
+            top: 280px;
+        }
+
+        @media (max-width: 900px) {
+            .pcb-callout {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -282,6 +395,39 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLODED PCB VIEW -->
+    <section class="exploded-section" data-animate="scroll-reveal">
+        <div class="container">
+            <h2 class="section-title">PCB Layer Anatomy</h2>
+            <p class="section-subtitle">Scroll to explore the construction of a multi-layer PCB</p>
+
+            <div class="exploded-pcb">
+                <div class="pcb-layer" data-layer="silkscreen-top">
+                    <span class="layer-label">Top Silkscreen</span>
+                </div>
+                <div class="pcb-layer" data-layer="soldermask-top">
+                    <span class="layer-label">Top Solder Mask</span>
+                </div>
+                <div class="pcb-layer" data-layer="copper-top">
+                    <span class="layer-label">Top Copper (Signal)</span>
+                </div>
+                <div class="pcb-layer" data-layer="substrate">
+                    <span class="layer-label">FR4 Substrate</span>
+                </div>
+                <div class="pcb-layer" data-layer="copper-bottom">
+                    <span class="layer-label">Bottom Copper (Ground)</span>
+                </div>
+                <div class="pcb-layer" data-layer="soldermask-bottom">
+                    <span class="layer-label">Bottom Solder Mask</span>
+                </div>
+
+                <div class="pcb-callout" data-callout="1">Component mounting area</div>
+                <div class="pcb-callout" data-callout="2">Signal routing layer</div>
+                <div class="pcb-callout" data-callout="3">Ground plane for EMI shielding</div>
             </div>
         </div>
     </section>
