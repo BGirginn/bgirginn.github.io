@@ -37,7 +37,17 @@ initTheme();
 document.addEventListener('change', (event) => {
     // Check if the change event came from our theme checkbox
     if (event.target.id === 'themeToggleCheckbox') {
-        const isChecked = event.target.checked;
+        // Get the VISIBLE toggle element for proper coordinates
+        // The checkbox is hidden, so we need to find the parent .toggle-switch
+        const toggleSwitch = event.target.closest('.toggle-switch');
+
+        // If no toggle switch found, fallback to checkbox
+        const targetElement = toggleSwitch || event.target;
+        const rect = targetElement.getBoundingClientRect();
+
+        // Calculate center of the toggle button
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
 
         // Fallback for browsers without View Transition API
         if (!document.startViewTransition) {
@@ -45,20 +55,15 @@ document.addEventListener('change', (event) => {
             return;
         }
 
-        // Get click position - for checkbox we might not have exact click coords easily in 'change' event
-        // SO we approximate or just use center of screen if needed, but let's try to find the label/input rect
-        const rect = event.target.getBoundingClientRect();
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-
         const endRadius = Math.hypot(
             Math.max(x, innerWidth - x),
             Math.max(y, innerHeight - y)
         );
 
-        // Start View Transition
+        // Start View Transition - the checkbox CSS animation happens immediately
+        // because the :checked state is already applied before this callback
         const transition = document.startViewTransition(() => {
-            // Logic to actually switch the theme content
+            // This changes the theme colors (CSS variables)
             performThemeSwitch();
         });
 
@@ -74,7 +79,7 @@ document.addEventListener('change', (event) => {
                 },
                 {
                     duration: 500,
-                    easing: 'ease-in',
+                    easing: 'ease-out',
                     pseudoElement: '::view-transition-new(root)',
                 }
             );
@@ -509,25 +514,22 @@ window.addEventListener('load', function () {
 // ===========================
 (function () {
     // Create back to top button (Uiverse style)
+    // Create back to top button (Icon Only)
     const backToTop = document.createElement('div');
     backToTop.className = 'back-to-top-wrapper';
     backToTop.innerHTML = `
         <button class="back-to-top-btn" aria-label="Back to top">
-            <div class="text">
-                <span>B</span><span>a</span><span>c</span><span>k</span><span>&nbsp;</span><span>t</span><span>o</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span>
-            </div>
-            <div class="clone">
-                <span>B</span><span>a</span><span>c</span><span>k</span><span>&nbsp;</span><span>t</span><span>o</span><span>&nbsp;</span><span>t</span><span>o</span><span>p</span>
-            </div>
             <svg
-                stroke-width="2"
+                width="32"
+                height="32"
+                stroke-width="3"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
             >
                 <path
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    d="M12 19V5M5 12l7-7 7 7"
                     stroke-linejoin="round"
                     stroke-linecap="round"
                 ></path>

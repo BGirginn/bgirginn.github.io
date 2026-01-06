@@ -152,11 +152,9 @@
             <div class="hero-cta">
                 <a href="projects.html" class="btn btn-primary" data-en="View Projects" data-tr="Projeleri Gör">View
                     Projects</a>
-                <a href="contact.html" class="btn btn-secondary uiverse-touch-me" data-en="Get in Touch"
-                    data-tr="İletişim">
-                    <!-- TOUCH ME ANIMATION (Uiverse: tough-frog-18) -->
-                    <!-- PASTE HTML INSIDE/REPLACE -->
-                    Get in Touch
+                <!-- CONTACT ME CONTRAST BUTTON -->
+                <a href="contact.html" class="btn btn-contrast" data-en="Contact me" data-tr="İletişim">
+                    <span>Contact me</span>
                 </a>
             </div>
         </div>
@@ -170,161 +168,120 @@
     <!-- QUICK INTRO CARDS -->
     <section class="intro-cards" data-animate="scroll-reveal">
         <div class="container">
-            <div class="card-grid" data-animate="stagger-cards">
-                <div class="intro-card card-premium">
-                    <div class="card-icon">⚡</div>
-                    <h3 data-en="Embedded Systems" data-tr="Gömülü Sistemler">Embedded Systems</h3>
-                    <p data-en="Developing IoT solutions with ESP32, STM32, and Arduino platforms"
-                        data-tr="ESP32, STM32 ve Arduino ile IoT çözümleri">Developing IoT
-                        solutions with ESP32, STM32, and Arduino platforms</p>
-                </div>
-                <div class="intro-card card-premium">
-                    <div class="card-icon">📡</div>
-                    <h3 data-en="Wireless Communication" data-tr="Kablosuz İletişim">Wireless Communication</h3>
-                    <p data-en="LoRa networks and industrial automation systems"
+            <section class="stack">
+                <article class="card is-active">
+                    <div class="icon-box" aria-hidden="true">
+                        <!-- lightning -->
+                        <svg viewBox="0 0 24 24" class="icon">
+                            <path d="M13 2L3 14h7l-1 8 12-14h-7l-1-6z" fill="currentColor" />
+                        </svg>
+                    </div>
+
+                    <h3 class="title" data-en="Embedded Systems" data-tr="Gömülü Sistemler">Embedded Systems</h3>
+                    <p class="desc" data-en="Developing IoT solutions with ESP32, STM32, and Arduino platforms"
+                        data-tr="ESP32, STM32 ve Arduino ile IoT çözümleri">Developing IoT solutions with ESP32, STM32,
+                        and Arduino platforms</p>
+                </article>
+
+                <article class="card">
+                    <div class="icon-box" aria-hidden="true">
+                        <!-- antenna -->
+                        <svg viewBox="0 0 24 24" class="icon">
+                            <path
+                                d="M12 2a1 1 0 0 1 1 1v8.2l3.6 3.6a1 1 0 0 1-1.4 1.4L12 13l-3.2 3.2a1 1 0 1 1-1.4-1.4L11 11.2V3a1 1 0 0 1 1-1z"
+                                fill="currentColor" />
+                            <path d="M5.5 19.5a9 9 0 0 1 13 0" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                            <path d="M8.5 16.5a5 5 0 0 1 7 0" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                    </div>
+
+                    <h3 class="title" data-en="Wireless Communication" data-tr="Kablosuz İletişim">Wireless
+                        Communication</h3>
+                    <p class="desc" data-en="LoRa networks and industrial automation systems"
                         data-tr="LoRa ağları ve endüstriyel otomasyon sistemleri">LoRa networks and industrial
                         automation systems</p>
-                </div>
-                <div class="intro-card card-premium">
-                    <div class="card-icon">🔧</div>
-                    <h3 data-en="Hardware Design" data-tr="Donanım Tasarımı">Hardware Design</h3>
-                    <p data-en="PCB design and circuit development with KiCAD"
+                </article>
+
+                <article class="card">
+                    <div class="icon-box" aria-hidden="true">
+                        <!-- wrench -->
+                        <svg viewBox="0 0 24 24" class="icon">
+                            <path d="M21 7.5a6 6 0 0 1-8.2 5.6l-6.9 6.9a2 2 0 0 1-2.8-2.8l6.9-6.9A6 6 0 1 1 21 7.5z"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+
+                    <h3 class="title" data-en="Hardware Design" data-tr="Donanım Tasarımı">Hardware Design</h3>
+                    <p class="desc" data-en="PCB design and circuit development with KiCAD"
                         data-tr="KiCAD ile PCB tasarımı ve devre geliştirme">PCB design and circuit development with
                         KiCAD</p>
-                </div>
-            </div>
+                </article>
+            </section>
         </div>
     </section>
 
-    <!-- PROOF BADGES (Trust Signals) -->
-    <section class="proof-badges" data-animate="scroll-reveal">
+
+
+    <section class="featured-preview" data-animate="scroll-reveal">
         <div class="container">
-            <div class="badges-grid" data-animate="stagger-cards">
-                <div class="proof-badge">
-                    <span class="badge-icon">🏆</span>
-                    <span class="badge-label" data-en="TÜBİTAK Funded" data-tr="TÜBİTAK Destekli">TÜBİTAK Funded</span>
-                </div>
-                <div class="proof-badge">
-                    <span class="badge-icon">📡</span>
-                    <span class="badge-label">LoRa Networks</span>
-                </div>
-                <div class="proof-badge">
-                    <span class="badge-icon">⚙️</span>
-                    <span class="badge-label">ESP32 / STM32</span>
-                </div>
-                <div class="proof-badge">
-                    <span class="badge-icon">🔧</span>
-                    <span class="badge-label" data-en="PCB Design" data-tr="PCB Tasarımı">PCB Design</span>
-                </div>
-                <div class="proof-badge">
-                    <span class="badge-icon">🐧</span>
-                    <span class="badge-label">Linux + Pi</span>
-                </div>
-                <div class="proof-badge">
-                    <span class="badge-icon">🤖</span>
-                    <span class="badge-label" data-en="Robotics" data-tr="Robotik">Robotics</span>
-                </div>
+            <div class="section-header-flex">
+                <h2 class="section-title"><span class="text-highlight">Recent</span> <span
+                        class="text-muted">Work</span></h2>
+                <a href="projects.html" class="view-all-link" data-en="View all projects" data-tr="Tüm projeler">
+                    View all projects
+                    <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+            <div class="projects-grid-new">
+                <!-- Project 1: Pi Control Panel -->
+                <article class="project-card-new">
+                    <div class="card-header-new">
+                        <h3>Pi Control Panel</h3>
+                        <span class="badge-pill">Raspberry Pi</span>
+                    </div>
+                    <p class="card-desc-new">Web-based control panel for Raspberry Pi with system monitoring, GPIO
+                        control, and remote management</p>
+                    <a href="https://github.com/BGirginn/rasp_pi_webUI" target="_blank" class="btn-github-new">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                        </svg>
+                        View on GitHub
+                    </a>
+                </article>
+
+                <!-- Project 2: FOU4 -->
+                <article class="project-card-new">
+                    <div class="card-header-new">
+                        <h3>FOU4 Pentest Toolkit</h3>
+                        <span class="badge-pill">Cyber Security</span>
+                    </div>
+                    <p class="card-desc-new">Comprehensive penetration testing toolkit for Kali Linux with network
+                        scanning, WiFi analysis, and password attacks</p>
+                    <a href="https://github.com/BGirginn/fou4" target="_blank" class="btn-github-new">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+                        </svg>
+                        View on GitHub
+                    </a>
+                </article>
             </div>
         </div>
     </section>
-    <section class="featured-preview" data-animate="scroll-reveal">
-        <div class="container">
-            <h2 class="section-title" data-en="Recent Work" data-tr="Son Çalışmalar">Recent Work</h2>
-            <div class="projects-grid" data-animate="stagger-cards">
-                <a href="projects.html#lora-control" class="project-card card-premium">
-                    <div class="project-icon">🔌</div>
-                    <div class="project-info">
-                        <h3 data-en="LoRa Factory Automation" data-tr="LoRa Fabrika Otomasyonu">LoRa Factory Automation
-                        </h3>
-                        <p data-en="TUBITAK-funded industrial automation using LoRa wireless communication for Talu Textile"
-                            data-tr="Talu Tekstil için LoRa kablosuz iletişim kullanan TÜBİTAK destekli endüstriyel otomasyon">
-                            TUBITAK-funded industrial automation using LoRa wireless communication for Talu Textile</p>
-                        <div class="project-tags">
-                            <span>LoRa</span>
-                            <span>ESP32</span>
-                            <span>Raspberry Pi</span>
-                        </div>
-                        <!-- GITHUB PROJECT BUTTON -->
-                        <div class="project-github-link" style="margin-top: 10px;">
-                            <object data="about:blank" type="text/html">
-                                <a href="https://github.com/bgirginn" target="_blank" class="github-btn-placeholder"
-                                    aria-label="View Source on GitHub" onclick="event.stopPropagation()">
-                                    GitHub
-                                </a>
-                            </object>
-                        </div>
-                    </div>
-                    <span class="project-arrow">→</span>
-                </a>
-                <a href="projects.html#arduino-car" class="project-card card-premium">
-                    <div class="project-icon">🤖</div>
-                    <div class="project-info">
-                        <h3 data-en="Bluetooth Robotics Car" data-tr="Bluetooth Robotik Araba">Bluetooth Robotics Car
-                        </h3>
-                        <p data-en="Award-winning autonomous vehicle with LIDAR tracking and robotic arm for competition"
-                            data-tr="Yarışma için LIDAR takibi ve robotik kol ile ödüllü otonom araç">Award-winning
-                            autonomous vehicle with LIDAR tracking and robotic arm for competition</p>
-                        <div class="project-tags">
-                            <span>Arduino</span>
-                            <span>LIDAR</span>
-                            <span data-en="Robotics" data-tr="Robotik">Robotics</span>
-                        </div>
-                        <!-- GITHUB PROJECT BUTTON -->
-                        <div class="project-github-link" style="margin-top: 10px;">
-                            <object data="about:blank" type="text/html">
-                                <a href="https://github.com/bgirginn" target="_blank" class="github-btn-placeholder"
-                                    aria-label="View Source on GitHub" onclick="event.stopPropagation()">
-                                    GitHub
-                                </a>
-                            </object>
-                        </div>
-                    </div>
-                    <span class="project-arrow">→</span>
-                </a>
-            </div>
-            <div class="text-center">
-                <a href="projects.html" class="btn btn-primary btn-glow" data-en="View All Projects"
-                    data-tr="Tüm Projeler">View All Projects</a>
-            </div>
-        </div>
+    </div>
     </section>
 
     <!-- SKILLS OVERVIEW -->
-    <section class="skills-overview" data-animate="scroll-reveal">
-        <div class="container">
-            <h2 class="section-title" data-en="Technical Skills" data-tr="Teknik Yetenekler">
-                Technical Skills</h2>
-            <div class="skills-grid" data-animate="stagger-cards">
-                <div class="skill-category">
-                    <h3 data-en="Programming" data-tr="Programlama">Programming</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">C/C++</span>
-                        <span class="skill-tag">C# / ASP.NET</span>
-                        <span class="skill-tag">Git</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 data-en="IoT & Embedded" data-tr="IoT ve Gömülü Sistemler">IoT & Embedded</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">ESP32</span>
-                        <span class="skill-tag">STM32</span>
-                        <span class="skill-tag">Raspberry Pi</span>
-                        <span class="skill-tag">Arduino</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 data-en="Engineering Tools" data-tr="Mühendislik Araçları">Engineering Tools</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">KiCAD</span>
-                        <span class="skill-tag">MATLAB</span>
-                        <span class="skill-tag">AutoCAD</span>
-                        <span class="skill-tag">Proteus</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- FOOTER -->
     <footer class="footer">

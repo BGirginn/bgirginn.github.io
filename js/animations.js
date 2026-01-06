@@ -410,8 +410,8 @@ function initTimelineReveal() {
                 targets: el,
                 opacity: [0, 1],
                 translateX: [-20, 0],
-                duration: AnimationConfig.durations.normal,
-                delay: index * 80,
+                duration: AnimationConfig.durations.fast, // Faster animation
+                delay: index * 30, // Reduced delay for quicker loading
                 easing: AnimationConfig.easings.smooth
             });
         });

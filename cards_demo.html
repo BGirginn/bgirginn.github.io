@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Stack Cards</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            --bg: #050505;
+            --surface1: rgba(255, 255, 255, 0.03);
+            --surface2: rgba(255, 255, 255, 0.02);
+            --stroke: rgba(255, 255, 255, 0.06);
+            --stroke-hover: rgba(245, 163, 0, 0.35);
+            --stroke-active: rgba(245, 163, 0, 0.45);
+
+            --text: rgba(255, 255, 255, 0.92);
+            --muted: rgba(255, 255, 255, 0.55);
+
+            --accent: #f5a300;
+            /* Orange */
+            --accent-glow: rgba(245, 163, 0, 0.25);
+
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+            --inner-glow: rgba(245, 163, 0, 0.20);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            background-color: var(--bg);
+            /* Subtle ambient background noise/gradient */
+            background-image:
+                radial-gradient(1200px 800px at 20% 10%, rgba(245, 163, 0, 0.08), transparent 60%),
+                radial-gradient(900px 700px at 90% 40%, rgba(255, 255, 255, 0.05), transparent 55%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            padding: 28px 18px;
+            color: var(--text);
+        }
+
+        /* Stack Container */
+        .stack {
+            width: min(520px, 94vw);
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        /* Card Component */
+        .card {
+            position: relative;
+            border-radius: 18px;
+            padding: 22px;
+            /* Subtle top-to-bottom surface gradient */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015));
+            border: 1px solid var(--stroke);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            min-height: 150px;
+            cursor: default;
+            /* Or pointer if clickable */
+        }
+
+        /* Inner Vignette / Soft Lighting */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(900px 220px at 30% 0%, rgba(255, 255, 255, 0.06), transparent 55%),
+                radial-gradient(700px 260px at 90% 120%, rgba(0, 0, 0, 0.60), transparent 55%);
+            pointer-events: none;
+        }
+
+        /* Hover State */
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--stroke-hover);
+            box-shadow:
+                0 18px 50px rgba(0, 0, 0, 0.65),
+                0 0 0 1px var(--inner-glow) inset;
+            /* Subtle inner orange ring */
+        }
+
+        /* Active State (Selected) */
+        .card.is-active {
+            border-color: var(--stroke-active);
+            box-shadow:
+                0 18px 50px rgba(0, 0, 0, 0.65),
+                0 0 0 1px rgba(245, 163, 0, 0.22) inset;
+        }
+
+        /* Icon Box */
+        .icon-box {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            /* Matte premium square look */
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        /* Typography */
+        .title {
+            margin: 18px 0 8px 0;
+            font-size: 22px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            /* Slight tightening for premium feel */
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        .desc {
+            margin: 0;
+            max-width: 46ch;
+            font-size: 14px;
+            line-height: 1.55;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Accessibility: Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            .card {
+                transition: none;
+                transform: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="stack" aria-label="Services Overview">
+
+        <!-- Card 1: Active -->
+        <article class="card is-active">
+            <div class="icon-box" aria-hidden="true">
+                <!-- Lightning Icon -->
+                <svg viewBox="0 0 24 24" class="icon">
+                    <path d="M13 2L3 14h7l-1 8 12-14h-7l-1-6z" fill="currentColor" />
+                </svg>
+            </div>
+            <h3 class="title">Embedded Systems</h3>
+            <p class="desc">Developing IoT solutions with ESP32, STM32, and Arduino platforms</p>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="card">
+            <div class="icon-box" aria-hidden="true">
+                <!-- Antenna Icon -->
+                <svg viewBox="0 0 24 24" class="icon">
+                    <path
+                        d="M12 2a1 1 0 0 1 1 1v8.2l3.6 3.6a1 1 0 0 1-1.4 1.4L12 13l-3.2 3.2a1 1 0 1 1-1.4-1.4L11 11.2V3a1 1 0 0 1 1-1z"
+                        fill="currentColor" />
+                    <path d="M5.5 19.5a9 9 0 0 1 13 0" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" />
+                    <path d="M8.5 16.5a5 5 0 0 1 7 0" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" />
+                </svg>
+            </div>
+            <h3 class="title">Wireless Communication</h3>
+            <p class="desc">LoRa networks and industrial automation systems</p>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="card">
+            <div class="icon-box" aria-hidden="true">
+                <!-- Wrench Icon -->
+                <svg viewBox="0 0 24 24" class="icon">
+                    <path d="M21 7.5a6 6 0 0 1-8.2 5.6l-6.9 6.9a2 2 0 0 1-2.8-2.8l6.9-6.9A6 6 0 1 1 21 7.5z" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <h3 class="title">Hardware Design</h3>
+            <p class="desc">PCB design and circuit development with KiCAD</p>
+        </article>
+
+    </section>
+
+</body>
+
+</html>
