@@ -45,61 +45,149 @@
     <style>
         /* Print Styles for PDF Export */
         @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            html,
+            body {
+                height: auto !important;
+                overflow: visible !important;
+            }
+
             body {
                 background: white !important;
                 color: black !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             .navbar,
             .cv-sidebar,
             .footer,
             .download-btn,
-            .back-to-top {
+            .back-to-top,
+            .back-to-top-wrapper {
                 display: none !important;
             }
 
             .cv-section {
-                padding: 0 !important;
+                padding: 10px 0 !important;
+                min-height: 0 !important;
+                height: auto !important;
             }
 
             .cv-layout {
                 display: block !important;
+                max-width: 100% !important;
+                padding: 0 10px !important;
+            }
+
+            .cv-content {
+                width: 100% !important;
+                max-width: 100% !important;
             }
 
             .cv-container {
                 background: white !important;
                 border: none !important;
                 box-shadow: none !important;
-                padding: 20px !important;
+                padding: 15px !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .cv-header {
+                padding-bottom: 15px !important;
+                margin-bottom: 15px !important;
             }
 
             .cv-header h1 {
                 color: black !important;
+                font-size: 28px !important;
+            }
+
+            .cv-header .title {
+                font-size: 16px !important;
+            }
+
+            .cv-block {
+                margin-bottom: 20px !important;
+                page-break-inside: avoid;
             }
 
             .cv-block h2 {
                 color: #CA8A04 !important;
+                font-size: 18px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .cv-item {
+                margin-bottom: 12px !important;
+                page-break-inside: avoid;
             }
 
             .cv-item h3 {
                 color: black !important;
+                font-size: 14px !important;
             }
 
             .cv-item p,
             .cv-item li,
             .cv-contact {
                 color: #333 !important;
+                font-size: 12px !important;
+                line-height: 1.4 !important;
             }
 
             .skill-group {
                 background: #f5f5f5 !important;
                 border-color: #ddd !important;
+                padding: 10px !important;
+            }
+
+            .skills-grid-cv {
+                gap: 10px !important;
             }
 
             a {
                 color: #CA8A04 !important;
                 text-decoration: none !important;
             }
+
+            /* Prevent orphan pages */
+            .cv-container>* {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Download Button - Animated Style */
+        .download-btn {
+            padding: 1.3em 3em;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #FACC15;
+            background-color: #1a1a1a;
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .download-btn:hover {
+            background-color: #FACC15;
+            box-shadow: 0px 15px 20px rgba(250, 204, 21, 0.4);
+            color: #000;
+            transform: translateY(-7px);
+        }
+
+        .download-btn:active {
+            transform: translateY(-1px);
         }
 
         .cv-section {
@@ -449,8 +537,7 @@
                                     rel="noopener noreferrer">LinkedIn</a></span>
                             <span>📍 Sakarya, Türkiye</span>
                         </div>
-                        <button type="button" class="btn btn-primary download-btn" id="printCvBtn"
-                            style="margin-top: 25px;" aria-label="Print or save CV as PDF">
+                        <button type="button" class="download-btn" id="printCvBtn" aria-label="Print or save CV as PDF">
                             🖨️ Print / Save as PDF
                         </button>
                     </div>
