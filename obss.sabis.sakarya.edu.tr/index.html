@@ -16,15 +16,19 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SABİS</title>
-    <style>
-      @font-face {
-        font-family: 'Gotham';
-        src: local('Gotham Bold'), local('Gotham-Bold'), url('https://fonts.cdnfonts.com/s/16257/Gotham-Bold.woff') format('woff');
-        font-weight: bold;
-        font-style: normal;
-      }
-      :root{
+  <title>SABİS  .bubble {
+    display: inline-block;
+    width: 33.3333%;
+    min-width: 90px;
+    max-width: 420px;
+    background: var(--bubble);
+    border-radius: 10px;
+    padding: 18px 18px 18px 22px;
+    position: relative;
+    box-sizing: border-box;
+  }</title>
+  <style>
+    :root{
       --topbar-left:#353640;
       --topbar-mid:#1F1F2B;
       --page:#F0F1F7;
@@ -76,11 +80,6 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       font-size: 32px;
       line-height:1;
       height:56px;
-    }
-    .brand > div:last-child {
-      font-family: 'Gotham', 'Arial', sans-serif;
-      font-weight: bold;
-      letter-spacing: .5px;
     }
     .mark{
       width:38px;
@@ -390,65 +389,10 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     </header>
     <!-- SCREEN 1 -->
     <main class="content" id="screen1">
-      <div class="profile-card" id="openProfile">
+      <div class="pill" id="openProfile">
         <span class="mini" aria-hidden="true"></span>
-        <span class="profile-text">Profil Detayları</span>
+        <span>Profil Detayları</span>
       </div>
-          .profile-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #F6F8FA;
-            border: 1px solid #EBEEF7;
-            border-radius: 10px;
-            padding: 12px 22px;
-            margin-bottom: 10px;
-            color: #7B8594;
-            font-weight: 500;
-            font-size: 22px;
-            box-shadow: 0 1px 2px rgba(60,72,88,0.03);
-            width: 100%;
-            max-width: 340px;
-            min-height: 48px;
-            box-sizing: border-box;
-          }
-          .profile-card .mini {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            border: 2px solid #9CA6B3;
-            position: relative;
-            opacity: .9;
-            background: none;
-          }
-          .profile-card .mini:before {
-            content: "";
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #9CA6B3;
-            position: absolute;
-            left: 50%;
-            top: 6px;
-            transform: translateX(-50%);
-          }
-          .profile-card .mini:after {
-            content: "";
-            width: 18px;
-            height: 9px;
-            border-radius: 999px 999px 9px 9px;
-            background: #C3CBD6;
-            position: absolute;
-            left: 50%;
-            bottom: 2px;
-            transform: translateX(-50%);
-          }
-          .profile-card .profile-text {
-            font-size: 20px;
-            font-weight: 500;
-            color: #7B8594;
-            letter-spacing: 0.01em;
-          }
       <section class="card" aria-label="Duyurular">
         <h2>Duyurular</h2>
         <div class="line"></div>
