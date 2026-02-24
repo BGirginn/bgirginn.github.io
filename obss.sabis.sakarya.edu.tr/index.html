@@ -99,7 +99,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       margin-left:auto;
       display:flex;
       align-items:center;
-      gap:20px;
+      gap:12px;
       opacity:.9;
       transform:scale(0.9);
     }
@@ -210,13 +210,24 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       content:"";
       position:absolute;
       left: 26px;
-      top: 0;
+      top: 20px;
       bottom: 0;
-      width: 5.1px;
+      width: 4.6px;
       border-radius: 999px;
       background: #e5e7eb;
       opacity:.95;
       z-index:0;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;
+      left: 26px;
+      top: 0;
+      width: 20px;
+      height: 4.6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+      z-index:1;
     }
     .t-item{
       position:relative;
@@ -233,6 +244,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       border-radius: 50%;
       background: var(--blue);
       box-shadow: 0 0 0 4px rgba(240,241,247,1);
+      z-index:2;
     }
       /* Noktalar arası gri çizgi */
       .t-item:not(:last-child) .dot::after {
