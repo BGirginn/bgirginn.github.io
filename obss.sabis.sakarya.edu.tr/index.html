@@ -389,10 +389,65 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     </header>
     <!-- SCREEN 1 -->
     <main class="content" id="screen1">
-      <div class="pill" id="openProfile">
+      <div class="profile-card" id="openProfile">
         <span class="mini" aria-hidden="true"></span>
-        <span>Profil Detayları</span>
+        <span class="profile-text">Profil Detayları</span>
       </div>
+          .profile-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #F6F8FA;
+            border: 1px solid #EBEEF7;
+            border-radius: 10px;
+            padding: 12px 22px;
+            margin-bottom: 10px;
+            color: #7B8594;
+            font-weight: 500;
+            font-size: 22px;
+            box-shadow: 0 1px 2px rgba(60,72,88,0.03);
+            width: 100%;
+            max-width: 340px;
+            min-height: 48px;
+            box-sizing: border-box;
+          }
+          .profile-card .mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 2px solid #9CA6B3;
+            position: relative;
+            opacity: .9;
+            background: none;
+          }
+          .profile-card .mini:before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #9CA6B3;
+            position: absolute;
+            left: 50%;
+            top: 6px;
+            transform: translateX(-50%);
+          }
+          .profile-card .mini:after {
+            content: "";
+            width: 18px;
+            height: 9px;
+            border-radius: 999px 999px 9px 9px;
+            background: #C3CBD6;
+            position: absolute;
+            left: 50%;
+            bottom: 2px;
+            transform: translateX(-50%);
+          }
+          .profile-card .profile-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: #7B8594;
+            letter-spacing: 0.01em;
+          }
       <section class="card" aria-label="Duyurular">
         <h2>Duyurular</h2>
         <div class="line"></div>
