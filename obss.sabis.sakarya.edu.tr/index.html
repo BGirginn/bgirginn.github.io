@@ -209,10 +209,10 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     .timeline:after{
       content:"";
       position:absolute;
-      left: 11px;
+      left: 26px;
       top: 0;
       bottom: 0;
-      width: 6px;
+      width: 5.1px;
       border-radius: 999px;
       background: #e5e7eb;
       opacity:.95;
@@ -234,6 +234,19 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       background: var(--blue);
       box-shadow: 0 0 0 4px rgba(240,241,247,1);
     }
+      /* Noktalar arası gri çizgi */
+      .t-item:not(:last-child) .dot::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        width: 2px;
+        height: calc(100% + 10px);
+        background: #bbb;
+        transform: translateX(-50%);
+        z-index: 0;
+        opacity: 0.7;
+      }
     .dot.orange{ background: var(--orange); }
     .date{
       color: #B1BAC6;
@@ -389,7 +402,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     <header class="topbar">
       <div class="brand">
         <div class="mark" aria-hidden="true">
-          <img src="sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;background:#fff;border-radius:50%;box-shadow:0 1px 4px #0001;" />
+          <img src="sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:cover;display:block;border-radius:50%;background:none;box-shadow:0 1px 4px #0001;" />
         </div>
         <div>SABİS</div>
       </div>
