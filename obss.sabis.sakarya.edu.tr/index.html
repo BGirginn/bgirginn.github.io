@@ -115,9 +115,9 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       width:100%;
       display:block;
     }
-    .menu:first-child span:nth-child(1){ width: 45%; margin-left: 0; }
+    .menu:first-child span:nth-child(1){ width: 45%; margin-left: 55%; }
     .menu:first-child span:nth-child(2){ width: 100%; margin-left: 0; }
-    .menu:first-child span:nth-child(3){ width: 70%; margin-left: 0; }
+    .menu:first-child span:nth-child(3){ width: 70%; margin-left: 30%; }
     .user-ico{
       width:28px;height:28px;
       border-radius:50%;
@@ -209,13 +209,14 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     .timeline:after{
       content:"";
       position:absolute;
-      left: 40px;
-      top: 26px;
-      bottom: 18px;
+      left: 11px;
+      top: 0;
+      bottom: 0;
       width: 6px;
       border-radius: 999px;
-      background: var(--timeline2);
+      background: #e5e7eb;
       opacity:.95;
+      z-index:0;
     }
     .t-item{
       position:relative;
@@ -388,7 +389,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     <header class="topbar">
       <div class="brand">
         <div class="mark" aria-hidden="true">
-          <img src="sabislogo.png" alt="SABİS Logo" style="width:32px;height:32px;object-fit:contain;display:block;" />
+          <img src="sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;background:#fff;border-radius:50%;box-shadow:0 1px 4px #0001;" />
         </div>
         <div>SABİS</div>
       </div>
