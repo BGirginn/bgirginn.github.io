@@ -1,0 +1,484 @@
+<!--
+Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünde (max-width 430) aynı renk kodlarıyla klonlayacak şekilde ayarlandı. Renkleri senin attığın ekran görüntüsünden örnekleyip şu ana tonlara kilitledim:
+
+* Topbar gradient: #353640 → #1F1F2B
+* Sayfa arka planı: #F0F1F7
+* Timeline çizgisi: #ECE DF1 (ekranda görünen açık gri)
+* Mavi nokta: #3A97FF
+* Turuncu nokta: #DEA935
+* Duyuru kutusu arka plan: #F6F8FA
+* Kart ayırıcı çizgi: #EBEEF7
+
+> Profil fotoğrafını aynı olsun istiyorsan <img id="avatar"> src kısmına kendi foto URL’ini ya da base64 koy.
+-->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SABİS Clone</title>
+  <style>
+    :root{
+      --topbar-left:#353640;
+      --topbar-mid:#1F1F2B;
+      --page:#F0F1F7;
+      --card:#FFFFFF;
+      --divider:#EBEEF7;
+      --timeline:#ECE DF1;
+      --timeline2:#ECEDEF1;
+      --bubble:#F6F8FA;
+      --blue:#3A97FF;
+      --orange:#DEA935;
+      --muted:#AEB7C4;
+      --muted2:#9AA3AF;
+      --text:#111827;
+      --shadow: 0 10px 30px rgba(0,0,0,.14);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: var(--page);
+      color: var(--text);
+    }
+    .app{
+      width:100%;
+      max-width: 430px;
+      margin:0 auto;
+      min-height:100%;
+      background: var(--page);
+    }
+    .topbar{
+      height: 92px;
+      background: linear-gradient(90deg, var(--topbar-left), var(--topbar-mid) 55%);
+      display:flex;
+      align-items:center;
+      padding: 14px 18px;
+      position:sticky;
+      top:0;
+      z-index:5;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#fff;
+      font-weight:800;
+      letter-spacing:.5px;
+      font-size: 42px;
+      line-height:1;
+    }
+    .mark{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      border: 2px solid rgba(255,255,255,.92);
+      overflow:hidden;
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff1;
+    }
+    .top-icons{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      opacity:.9;
+    }
+    .menu{
+      width:40px; height:26px;
+      display:grid;
+      gap:6px;
+    }
+    .menu span{
+      height:3px;
+      border-radius:4px;
+      background: rgba(255,255,255,.65);
+    }
+    .user-ico{
+      width:34px;height:34px;
+      border-radius:50%;
+      border:2px solid rgba(255,255,255,.4);
+      position:relative;
+    }
+    .user-ico:before{
+      content:"";
+      width:10px;height:10px;border-radius:50%;
+      background: rgba(255,255,255,.6);
+      position:absolute; left:50%; top:8px; transform:translateX(-50%);
+    }
+    .user-ico:after{
+      content:"";
+      width:18px;height:10px;border-radius:999px 999px 10px 10px;
+      background: rgba(255,255,255,.28);
+      position:absolute; left:50%; bottom:6px; transform:translateX(-50%);
+    }
+    .content{
+      padding: 16px 16px 40px 16px;
+    }
+    .pill{
+      width: 230px;
+      background: #EEF0F6;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      height: 44px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 0 16px;
+      color: #7B8594;
+      font-weight:600;
+      cursor:pointer;
+      user-select:none;
+    }
+    .pill .mini{
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid #9CA6B3;
+      position:relative;
+      opacity:.9;
+    }
+    .pill .mini:before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;
+      background:#9CA6B3;
+      position:absolute; left:50%; top:3px; transform:translateX(-50%);
+    }
+    .pill .mini:after{
+      content:"";
+      width:12px;height:6px;border-radius:999px 999px 6px 6px;
+      background:#C3CBD6;
+      position:absolute; left:50%; bottom:1px; transform:translateX(-50%);
+    }
+    .card{
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--divider);
+      border-radius: 10px;
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0;
+      padding: 18px 22px;
+      font-size: 34px;
+      font-weight:800;
+      color:#222;
+    }
+    .card .line{
+      height:1px;
+      background: var(--divider);
+    }
+    .timeline{
+      position:relative;
+      padding: 10px 18px 26px 18px;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;
+      left: 32px;
+      top: 22px;
+      width: 22px;
+      height: 8px;
+      border-radius: 6px;
+      background: var(--timeline2);
+      opacity:.95;
+    }
+    .timeline:after{
+      content:"";
+      position:absolute;
+      left: 40px;
+      top: 26px;
+      bottom: 18px;
+      width: 6px;
+      border-radius: 999px;
+      background: var(--timeline2);
+      opacity:.95;
+    }
+    .t-item{
+      position:relative;
+      padding-left: 74px;
+      padding-top: 14px;
+      padding-bottom: 18px;
+    }
+    .dot{
+      position:absolute;
+      left: 36px;
+      top: 30px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(240,241,247,1);
+    }
+    .dot.orange{ background: var(--orange); }
+    .date{
+      color: #B1BAC6;
+      font-size: 24px;
+      font-weight:500;
+      margin: 0 0 10px 0;
+    }
+    .bubble{
+      display:inline-block;
+      width: 100%;
+      max-width: 640px;
+      background: var(--bubble);
+      border-radius: 10px;
+      padding: 18px 18px 18px 22px;
+      position:relative;
+    }
+    .bubble:before{
+      content:"";
+      position:absolute;
+      left:-10px;
+      top: 18px;
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-right: 12px solid var(--bubble);
+    }
+    .b-title{
+      text-transform:uppercase;
+      letter-spacing:.3px;
+      font-size: 24px;
+      font-weight:700;
+      color: #72ACDC;
+      margin:0 0 8px 0;
+    }
+    .b-title.orange{ color: var(--orange); }
+    .b-desc{
+      margin:0;
+      font-size: 28px;
+      font-weight:600;
+      color:#111827;
+      line-height:1.25;
+    }
+    .modal{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.08);
+      display:none;
+      align-items:flex-start;
+      justify-content:center;
+      padding: 24px 14px;
+      z-index: 20;
+    }
+    .sheet{
+      width:100%;
+      max-width: 520px;
+      background:#fff;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      position:relative;
+      padding: 28px 24px 26px 24px;
+      min-height: calc(100vh - 48px);
+    }
+    .xbtn{
+      position:absolute;
+      right: 14px;
+      top: 14px;
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      border: 1px solid #E7ECF2;
+      background: #F4F6FA;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    .xbtn:before{
+      content:"×";
+      font-size: 42px;
+      line-height:1;
+      color:#6B7280;
+      transform: translateY(-1px);
+    }
+    .pwrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding-top: 22px;
+    }
+    .avatar{
+      width: 220px;
+      height: 220px;
+      object-fit:cover;
+      border-radius: 6px;
+      background:#F3F4F6;
+    }
+    .pname{
+      margin: 22px 0 6px 0;
+      font-size: 44px;
+      font-weight:800;
+      color:#3B3F46;
+      letter-spacing:.2px;
+      text-align:center;
+    }
+    .pid{
+      margin: 0 0 22px 0;
+      font-size: 28px;
+      color:#9AA3AF;
+      font-weight:700;
+      text-align:center;
+    }
+    .pfac{
+      text-align:center;
+      text-transform:uppercase;
+      font-weight:800;
+      color:#6B7280;
+      line-height:1.85;
+      letter-spacing:.5px;
+      font-size: 22px;
+      margin-top: 8px;
+    }
+    .dash{
+      width: 86%;
+      margin: 22px auto 18px auto;
+      border-top: 3px dashed #E7ECF2;
+      opacity:.95;
+    }
+    .pstatus{
+      text-align:center;
+      font-size: 26px;
+      color:#6B7280;
+      font-weight:700;
+    }
+    @media (min-width: 900px){
+      body{ display:flex; justify-content:center; }
+      .app{ box-shadow: 0 0 0 0 transparent; }
+      .sheet{ min-height: 860px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <img src="../sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;" />
+        </div>
+        <div>SABİS</div>
+      </div>
+      <div class="top-icons" aria-hidden="true">
+        <div class="menu" title="Menü">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="menu" title="Menü">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="user-ico" title="Profil"></div>
+      </div>
+    </header>
+    <!-- SCREEN 1 -->
+    <main class="content" id="screen1">
+      <div class="pill" id="openProfile">
+        <span class="mini" aria-hidden="true"></span>
+        <span>Profil Detayları</span>
+      </div>
+      <section class="card" aria-label="Duyurular">
+        <h2>Duyurular</h2>
+        <div class="line"></div>
+        <div class="timeline">
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">24 Şubat, 16:28</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTROMANYETİK DALGA TEORİSİ</div>
+              <p class="b-desc">27.02.2026 Cuma günü yapılacak ders</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">23 Şubat, 21:04</div>
+            <div class="bubble">
+              <div class="b-title">SAYISAL DEVRE TASARIMI</div>
+              <p class="b-desc">Ders saati</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">23 Şubat, 20:51</div>
+            <div class="bubble">
+              <div class="b-title">SAYISAL DEVRE TASARIMI</div>
+              <p class="b-desc">Ders saati</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">21 Şubat, 09:02</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTRİK–ELEKTRONİK LABORATUVARI II</div>
+              <p class="b-desc">DENEY 2: Kırpıcı devreler ve kenetleme devreleri – Besleme gerilim düzenleri</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">20 Şubat, 12:51</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTROMANYETİK DALGA TEORİSİ</div>
+              <p class="b-desc">20.02.2026</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot orange"></span>
+            <div class="date">17 Şubat, 16:56</div>
+            <div class="bubble">
+              <div class="b-title orange">ELEKTRİK–ELEKTRONİK LABORATUVARI II</div>
+              <p class="b-desc">Yeni ödeviniz var. Son teslim tarihi: 26.02.2026</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- SCREEN 2 (Profile modal) -->
+  <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-label="Profil Detayları">
+    <div class="sheet">
+      <button class="xbtn" id="closeProfile" aria-label="Kapat"></button>
+      <div class="pwrap">
+        <img
+          id="avatar"
+          class="avatar"
+          src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=400&q=80"
+          alt="Profil Fotoğrafı"
+        />
+        <div class="pname">BORA GİRGİN</div>
+        <div class="pid">G220100005</div>
+        <div class="pfac">
+          <div>MÜHENDİSLİK FAKÜLTESİ</div>
+          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ BÖLÜMÜ</div>
+          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ PR. (İÖ)</div>
+        </div>
+        <div class="dash"></div>
+        <div class="pstatus">Azami Süre Aşılmadı</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const openProfile = document.getElementById("openProfile");
+    const modal = document.getElementById("profileModal");
+    const closeProfile = document.getElementById("closeProfile");
+    function showModal(){
+      modal.style.display = "flex";
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+    }
+    function hideModal(){
+      modal.style.display = "none";
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    }
+    openProfile.addEventListener("click", showModal);
+    closeProfile.addEventListener("click", hideModal);
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal) hideModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && modal.style.display === "flex") hideModal();
+    });
+  </script>
+</body>
+</html>
