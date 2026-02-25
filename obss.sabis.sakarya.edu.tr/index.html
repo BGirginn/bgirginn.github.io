@@ -76,11 +76,12 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       align-items:center;
       gap:12px;
       color:#fff;
-      font-weight:280;
-      letter-spacing:.5px;
-      font-size: 26px;
-      line-height:1;
-      height:56px;
+        font-weight:280;
+        letter-spacing:.5px;
+        font-size: 26px;
+        line-height:1;
+        height:56px;
+        font-family: 'Gotham Black', Arial, sans-serif;
     }
     .mark{
       width:38px;
@@ -96,12 +97,14 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       margin-right:4px;
     }
     .top-icons{
+      margin-right: 1;
+      padding-right: 1px;
       margin-left:auto;
       display:flex;
       align-items:center;
       gap:12px;
       opacity:.9;
-      transform:scale(0.9);
+      transform:scale(0.9) translateX(8px);
     }
     .menu{
       width:29px; height:20px;
@@ -111,7 +114,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     .menu span{
       height:3px;
       border-radius:4px;
-      background: rgba(255,255,255,.65);
+      background: #484f66;
       width:100%;
       display:block;
     }
@@ -414,9 +417,9 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     <header class="topbar">
       <div class="brand">
         <div class="mark" aria-hidden="true">
-          <img src="../sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;background:none;" />
+          <img src="../sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;background:none;margin-right:-5px;" />
         </div>
-        <div>SABİS</div>
+          <img src="../sabis.png" alt="SABİS" style="height:56px;object-fit:contain;display:block;" />
       </div>
       <div class="top-icons" aria-hidden="true">
         <div class="menu" title="Menü">
@@ -425,14 +428,16 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
         <div class="menu" title="Menü">
           <span></span><span></span><span></span>
         </div>
-        <img src="profile_icon.png" alt="Profil" title="Profil" style="display:block;cursor:pointer;" />
+        <img src="../profile_icon.png" alt="Profil" title="Profil" style="display:block;cursor:pointer;width:32px;height:28px;object-fit:cover;border-radius:50%;margin-left:-10px;" />
       </div>
     </header>
     <!-- SCREEN 1 -->
     <main class="content" id="screen1">
       <div style="display:flex;justify-content:flex-start;margin-bottom:12px;">
         <div class="pill" id="openProfile" style="background:#F6F8FA;border:1px solid #EBEEF7;color:#7B8594;font-weight:425;width:178px;height:44px;box-shadow:none;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:13px;">
-          <span class="mini" aria-hidden="true"></span>
+          <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#e5e7eb;border-radius:50%;overflow:hidden;">
+            <img src="../profile_icon.png" alt="Profil" style="width:26px;height:26px;object-fit:cover;" />
+          </div>
           <span>Profil Detayları</span>
         </div>
       </div>
@@ -497,15 +502,17 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     <div class="sheet" style="display:flex;flex-direction:column;align-items:center;padding-top:28px;">
       <button class="xbtn" id="closeProfile" aria-label="Kapat" style="transform:scale(0.65);"></button>
       <div class="pwrap" style="width:100%;display:flex;flex-direction:column;align-items:center;">
-        <div style="width:96px;height:96px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;margin-bottom:18px;box-shadow:0 2px 8px #0001;">
-          <svg width="48" height="48" fill="#b0b6be" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="4.5"/><ellipse cx="12" cy="17" rx="7" ry="5"/></svg>
+        <div style="margin-bottom:1px;">
+          <img src="../side_bar_icon.png" alt="Profil" style="width:128px;height:128px;object-fit:contain;" />
         </div>
-        <div class="pname" style="font-size:19px;font-weight:400;color:#222;margin-bottom:2px;">BORA GİRGİN</div>
-        <div class="pid" style="font-size:12px;color:#7b8594;margin-bottom:18px;">G220100005</div>
+        <div class="pname" style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">HİRANUR AKPINAR</div>
+        <div class="pid" style="font-size:12px;color:#7b8594;margin-top:7px;margin-bottom:20px;font-weight:400;">
+  B220100035
+</div>
         <div class="pfac" style="font-size:12px;color:#444;text-align:center;line-height:1.5;margin-bottom:14px;font-weight:400;">
           <div>MÜHENDİSLİK FAKÜLTESİ</div>
           <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ BÖLÜMÜ</div>
-          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ PR. (İÖ)</div>
+          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ PR.</div>
         </div>
         <div style="width:80%;height:1px;background:#e5e7eb;margin:10px 0 8px 0;"></div>
         <div class="pstatus" style="font-size:13px;color:#6b7280;font-weight:500;">Azami Süre Aşılmadı</div>
@@ -539,3 +546,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
   </script>
 </body>
 </html>
+
+
+
+
