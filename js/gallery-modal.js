@@ -26,6 +26,7 @@
         }
 
         modal.hidden = false;
+        modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
 
         // Focus first focusable element
@@ -43,11 +44,12 @@
      */
     function closeModal() {
         modal.hidden = true;
+        modal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
         document.removeEventListener('keydown', handleEscape);
 
         // Restore focus
-        if (previousFocus) {
+        if (previousFocus && typeof previousFocus.focus === 'function' && previousFocus.isConnected) {
             previousFocus.focus();
         }
     }
@@ -111,6 +113,8 @@
         if (e.key !== 'Tab') return;
 
         const focusables = modal.querySelectorAll('button:not([hidden]), [tabindex]:not([tabindex="-1"])');
+        if (focusables.length === 0) return;
+
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
 
@@ -122,6 +126,4 @@
             first.focus();
         }
     });
-
-    console.log('✨ PCB Gallery modal initialized');
 })();

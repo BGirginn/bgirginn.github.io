@@ -1,39 +1,15 @@
-# Images Klasörü
+# Images Klasoru
 
-Bu klasöre aşağıdaki görselleri eklemeniz gerekiyor:
+Bu klasor, sitenin paylasim, ikon ve dekoratif gorsellerini tutar.
 
-## Gerekli Görseller
+## Mevcut Dosyalar
 
-### 1. `og-image.png` (Zorunlu)
-- **Boyut:** 1200x630 piksel
-- **Kullanım:** Sosyal medya paylaşımları (Facebook, Twitter, LinkedIn)
-- **İçerik Önerisi:** 
-  - İsminiz: "Bora Girgin"
-  - Unvan: "Embedded Systems & IoT Engineer"
-  - Arka plan: Koyu tema ile uyumlu gradient
-  - Logo veya ikon
+- `bg_logo_yeni.png` - site logosu ve favicon; 488x488 PNG
+- `og-image.jpg` - sosyal paylasim onizleme gorseli (ana kaynak); 1024x1024 JPEG
+- `og-image.png` - uyumluluk kopyasi; 1024x1024 PNG
+- `circuit-bg.svg` - dekoratif devre arka plani
 
-### 2. Proje Görselleri (Opsiyonel)
-- `lora-project.jpg` - LoRa Fabrika Otomasyonu
-- `arduino-car.jpg` - Bluetooth Robotik Araba
-- Önerilen boyut: 800x600 piksel
+## Notlar
 
-### 3. PCB Görselleri (Opsiyonel)
-- PCB 3D render görüntüleri
-- Önerilen boyut: 700x500 piksel
-- Format: PNG (şeffaf arka plan için) veya JPG
-
-## Görsel Oluşturma Araçları
-
-1. **Canva** - og-image için ücretsiz şablonlar
-2. **Figma** - Profesyonel tasarım
-3. **KiCAD** - PCB 3D render export
-
-## Örnek OG Image Oluşturma
-
-Canva'da yeni bir tasarım oluşturun:
-1. Boyut: 1200x630 px
-2. Arka plan: #0a0a0a (koyu) veya gradient
-3. İsim: Plus Jakarta Sans, Bold
-4. Açıklama: Inter, Regular
-5. Accent renk: #60a5fa (mavi)
+- `og-image` su an kare formatta (1024x1024). Klasik 1200x630 OG standardi gerekiyor ise yeniden uretin.
+- Yeni bir gorsel eklemeden once HTML meta etiketleri ve dosya adlari arasindaki uyumu kontrol edin.

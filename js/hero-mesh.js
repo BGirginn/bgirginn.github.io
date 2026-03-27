@@ -21,6 +21,8 @@ class MeshGradient {
 
         this.time = 0;
         this.animating = true;
+        this.rafId = null;
+        this.fallback = false;
         this.colors = [
             [0.035, 0.039, 0.067],  // Dark blue-black
             [0.376, 0.647, 0.980],  // Primary blue (#60a5fa)
@@ -29,6 +31,9 @@ class MeshGradient {
         ];
 
         this.init();
+        if (this.fallback) {
+            return;
+        }
         this.setupVisibilityHandling();
         this.animate();
     }
@@ -122,6 +127,11 @@ class MeshGradient {
         const vs = this.compileShader(gl.VERTEX_SHADER, vsSource);
         const fs = this.compileShader(gl.FRAGMENT_SHADER, fsSource);
 
+        if (!vs || !fs) {
+            this.useFallback();
+            return;
+        }
+
         this.program = gl.createProgram();
         gl.attachShader(this.program, vs);
         gl.attachShader(this.program, fs);
@@ -168,6 +178,10 @@ class MeshGradient {
     compileShader(type, source) {
         const gl = this.gl;
         const shader = gl.createShader(type);
+        if (!shader) {
+            return null;
+        }
+
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
 
@@ -180,6 +194,10 @@ class MeshGradient {
     }
 
     resize() {
+        if (!this.gl || !this.uniforms) {
+            return;
+        }
+
         const dpr = Math.min(window.devicePixelRatio, 2);
         this.canvas.width = this.canvas.offsetWidth * dpr;
         this.canvas.height = this.canvas.offsetHeight * dpr;
@@ -190,21 +208,30 @@ class MeshGradient {
     setupVisibilityHandling() {
         document.addEventListener('visibilitychange', () => {
             this.animating = !document.hidden;
+            if (!this.animating && this.rafId !== null) {
+                cancelAnimationFrame(this.rafId);
+                this.rafId = null;
+            }
+
             if (this.animating) this.animate();
         });
     }
 
     animate() {
-        if (!this.animating || !this.gl) return;
+        if (!this.animating || !this.gl || this.rafId !== null) return;
 
         this.time += 0.016; // ~60fps
         this.gl.uniform1f(this.uniforms.time, this.time);
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
 
-        requestAnimationFrame(() => this.animate());
+        this.rafId = requestAnimationFrame(() => {
+            this.rafId = null;
+            this.animate();
+        });
     }
 
     useFallback() {
+        this.fallback = true;
         // CSS gradient fallback
         this.canvas.style.background = `
             radial-gradient(ellipse at 30% 20%, rgba(96, 165, 250, 0.3) 0%, transparent 50%),

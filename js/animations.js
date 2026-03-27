@@ -31,9 +31,16 @@ const AnimationConfig = {
 };
 
 // Update reduced motion preference on change
-window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
-    AnimationConfig.reducedMotion = e.matches;
-});
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+if (reducedMotionQuery.addEventListener) {
+    reducedMotionQuery.addEventListener('change', (e) => {
+        AnimationConfig.reducedMotion = e.matches;
+    });
+} else if (reducedMotionQuery.addListener) {
+    reducedMotionQuery.addListener((e) => {
+        AnimationConfig.reducedMotion = e.matches;
+    });
+}
 
 // ===========================
 // SCROLL OBSERVER FACTORY
@@ -43,13 +50,13 @@ class ScrollAnimationObserver {
         this.threshold = options.threshold || 0.15;
         this.rootMargin = options.rootMargin || '0px 0px -50px 0px';
         this.once = options.once !== false;
-
-        this.observer = new IntersectionObserver(
-            this.handleIntersection.bind(this),
-            { threshold: this.threshold, rootMargin: this.rootMargin }
-        );
-
         this.callbacks = new Map();
+        this.observer = typeof IntersectionObserver === 'undefined'
+            ? null
+            : new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                { threshold: this.threshold, rootMargin: this.rootMargin }
+            );
     }
 
     handleIntersection(entries) {
@@ -67,11 +74,19 @@ class ScrollAnimationObserver {
 
     observe(element, callback) {
         this.callbacks.set(element, callback);
+        if (!this.observer) {
+            callback(element, null);
+            if (this.once) {
+                this.callbacks.delete(element);
+            }
+            return;
+        }
+
         this.observer.observe(element);
     }
 
     disconnect() {
-        this.observer.disconnect();
+        this.observer?.disconnect();
         this.callbacks.clear();
     }
 }
@@ -477,9 +492,6 @@ function initGlobalAnimations() {
     initTimelineReveal();
     // PCB exploded view handled by gallery-explode.js (GSAP)
 
-    // Accordion only (form removed - no form on contact page)
-    initAccordions();
-
     console.log('✨ Animations initialized', AnimationConfig.reducedMotion ? '(reduced motion)' : '');
 }
 
@@ -496,4 +508,3 @@ window.AnimationSystem = {
     animateSuccessCheck,
     splitTextToChars
 };
-

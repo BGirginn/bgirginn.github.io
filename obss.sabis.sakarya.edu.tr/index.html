@@ -1,32 +1,11 @@
-<!--
-Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünde (max-width 430) aynı renk kodlarıyla klonlayacak şekilde ayarlandı. Renkleri senin attığın ekran görüntüsünden örnekleyip şu ana tonlara kilitledim:
-
-* Topbar gradient: #353640 → #1F1F2B
-* Sayfa arka planı: #F0F1F7
-* Timeline çizgisi: #ECE DF1 (ekranda görünen açık gri)
-* Mavi nokta: #3A97FF
-* Turuncu nokta: #DEA935
-* Duyuru kutusu arka plan: #F6F8FA
-* Kart ayırıcı çizgi: #EBEEF7
-
-> Profil fotoğrafını aynı olsun istiyorsan <img id="avatar"> src kısmına kendi foto URL’ini ya da base64 koy.
--->
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SABİS  .bubble {
-    display: inline-block;
-    width: 33.3333%;
-    min-width: 90px;
-    max-width: 420px;
-    background: var(--bubble);
-    border-radius: 10px;
-    padding: 18px 18px 18px 22px;
-    position: relative;
-    box-sizing: border-box;
-  }</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="SABİS duyurular ve profil detayları görünümü." />
+  <meta name="theme-color" content="#1C1C2B" />
+  <title>SABİS - Duyurular ve Profil Detayları</title>
   <style>
     :root{
       --topbar-left:#353640;
@@ -34,8 +13,8 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       --page:#F0F1F7;
       --card:#FFFFFF;
       --divider:#EBEEF7;
-      --timeline:#ECE DF1;
-      --timeline2:#ECEDEF1;
+      --timeline:#ECEDF1;
+      --timeline2:#ECEDF1;
       --bubble:#F6F8FA;
       --blue:#3A97FF;
       --orange:#DEA935;
@@ -48,10 +27,11 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     html,body{ height:100%; }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: var(--page);
       color: var(--text);
       font-size: 15px;
+      overflow-x:hidden;
     }
     .app{
       width:100%;
@@ -62,7 +42,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     }
     .topbar{
       height: 56px;
-      background: #1c1c2b;
+      background: linear-gradient(90deg, var(--topbar-left), var(--topbar-mid));
       display:flex;
       align-items:center;
       padding: 0 18px 0 12px;
@@ -76,12 +56,12 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       align-items:center;
       gap:12px;
       color:#fff;
-        font-weight:280;
-        letter-spacing:.5px;
-        font-size: 26px;
-        line-height:1;
-        height:56px;
-        font-family: 'Gotham Black', Arial, sans-serif;
+      font-weight:700;
+      letter-spacing:.5px;
+      font-size: 26px;
+      line-height:1;
+      height:56px;
+      font-family: "Gotham Black", "Segoe UI", Arial, sans-serif;
     }
     .mark{
       width:38px;
@@ -97,8 +77,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       margin-right:4px;
     }
     .top-icons{
-      margin-right: 1;
-      padding-right: 1px;
+      margin-right: 1px;
       margin-left:auto;
       display:flex;
       align-items:center;
@@ -131,14 +110,13 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     .user-ico:before{
       content: '';
       position: absolute;
-      left: 22px; /* 10px more left */
-      top: 20px;  /* 20px more down */
+      left:50%;
+      bottom:4px;
       width: 24px;
       height: 4px;
-      background: #d3d3d3;
-      border-radius: 2px;
       background: rgba(255,255,255,.28);
-      position:absolute; left:50%; bottom:4px; transform:translateX(-50%);
+      border-radius: 2px;
+      transform:translateX(-50%);
     }
     .content{
       padding: 16px 16px 40px 16px;
@@ -157,6 +135,18 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       font-weight:600;
       cursor:pointer;
       user-select:none;
+      appearance:none;
+      text-align:left;
+      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    }
+    .pill:hover{
+      box-shadow: 0 4px 12px rgba(17,24,39,.06);
+      transform: translateY(-1px);
+    }
+    .pill:focus-visible,
+    .xbtn:focus-visible{
+      outline: 3px solid rgba(58,151,255,.35);
+      outline-offset: 2px;
     }
     .pill .mini{
       width:18px;height:18px;border-radius:50%;
@@ -205,7 +195,7 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       top: 30px;
       width: 15px;
       height: 4.5px;
-      background: #e5e7eb;
+      background: var(--timeline);
       border-radius: 3px;
       z-index:2;
     }
@@ -217,21 +207,10 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       bottom: 0;
       width: 4.5px;
       border-radius: 999px;
-      background: #e5e7eb;
+      background: var(--timeline);
       opacity:.95;
       z-index:0;
     }
-    /* .timeline:before{
-      content:"";
-      position:absolute;
-      left: 26px;
-      top: 0;
-      width: 20px;
-      height: 4.6px;
-      background: #e5e7eb;
-      border-radius: 3px;
-      z-index:1;
-    } */
     .t-item{
       position:relative;
       padding-left: 44px;
@@ -256,8 +235,8 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
         left: 50%;
         top: 100%;
         width: 2px;
-        height: calc(1%);
-        background: #bbb;
+        height: calc(100% + 18px);
+        background: var(--timeline2);
         transform: translateX(-50%);
         z-index: 0;
         opacity: 0.7;
@@ -417,9 +396,9 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     <header class="topbar">
       <div class="brand">
         <div class="mark" aria-hidden="true">
-          <img src="../sabislogo.png" alt="SABİS Logo" style="width:36px;height:36px;object-fit:contain;display:block;background:none;margin-right:-5px;" />
+          <img src="../sabislogo.png" alt="" loading="eager" decoding="async" width="36" height="36" style="width:36px;height:36px;object-fit:contain;display:block;background:none;margin-right:-5px;" />
         </div>
-          <img src="../sabis.png" alt="SABİS" style="height:56px;object-fit:contain;display:block;" />
+          <img src="../sabis.png" alt="SABİS" loading="eager" decoding="async" height="56" style="height:56px;object-fit:contain;display:block;" />
       </div>
       <div class="top-icons" aria-hidden="true">
         <div class="menu" title="Menü">
@@ -428,18 +407,18 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
         <div class="menu" title="Menü">
           <span></span><span></span><span></span>
         </div>
-        <img src="../profile_icon.png" alt="Profil" title="Profil" style="display:block;cursor:pointer;width:32px;height:28px;object-fit:cover;border-radius:50%;margin-left:-10px;" />
+        <img src="../profile_icon.png" alt="" title="Profil" loading="eager" decoding="async" width="32" height="28" style="display:block;cursor:pointer;width:32px;height:28px;object-fit:cover;border-radius:50%;margin-left:-10px;" />
       </div>
     </header>
     <!-- SCREEN 1 -->
     <main class="content" id="screen1">
       <div style="display:flex;justify-content:flex-start;margin-bottom:12px;">
-        <div class="pill" id="openProfile" style="background:#F6F8FA;border:1px solid #EBEEF7;color:#7B8594;font-weight:425;width:178px;height:44px;box-shadow:none;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:13px;">
+        <button class="pill" id="openProfile" type="button" aria-haspopup="dialog" aria-controls="profileModal" style="background:#F6F8FA;border:1px solid #EBEEF7;color:#7B8594;font-weight:425;width:178px;height:44px;box-shadow:none;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:13px;">
           <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#e5e7eb;border-radius:50%;overflow:hidden;">
-            <img src="../profile_icon.png" alt="Profil" style="width:26px;height:26px;object-fit:cover;" />
+            <img src="../profile_icon.png" alt="" loading="eager" decoding="async" width="26" height="26" style="width:26px;height:26px;object-fit:cover;" />
           </div>
           <span>Profil Detayları</span>
-        </div>
+        </button>
       </div>
       <section class="card" aria-label="Duyurular">
         <h2>Duyurular</h2>
@@ -498,12 +477,12 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     </main>
   </div>
   <!-- SCREEN 2 (Profile modal) -->
-  <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-label="Profil Detayları">
+  <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Profil Detayları">
     <div class="sheet" style="display:flex;flex-direction:column;align-items:center;padding-top:28px;">
-      <button class="xbtn" id="closeProfile" aria-label="Kapat" style="transform:scale(0.65);"></button>
+      <button class="xbtn" id="closeProfile" type="button" aria-label="Kapat" style="transform:scale(0.65);"></button>
       <div class="pwrap" style="width:100%;display:flex;flex-direction:column;align-items:center;">
         <div style="margin-bottom:1px;">
-          <img src="../side_bar_icon.png" alt="Profil" style="width:128px;height:128px;object-fit:contain;" />
+          <img src="../side_bar_icon.png" alt="Profil" loading="eager" decoding="async" width="128" height="128" style="width:128px;height:128px;object-fit:contain;" />
         </div>
         <div class="pname" style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">HİRANUR AKPINAR</div>
         <div class="pid" style="font-size:12px;color:#7b8594;margin-top:7px;margin-bottom:20px;font-weight:400;">
@@ -523,17 +502,23 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
     const openProfile = document.getElementById("openProfile");
     const modal = document.getElementById("profileModal");
     const closeProfile = document.getElementById("closeProfile");
+    let hideTimer = null;
     function showModal(){
+      clearTimeout(hideTimer);
       modal.style.display = "flex";
-      setTimeout(()=>modal.classList.add("show"), 10);
+      modal.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(()=>modal.classList.add("show"));
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
+      closeProfile.focus();
     }
     function hideModal(){
       modal.classList.remove("show");
-      setTimeout(()=>{modal.style.display = "none";}, 400);
+      modal.setAttribute("aria-hidden", "true");
+      hideTimer = setTimeout(()=>{modal.style.display = "none";}, 400);
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+      openProfile.focus();
     }
     openProfile.addEventListener("click", showModal);
     closeProfile.addEventListener("click", hideModal);
@@ -541,12 +526,8 @@ Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünd
       if(e.target === modal) hideModal();
     });
     document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape" && modal.style.display === "flex") hideModal();
+      if(e.key === "Escape" && modal.classList.contains("show")) hideModal();
     });
   </script>
 </body>
 </html>
-
-
-
-

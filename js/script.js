@@ -3,17 +3,44 @@
 // ===========================
 const DEBUG = false; // Set to false for production
 
+function readStoredValue(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch {
+        return null;
+    }
+}
+
+function writeStoredValue(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch {
+        // Ignore storage failures in private mode or restricted environments.
+    }
+}
+
+function getThemeToggleCheckbox() {
+    return document.getElementById('themeToggleCheckbox');
+}
+
+function syncThemeCheckbox(theme) {
+    const checkbox = getThemeToggleCheckbox();
+    if (checkbox) {
+        checkbox.checked = theme === 'light';
+    }
+}
+
 // ===========================
 // THEME TOGGLE WITH VIEW TRANSITION API
 // ===========================
 function initTheme() {
-    // Check system preference first
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = localStorage.getItem('theme');
-    const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+    const savedTheme = readStoredValue('theme');
+    const theme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : (prefersDark ? 'dark' : 'light');
 
-    document.documentElement.setAttribute('data-theme', theme);
-    updateThemeIcon(theme);
+    applyTheme(theme);
 }
 
 function updateThemeIcon(theme) {
@@ -22,91 +49,64 @@ function updateThemeIcon(theme) {
     });
 }
 
-function performThemeSwitch() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeIcon(newTheme);
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    writeStoredValue('theme', theme);
+    syncThemeCheckbox(theme);
+    updateThemeIcon(theme);
 }
 
 // Initialize theme on load
 initTheme();
 
-// Theme toggle with circular reveal from button position
-document.addEventListener('change', (event) => {
-    // Check if the change event came from our theme checkbox
-    if (event.target.id === 'themeToggleCheckbox') {
-        // Get the VISIBLE toggle element for proper coordinates
-        // The checkbox is hidden, so we need to find the parent .toggle-switch
-        const toggleSwitch = event.target.closest('.toggle-switch');
+function handleThemeToggleChange(event) {
+    const target = event.currentTarget;
+    const newTheme = target.checked ? 'light' : 'dark';
+    const toggleSwitch = target.closest('.toggle-switch');
+    const targetElement = toggleSwitch || target;
+    const rect = targetElement.getBoundingClientRect();
 
-        // If no toggle switch found, fallback to checkbox
-        const targetElement = toggleSwitch || event.target;
-        const rect = targetElement.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
-        // Calculate center of the toggle button
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
+    if (!document.startViewTransition) {
+        applyTheme(newTheme);
+        return;
+    }
 
-        // Fallback for browsers without View Transition API
-        if (!document.startViewTransition) {
-            performThemeSwitch();
-            return;
-        }
+    const endRadius = Math.hypot(
+        Math.max(x, innerWidth - x),
+        Math.max(y, innerHeight - y)
+    );
 
-        const endRadius = Math.hypot(
-            Math.max(x, innerWidth - x),
-            Math.max(y, innerHeight - y)
+    const transition = document.startViewTransition(() => {
+        applyTheme(newTheme);
+    });
+
+    transition.ready.then(() => {
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${endRadius}px at ${x}px ${y}px)`
+                ],
+            },
+            {
+                duration: 500,
+                easing: 'ease-out',
+                pseudoElement: '::view-transition-new(root)',
+            }
         );
-
-        // Start View Transition - the checkbox CSS animation happens immediately
-        // because the :checked state is already applied before this callback
-        const transition = document.startViewTransition(() => {
-            // This changes the theme colors (CSS variables)
-            performThemeSwitch();
-        });
-
-        transition.ready.then(() => {
-            const clipPath = [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${endRadius}px at ${x}px ${y}px)`
-            ];
-
-            document.documentElement.animate(
-                {
-                    clipPath: clipPath,
-                },
-                {
-                    duration: 500,
-                    easing: 'ease-out',
-                    pseudoElement: '::view-transition-new(root)',
-                }
-            );
-        });
-    }
-});
-
-// Sync Checkbox on Load
-function syncThemeCheckbox(theme) {
-    const checkbox = document.getElementById('themeToggleCheckbox');
-    if (checkbox) {
-        checkbox.checked = theme === 'light'; // Assuming unchecked = dark, checked = light or vice versa. Adjust as needed.
-        // Actually, let's assume Checked = Light (Sun) and Unchecked = Dark (Moon)
-        // Adjust based on user preference
-        checkbox.checked = theme === 'light';
-    }
+    }).catch(() => {
+        // Ignore aborted transitions.
+    });
 }
-// Hook into initTheme
-const originalInitTheme = initTheme; // preserve if needed, but we can just add to it.
-// We'll just call syncThemeCheckbox at the end of the file or modify initTheme.
-// Let's modify initTheme above instead if possible, but since we are replacing chunks, let's just run it here.
-const currentTheme = document.documentElement.getAttribute('data-theme');
-syncThemeCheckbox(currentTheme);
 
-// Also update performThemeSwitch to sync checkbox if triggered programmatically
-// (We can't easily modify performThemeSwitch without replacing it, so we'll just leave it for now
-// since the checkbox IS the trigger usually).
+const themeToggleCheckbox = getThemeToggleCheckbox();
+if (themeToggleCheckbox) {
+    themeToggleCheckbox.addEventListener('change', handleThemeToggleChange);
+    syncThemeCheckbox(document.documentElement.getAttribute('data-theme') || 'light');
+}
 
 // ===========================
 // LANGUAGE TOGGLE
@@ -130,7 +130,7 @@ function toggleLanguage() {
     const newLang = currentLang === 'en' ? 'tr' : 'en';
 
     document.documentElement.setAttribute('lang', newLang);
-    localStorage.setItem('language', newLang);
+    writeStoredValue('language', newLang);
 
     // Update all text
     translatePage(newLang);
@@ -142,21 +142,19 @@ function toggleLanguage() {
 }
 
 // Initialize language
-const savedLang = localStorage.getItem('language') || 'en';
+const savedLang = readStoredValue('language') === 'tr' ? 'tr' : 'en';
 document.documentElement.setAttribute('lang', savedLang);
 
-// Translate on page load
+function updateLanguageButtons(lang) {
+    document.querySelectorAll('#langToggle').forEach(btn => {
+        btn.textContent = lang === 'en' ? 'TR' : 'EN';
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     translatePage(savedLang);
+    updateLanguageButtons(savedLang);
 
-    // Update button text
-    document.querySelectorAll('#langToggle').forEach(btn => {
-        btn.textContent = savedLang === 'en' ? 'TR' : 'EN';
-    });
-});
-
-// Add event listener to all language toggles
-document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#langToggle').forEach(btn => {
         btn.addEventListener('click', toggleLanguage);
     });
@@ -185,6 +183,10 @@ class ParticleSystem {
         this.particles = [];
         this.particleCount = 80;
         this.connectionDistance = 150;
+        this.connectionDistanceSq = this.connectionDistance * this.connectionDistance;
+        this.cachedTheme = null;
+        this.cachedParticleColor = null;
+        this.cachedParticleColorChannels = null;
 
         this.resize();
         this.init();
@@ -213,16 +215,28 @@ class ParticleSystem {
         }
     }
 
-    getParticleColor() {
-        // Read particle color from CSS variable
-        return getComputedStyle(document.documentElement)
-            .getPropertyValue('--particle-color').trim();
+    getParticleColorState() {
+        const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+
+        if (this.cachedTheme !== theme) {
+            this.cachedTheme = theme;
+            this.cachedParticleColor = getComputedStyle(document.documentElement)
+                .getPropertyValue('--particle-color').trim();
+            const channels = this.cachedParticleColor.match(/\d+/g);
+            this.cachedParticleColorChannels = channels && channels.length >= 3
+                ? channels.slice(0, 3)
+                : null;
+        }
+
+        return {
+            channels: this.cachedParticleColorChannels,
+        };
     }
 
     animate() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        const particleColor = this.getParticleColor();
+        const { channels: particleColorChannels } = this.getParticleColorState();
 
         // Update and draw particles
         this.particles.forEach(particle => {
@@ -245,20 +259,17 @@ class ParticleSystem {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;
                 const dy = this.particles[i].y - this.particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                const distanceSq = dx * dx + dy * dy;
 
-                if (distance < this.connectionDistance) {
+                if (distanceSq < this.connectionDistanceSq && particleColorChannels) {
+                    const distance = Math.sqrt(distanceSq);
                     const opacity = (1 - distance / this.connectionDistance) * 0.3;
-                    // Extract RGB from particle color and apply opacity
-                    const baseColor = particleColor.match(/\d+/g);
-                    if (baseColor && baseColor.length >= 3) {
-                        this.ctx.beginPath();
-                        this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-                        this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-                        this.ctx.strokeStyle = `rgba(${baseColor[0]}, ${baseColor[1]}, ${baseColor[2]}, ${opacity})`;
-                        this.ctx.lineWidth = 1;
-                        this.ctx.stroke();
-                    }
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                    this.ctx.strokeStyle = `rgba(${particleColorChannels[0]}, ${particleColorChannels[1]}, ${particleColorChannels[2]}, ${opacity})`;
+                    this.ctx.lineWidth = 1;
+                    this.ctx.stroke();
                 }
             }
         }
@@ -284,13 +295,11 @@ const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 
 // Scroll effect
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-}, { passive: true });
+if (navbar) {
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+}
 
 // Mobile nav toggle with scroll lock
 if (navToggle && navMenu) {
@@ -355,10 +364,7 @@ if (yearEl) {
 // CV NAVIGATION SCROLL TRACKING
 // ===========================
 function updateCVNav() {
-    const cvBlocks = document.querySelectorAll('.cv-block[id]');
-    const navLinks = document.querySelectorAll('.cv-nav a');
-
-    if (cvBlocks.length === 0 || navLinks.length === 0) return;
+    if (cvBlocks.length === 0 || cvNavLinks.length === 0) return;
 
     let currentSection = 'summary';
     let minDistance = Infinity;
@@ -373,7 +379,7 @@ function updateCVNav() {
         }
     });
 
-    navLinks.forEach(link => {
+    cvNavLinks.forEach(link => {
         const href = link.getAttribute('href');
         if (href === `#${currentSection}`) {
             link.classList.add('active');
@@ -383,13 +389,15 @@ function updateCVNav() {
     });
 }
 
+const cvBlocks = document.querySelectorAll('.cv-block[id]');
+const cvNavLinks = document.querySelectorAll('.cv-nav a');
 // Update CV nav on scroll
-if (document.querySelector('.cv-nav')) {
+if (cvNavLinks.length > 0) {
     window.addEventListener('scroll', updateCVNav, { passive: true });
     setTimeout(updateCVNav, 100);
 
     // Update on nav click
-    document.querySelectorAll('.cv-nav a').forEach(link => {
+    cvNavLinks.forEach(link => {
         link.addEventListener('click', () => {
             setTimeout(updateCVNav, 300);
         });
@@ -410,7 +418,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         const href = this.getAttribute('href');
         if (href !== '#' && href !== '') {
             e.preventDefault();
-            const target = document.querySelector(href);
+            const target = document.getElementById(href.slice(1));
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',
@@ -442,15 +450,17 @@ window.addEventListener('load', () => {
 // ===========================
 // PARALLAX SCROLL EFFECT
 // ===========================
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.parallax');
+const parallaxElements = document.querySelectorAll('.parallax');
+if (parallaxElements.length > 0) {
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
 
-    parallaxElements.forEach(element => {
-        const speed = element.dataset.speed || 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-    });
-}, { passive: true });
+        parallaxElements.forEach(element => {
+            const speed = Number(element.dataset.speed) || 0.5;
+            element.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+    }, { passive: true });
+}
 
 // ===========================
 // AUTOMATED DIAGNOSTICS
@@ -515,6 +525,10 @@ window.addEventListener('load', function () {
 (function () {
     // Create back to top button (Uiverse style)
     // Create back to top button (Icon Only)
+    if (document.querySelector('.back-to-top-wrapper')) {
+        return;
+    }
+
     const backToTop = document.createElement('div');
     backToTop.className = 'back-to-top-wrapper';
     backToTop.innerHTML = `
@@ -548,6 +562,7 @@ window.addEventListener('load', function () {
     }
 
     window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    toggleBackToTop();
 
     // Scroll to top on click
     backToTop.addEventListener('click', () => {

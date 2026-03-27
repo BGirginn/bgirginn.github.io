@@ -31,6 +31,12 @@
             const offset = (i - Math.floor(layers.length / 2)) * 30;
             layer.style.transform = `translateY(${offset}px)`;
         });
+
+        const callouts = container.querySelectorAll('.pcb-callout');
+        callouts.forEach(callout => {
+            callout.style.opacity = '1';
+            callout.style.transform = 'none';
+        });
         return;
     }
 
