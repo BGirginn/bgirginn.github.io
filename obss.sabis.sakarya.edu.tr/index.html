@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="SABİS duyurular ve profil detayları görünümü." />
+  <meta name="theme-color" content="#1C1C2B" />
+  <title>SABİS - Duyurular ve Profil Detayları</title>
+  <style>
+    :root{
+      --topbar-left:#353640;
+      --topbar-mid:#1F1F2B;
+      --page:#F0F1F7;
+      --card:#FFFFFF;
+      --divider:#EBEEF7;
+      --timeline:#ECEDF1;
+      --timeline2:#ECEDF1;
+      --bubble:#F6F8FA;
+      --blue:#3A97FF;
+      --orange:#DEA935;
+      --muted:#AEB7C4;
+      --muted2:#9AA3AF;
+      --text:#111827;
+      --shadow: 0 10px 30px rgba(0,0,0,.14);
+    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--page);
+      color: var(--text);
+      font-size: 15px;
+      overflow-x:hidden;
+    }
+    .app{
+      width:100%;
+      max-width: 430px;
+      margin:0 auto;
+      min-height:100%;
+      background: var(--page);
+    }
+    .topbar{
+      height: 56px;
+      background: linear-gradient(90deg, var(--topbar-left), var(--topbar-mid));
+      display:flex;
+      align-items:center;
+      padding: 0 18px 0 12px;
+      position:sticky;
+      top:0;
+      z-index:5;
+      box-shadow: 0 1px 0 #232336;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      color:#fff;
+      font-weight:700;
+      letter-spacing:.5px;
+      font-size: 26px;
+      line-height:1;
+      height:56px;
+      font-family: "Gotham Black", "Segoe UI", Arial, sans-serif;
+    }
+    .mark{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      border:none;
+      overflow:hidden;
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:transparent;
+      margin-right:4px;
+    }
+    .top-icons{
+      margin-right: 1px;
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      opacity:.9;
+      transform:scale(0.9) translateX(8px);
+    }
+    .menu{
+      width:29px; height:20px;
+      display:grid;
+      gap:4px;
+    }
+    .menu span{
+      height:3px;
+      border-radius:4px;
+      background: #484f66;
+      width:100%;
+      display:block;
+    }
+    .menu:first-child span:nth-child(1){ width: 45%; margin-left: 55%; }
+    .menu:first-child span:nth-child(2){ width: 100%; margin-left: 0; }
+    .menu:first-child span:nth-child(3){ width: 70%; margin-left: 30%; }
+    .user-ico{
+      width:28px;height:28px;
+      border-radius:50%;
+      border:2px solid #fff2;
+      position:relative;
+      background:transparent;
+    }
+    .user-ico:before{
+      content: '';
+      position: absolute;
+      left:50%;
+      bottom:4px;
+      width: 24px;
+      height: 4px;
+      background: rgba(255,255,255,.28);
+      border-radius: 2px;
+      transform:translateX(-50%);
+    }
+    .content{
+      padding: 16px 16px 40px 16px;
+    }
+    .pill{
+      width: 230px;
+      background: #EEF0F6;
+      border: 1px solid var(--divider);
+      border-radius: 8px;
+      height: 44px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 0 16px;
+      color: #7B8594;
+      font-weight:600;
+      cursor:pointer;
+      user-select:none;
+      appearance:none;
+      text-align:left;
+      transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+    }
+    .pill:hover{
+      box-shadow: 0 4px 12px rgba(17,24,39,.06);
+      transform: translateY(-1px);
+    }
+    .pill:focus-visible,
+    .xbtn:focus-visible{
+      outline: 3px solid rgba(58,151,255,.35);
+      outline-offset: 2px;
+    }
+    .pill .mini{
+      width:18px;height:18px;border-radius:50%;
+      border:2px solid #9CA6B3;
+      position:relative;
+      opacity:.9;
+    }
+    .pill .mini:before{
+      content:"";
+      width:6px;height:6px;border-radius:50%;
+      background:#9CA6B3;
+      position:absolute; left:50%; top:3px; transform:translateX(-50%);
+    }
+    .pill .mini:after{
+      content:"";
+      width:12px;height:6px;border-radius:999px 999px 6px 6px;
+      background:#C3CBD6;
+      position:absolute; left:50%; bottom:1px; transform:translateX(-50%);
+    }
+    .card{
+      margin-top: 18px;
+      background: var(--card);
+      border: 1px solid var(--divider);
+      border-radius: 10px;
+      overflow:hidden;
+    }
+    .card h2{
+      margin:0;
+      padding: 16px 22px; /* 18px - 10% = 16.2px, rounded to 16px */
+      font-size: 18px;
+      font-weight:392; /* 406 - 3.5% ≈ 392 */
+      color:#222;
+    }
+    .card .line{
+      height:1px;
+      background: var(--divider);
+    }
+    .timeline{
+      position:relative;
+      padding: 10px 18px 26px 18px;
+    }
+    .timeline:before{
+      content:"";
+      position:absolute;
+      left: 21px;
+      top: 30px;
+      width: 15px;
+      height: 4.5px;
+      background: var(--timeline);
+      border-radius: 3px;
+      z-index:2;
+    }
+    .timeline:after{
+      content:"";
+      position:absolute;
+      left: 26px;
+      top: 30px;
+      bottom: 0;
+      width: 4.5px;
+      border-radius: 999px;
+      background: var(--timeline);
+      opacity:.95;
+      z-index:0;
+    }
+    .t-item{
+      position:relative;
+      padding-left: 44px;
+      padding-top: 14px;
+      padding-bottom: 18px;
+    }
+    .dot{
+      position:absolute;
+      left: 6px;
+      top: 62px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 4px rgba(240,241,247,1);
+      z-index:2;
+    }
+      /* Noktalar arası gri çizgi */
+      .t-item:not(:last-child) .dot::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 100%;
+        width: 2px;
+        height: calc(100% + 18px);
+        background: var(--timeline2);
+        transform: translateX(-50%);
+        z-index: 0;
+        opacity: 0.7;
+      }
+    .dot.orange{ background: var(--orange); }
+    .date{
+      color: #B1BAC6;
+      font-size: 13px;
+      font-weight:500;
+      margin: 0 0 10px 0;
+    }
+    .bubble{
+      display:inline-block;
+      width: 100%;
+      max-width: none;
+      background: var(--bubble);
+      border-radius: 10px;
+      padding: 16px 18px 16px 22px; /* 18px - 10% = 16.2px, rounded to 16px */
+      position:relative;
+      box-sizing: border-box;
+    }
+    .bubble:before{
+      content:"";
+      position:absolute;
+      left:-10px;
+      top: 18px;
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-right: 12px solid var(--bubble);
+    }
+    .b-title{
+      text-transform:uppercase;
+      letter-spacing:.3px;
+      font-size: 12px;
+      font-weight:432; /* 447 - 3.5% ≈ 432 */
+      color: #72ACDC;
+      margin:0 0 5px 0;
+    }
+    .b-title.orange{ color: var(--orange); }
+    .b-desc{
+      margin:0;
+      font-size: 14px;
+      font-weight:400; /* 414 - 3.5% ≈ 400 */
+      color:#111827;
+      line-height:1.25;
+    }
+    .modal{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.08);
+      display:none;
+      align-items:flex-start;
+      justify-content:flex-start;
+      padding: 0;
+      z-index: 20;
+      overflow:hidden;
+    }
+    .sheet{
+      width: 92vw;
+      max-width: 410px;
+      min-width: 320px;
+      background:#fff;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      position:relative;
+      padding: 28px 24px 26px 24px;
+      min-height: 100vh;
+      height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.38s cubic-bezier(.77,0,.18,1);
+    }
+    .modal.show .sheet {
+      transform: translateX(0);
+    }
+    .xbtn{
+      position:absolute;
+      right: 14px;
+      top: 14px;
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      border: 1px solid #E7ECF2;
+      background: #F4F6FA;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+    }
+    .xbtn:before{
+      content:"×";
+      font-size: 42px;
+      line-height:1;
+      color:#6B7280;
+      transform: translateY(-1px);
+    }
+    .pwrap{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding-top: 22px;
+    }
+    .avatar{
+      width: 220px;
+      height: 220px;
+      object-fit:cover;
+      border-radius: 6px;
+      background:#F3F4F6;
+    }
+    .pname{
+      margin: 22px 0 6px 0;
+      font-size: 44px;
+      font-weight:800;
+      color:#3B3F46;
+      letter-spacing:.2px;
+      text-align:center;
+    }
+    .pid{
+      margin: 0 0 22px 0;
+      font-size: 28px;
+      color:#9AA3AF;
+      font-weight:700;
+      text-align:center;
+    }
+    .pfac{
+      text-align:center;
+      text-transform:uppercase;
+      font-weight:800;
+      color:#6B7280;
+      line-height:1.85;
+      letter-spacing:.5px;
+      font-size: 22px;
+      margin-top: 8px;
+    }
+    .dash{
+      width: 86%;
+      margin: 22px auto 18px auto;
+      border-top: 3px dashed #E7ECF2;
+      opacity:.95;
+    }
+    .pstatus{
+      text-align:center;
+      font-size: 26px;
+      color:#6B7280;
+      font-weight:700;
+    }
+    @media (min-width: 900px){
+      body{ display:flex; justify-content:center; }
+      .app{ box-shadow: 0 0 0 0 transparent; }
+      .sheet{ min-height: 860px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="mark" aria-hidden="true">
+          <img src="../sabislogo.png" alt="" loading="eager" decoding="async" width="36" height="36" style="width:36px;height:36px;object-fit:contain;display:block;background:none;margin-right:-5px;" />
+        </div>
+          <img src="../sabis.png" alt="SABİS" loading="eager" decoding="async" height="56" style="height:56px;object-fit:contain;display:block;" />
+      </div>
+      <div class="top-icons" aria-hidden="true">
+        <div class="menu" title="Menü">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="menu" title="Menü">
+          <span></span><span></span><span></span>
+        </div>
+        <img src="../profile_icon.png" alt="" title="Profil" loading="eager" decoding="async" width="32" height="28" style="display:block;cursor:pointer;width:32px;height:28px;object-fit:cover;border-radius:50%;margin-left:-10px;" />
+      </div>
+    </header>
+    <!-- SCREEN 1 -->
+    <main class="content" id="screen1">
+      <div style="display:flex;justify-content:flex-start;margin-bottom:12px;">
+        <button class="pill" id="openProfile" type="button" aria-haspopup="dialog" aria-controls="profileModal" style="background:#F6F8FA;border:1px solid #EBEEF7;color:#7B8594;font-weight:425;width:178px;height:44px;box-shadow:none;display:flex;align-items:center;gap:12px;padding:0 16px;font-size:13px;">
+          <div style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:#e5e7eb;border-radius:50%;overflow:hidden;">
+            <img src="../profile_icon.png" alt="" loading="eager" decoding="async" width="26" height="26" style="width:26px;height:26px;object-fit:cover;" />
+          </div>
+          <span>Profil Detayları</span>
+        </button>
+      </div>
+      <section class="card" aria-label="Duyurular">
+        <h2>Duyurular</h2>
+        <div class="line"></div>
+        <div class="timeline">
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">24 Şubat, 16:28</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTROMANYETİK DALGA TEORİSİ</div>
+              <p class="b-desc text-dark">27.02.2026 Cuma günü yapılacak ders</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">23 Şubat, 21:04</div>
+            <div class="bubble">
+              <div class="b-title">SAYISAL DEVRE TASARIMI</div>
+              <p class="b-desc">Ders saati</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">23 Şubat, 20:51</div>
+            <div class="bubble">
+              <div class="b-title">SAYISAL DEVRE TASARIMI</div>
+              <p class="b-desc">Ders saati</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">21 Şubat, 09:02</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTRİK–ELEKTRONİK LABORATUVARI II</div>
+              <p class="b-desc">DENEY 2: Kırpıcı devreler ve kenetleme devreleri – Besleme gerilim düzenleri</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot"></span>
+            <div class="date">20 Şubat, 12:51</div>
+            <div class="bubble">
+              <div class="b-title">ELEKTROMANYETİK DALGA TEORİSİ</div>
+              <p class="b-desc">20.02.2026</p>
+            </div>
+          </div>
+          <div class="t-item">
+            <span class="dot orange"></span>
+            <div class="date">17 Şubat, 16:56</div>
+            <div class="bubble">
+              <div class="b-title orange">ELEKTRİK–ELEKTRONİK LABORATUVARI II</div>
+              <p class="b-desc">Yeni ödeviniz var. Son teslim tarihi: 26.02.2026</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <!-- SCREEN 2 (Profile modal) -->
+  <div class="modal" id="profileModal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Profil Detayları">
+    <div class="sheet" style="display:flex;flex-direction:column;align-items:center;padding-top:28px;">
+      <button class="xbtn" id="closeProfile" type="button" aria-label="Kapat" style="transform:scale(0.65);"></button>
+      <div class="pwrap" style="width:100%;display:flex;flex-direction:column;align-items:center;">
+        <div style="margin-bottom:1px;">
+          <img src="../side_bar_icon.png" alt="Profil" loading="eager" decoding="async" width="128" height="128" style="width:128px;height:128px;object-fit:contain;" />
+        </div>
+        <div class="pname" style="font-size:14px;font-weight:700;color:#222;margin-bottom:2px;">HİRANUR AKPINAR</div>
+        <div class="pid" style="font-size:12px;color:#7b8594;margin-top:7px;margin-bottom:20px;font-weight:400;">
+  B220100035
+</div>
+        <div class="pfac" style="font-size:12px;color:#444;text-align:center;line-height:1.5;margin-bottom:14px;font-weight:400;">
+          <div>MÜHENDİSLİK FAKÜLTESİ</div>
+          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ BÖLÜMÜ</div>
+          <div>ELEKTRİK–ELEKTRONİK MÜHENDİSLİĞİ PR.</div>
+        </div>
+        <div style="width:80%;height:1px;background:#e5e7eb;margin:10px 0 8px 0;"></div>
+        <div class="pstatus" style="font-size:13px;color:#6b7280;font-weight:500;">Azami Süre Aşılmadı</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const openProfile = document.getElementById("openProfile");
+    const modal = document.getElementById("profileModal");
+    const closeProfile = document.getElementById("closeProfile");
+    let hideTimer = null;
+    function showModal(){
+      clearTimeout(hideTimer);
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(()=>modal.classList.add("show"));
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      closeProfile.focus();
+    }
+    function hideModal(){
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden", "true");
+      hideTimer = setTimeout(()=>{modal.style.display = "none";}, 400);
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+      openProfile.focus();
+    }
+    openProfile.addEventListener("click", showModal);
+    closeProfile.addEventListener("click", hideModal);
+    modal.addEventListener("click", (e) => {
+      if(e.target === modal) hideModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && modal.classList.contains("show")) hideModal();
+    });
+  </script>
+</body>
+</html>
