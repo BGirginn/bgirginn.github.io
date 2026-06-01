@@ -139,3 +139,46 @@ textarea {
     transform: translate3d(330%, -50%, 0) scaleX(1);
   }
 }
+
+@keyframes hero-trace-dash {
+  0% {
+    stroke-dashoffset: 220;
+    opacity: 0.38;
+  }
+  42% {
+    opacity: 0.98;
+  }
+  100% {
+    stroke-dashoffset: -220;
+    opacity: 0.48;
+  }
+}
+
+@keyframes core-breathe {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(201, 169, 110, 0));
+    opacity: 0.84;
+  }
+  50% {
+    filter: drop-shadow(0 0 18px rgba(201, 169, 110, 0.72));
+    opacity: 1;
+  }
+}
+
+@keyframes status-blink {
+  0%,
+  100% {
+    opacity: 0.48;
+    transform: scale(0.88);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.hero-trace-flow {
+  animation: hero-trace-dash 3.6s linear infinite;
+  stroke-dasharray: 18 24;
+}
