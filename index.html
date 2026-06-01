@@ -1,332 +1,612 @@
-<!--
-Tamam — aşağıdaki tek dosya (HTML+CSS+JS) ekranları telefon görünümünde (max-width 430) aynı renk kodlarıyla klonlayacak şekilde ayarlandı. Renkleri senin attığın ekran görüntüsünden örnekleyip şu ana tonlara kilitledim:
-
-* Topbar gradient: #353640 → #1F1F2B
-* Sayfa arka planı: #F0F1F7
-* Timeline çizgisi: #ECE DF1 (ekranda görünen açık gri)
-* Mavi nokta: #3A97FF
-* Turuncu nokta: #DEA935
-* Duyuru kutusu arka plan: #F6F8FA
-* Kart ayırıcı çizgi: #EBEEF7
-
-> Profil fotoğrafını aynı olsun istiyorsan <img id="avatar"> src kısmına kendi foto URL’ini ya da base64 koy.
--->
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- SEO Meta Tags -->
     <meta name="description"
-        content="Bora Girgin - Electrical & Electronics Engineering student specializing in IoT, embedded systems, LoRa networks, and PCB design. Portfolio showcasing TUBITAK-funded projects and robotics work." />
+        content="Bora Girgin - Electrical and Electronics Engineering student focused on embedded systems, IoT, LoRa networks, PCB design, and firmware." />
     <meta name="keywords"
-        content="Bora Girgin, Embedded Systems, IoT, LoRa, ESP32, STM32, PCB Design, KiCAD, Arduino, Electrical Engineering" />
+        content="Bora Girgin, Embedded Systems, IoT, LoRa, ESP32, STM32, PCB Design, KiCad, Raspberry Pi" />
     <meta name="author" content="Bora Girgin" />
-
-    <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Bora Girgin - Embedded Systems & IoT Engineer" />
-    <meta property="og:description"
-        content="Portfolio of embedded systems projects, IoT solutions, and PCB designs by electrical engineering student Bora Girgin." />
+    <meta property="og:title" content="Bora Girgin - Embedded Systems and IoT" />
+    <meta property="og:description" content="Embedded systems, IoT, firmware, and PCB design portfolio." />
     <meta property="og:url" content="https://bgirgin.dev/" />
     <meta property="og:image" content="https://bgirgin.dev/images/bg_logo_yeni.png" />
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Bora Girgin — Embedded Systems Engineer" />
-    <meta name="twitter:description"
-        content="Embedded Systems Engineer specializing in IoT, PCB design, and firmware development." />
+    <meta name="twitter:title" content="Bora Girgin - Embedded Systems and IoT" />
+    <meta name="twitter:description" content="Embedded systems, IoT, firmware, and PCB design portfolio." />
     <meta name="twitter:image" content="https://bgirgin.dev/images/bg_logo_yeni.png" />
-
-    <!-- Canonical URL -->
     <link rel="canonical" href="https://bgirgin.dev/" />
-
-    <title>Bora Girgin — Embedded Systems & IoT</title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/bg_logo_yeni.png">
-    <link rel="apple-touch-icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#FACC15" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#CA8A04" media="(prefers-color-scheme: light)">
-
-    <!-- Preconnect & Preload -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload"
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <!-- Anime.js v4 -->
-    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <link rel="icon" type="image/png" href="images/bg_logo_yeni.png" />
+    <meta name="theme-color" content="#ead8b6" />
+    <title>Bora Girgin - Embedded Systems and IoT</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-    <!-- LOADING SCREEN (Uiverse: breezy-ape-20) -->
-    <!-- PASTE HTML HERE -->
-    <div id="loader-wrapper" class="loader-wrapper">
-        <div class="loader-placeholder">Loading...</div>
-    </div>
-    <!-- END LOADING SCREEN -->
-
-    <!-- Skip to Content (Accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
-    <!-- NAVIGATION -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar" aria-label="Primary navigation">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">Bora Girgin</a>
+            <a href="#home" class="nav-logo"><span class="brand-mark">BG</span><span>Bora Girgin</span></a>
             <div class="nav-menu" id="navMenu">
-                <a href="index.html" class="nav-link active" data-en="Home" data-tr="Ana Sayfa">Home</a>
-                <a href="projects.html" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
-                <a href="pcb.html" class="nav-link" data-en="Design Gallery" data-tr="Tasarım Galerisi">Design
-                    Gallery</a>
-                <a href="cv.html" class="nav-link" data-en="CV" data-tr="Özgeçmiş">CV</a>
-                <a href="contact.html" class="nav-link" data-en="Contact" data-tr="İletişim">Contact</a>
+                <a href="#home" class="nav-link active" data-en="Home" data-tr="Ana Sayfa">Home</a>
+                <a href="#capabilities" class="nav-link" data-en="Capabilities" data-tr="Yetenekler">Capabilities</a>
+                <a href="#projects" class="nav-link" data-en="Projects" data-tr="Projeler">Projects</a>
+                <a href="#gallery" class="nav-link" data-en="Design Gallery" data-tr="Tasarim Galerisi">Design Gallery</a>
+                <a href="#cv" class="nav-link" data-en="CV" data-tr="Ozgecmis">CV</a>
+                <a href="#contact" class="nav-link" data-en="Contact" data-tr="Iletisim">Contact</a>
             </div>
             <div class="nav-controls">
-                <!-- DARK/LIGHT TOGGLE (Uiverse animated) -->
-                <div class="toggle-switch">
-                    <label class="switch-label">
-                        <input type="checkbox" id="themeToggleCheckbox" class="checkbox" aria-label="Toggle Dark Mode">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-
-                <!-- GITHUB BUTTON (Uiverse: rare-treefrog-56) -->
-                <!-- PASTE HTML HERE -->
-                <a href="https://github.com/bgirginn" target="_blank" class="github-btn-placeholder"
-                    aria-label="GitHub">
-                    GitHub
-                </a>
-
-                <button class="nav-btn" id="langToggle" title="Change language" aria-label="Switch language">TR</button>
-            </div>
-            <div class="nav-toggle" id="navToggle" role="button" aria-controls="navMenu" aria-expanded="false"
-                tabindex="0">
-                <span></span>
-                <span></span>
-                <span></span>
+                <button class="icon-btn theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v2m0 14v2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42M3 12h2m14 0h2M5.64 18.36l1.42-1.42m9.88-9.88 1.42-1.42" />
+                        <circle cx="12" cy="12" r="4" />
+                    </svg>
+                </button>
+                <button class="nav-btn" id="langToggle" type="button" aria-label="Switch language">TR</button>
+                <button class="nav-toggle" id="navToggle" type="button" aria-label="Open menu" aria-controls="navMenu" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="main-content">
-        <div class="hero-background">
-            <canvas id="particleCanvas"></canvas>
-            <!-- Circuit SVG Background -->
-            <div class="circuit-bg">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" class="circuit-svg">
-                    <defs>
-                        <linearGradient id="traceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:var(--primary-color);stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:var(--secondary-color);stop-opacity:0.6" />
-                        </linearGradient>
-                    </defs>
-                    <g class="circuit-traces" fill="none" stroke="url(#traceGradient)" stroke-width="1.5"
-                        stroke-linecap="round" opacity="0.3">
-                        <path d="M50,100 L200,100 L220,120 L350,120" />
-                        <path d="M100,180 L280,180 L300,160 L420,160 L440,180 L550,180" />
-                        <path d="M0,250 L150,250 L170,230 L300,230" />
-                        <path d="M200,320 L380,320 L400,300 L520,300 L540,320 L700,320" />
-                        <path d="M50,400 L180,400 L200,420 L350,420" />
-                        <path d="M120,480 L300,480 L320,460 L480,460 L500,480 L650,480" />
-                        <path d="M150,50 L150,150 L170,170 L170,280" />
-                        <path d="M350,0 L350,120" />
-                        <path d="M450,100 L450,200 L430,220 L430,350" />
-                        <path d="M550,180 L550,300" />
-                        <path d="M250,250 L250,400" />
-                        <path d="M600,200 L600,350 L620,370 L620,500" />
-                        <circle cx="200" cy="100" r="4" fill="var(--primary-color)" opacity="0.5" />
-                        <circle cx="350" cy="120" r="4" fill="var(--primary-color)" opacity="0.5" />
-                        <circle cx="550" cy="180" r="4" fill="var(--secondary-color)" opacity="0.5" />
-                        <circle cx="300" cy="230" r="4" fill="var(--primary-color)" opacity="0.5" />
-                    </g>
-                </svg>
-            </div>
-        </div>
-        <div class="hero-content" data-animate="hero-entry">
-            <h1 class="hero-title" data-animate-text="chars">
-                <span>Bora</span>
-                <span>Girgin</span>
-            </h1>
-            <p class="hero-tagline" data-en="Electrical & Electronics Engineering Student"
-                data-tr="Elektrik ve Elektronik Mühendisliği Öğrencisi">Electrical & Electronics Engineering Student</p>
-            <p class="hero-subtitle" data-en="IoT • Embedded Systems • PCB Design"
-                data-tr="IoT • Gömülü Sistemler • PCB Tasarımı">IoT • Embedded Systems • PCB Design</p>
-
-            <div class="hero-cta">
-                <a href="projects.html" class="btn btn-primary" data-en="View Projects" data-tr="Projeleri Gör">View
-                    Projects</a>
-                <!-- CONTACT ME CONTRAST BUTTON -->
-                <a href="contact.html" class="btn btn-contrast" data-en="Contact me" data-tr="İletişim">
-                    <span>Contact me</span>
+    <main id="main-content" class="site-main">
+        <section class="hero hero-lab" id="home">
+            <canvas id="heroScene" class="hero-scene" aria-hidden="true"></canvas>
+            <div class="hero-atmosphere" aria-hidden="true"></div>
+            <div class="container hero-grid">
+                <div class="hero-copy-block reveal">
+                    <div class="hero-card-chrome" aria-hidden="true"></div>
+                    <div class="hero-dossier-row" aria-label="Portfolio dossier">
+                        <span>Royal Hardware Atelier</span>
+                        <span>Sakarya / TR</span>
+                    </div>
+                    <span class="eyebrow">Sakarya / Embedded Systems</span>
+                    <h1 class="hero-title">Bora <span>Girgin</span></h1>
+                    <p class="hero-copy" data-en="Electrical and Electronics Engineering student building practical IoT systems, long-range LoRa networks, firmware, and PCB designs for real hardware."
+                        data-tr="Gercek donanimlar icin IoT sistemleri, uzun menzilli LoRa aglari, firmware ve PCB tasarimlari gelistiren Elektrik-Elektronik Muhendisligi ogrencisi.">
+                        Electrical and Electronics Engineering student building practical IoT systems, long-range LoRa
+                        networks, firmware, and PCB designs for real hardware.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M13 5l7 7-7 7" />
+                            </svg>
+                            <span data-en="View Projects" data-tr="Projeleri Gor">View Projects</span>
+                        </a>
+                        <a href="#contact" class="btn">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16v16H4z" />
+                                <path d="m22 6-10 7L2 6" />
+                            </svg>
+                            <span data-en="Contact" data-tr="Iletisim">Contact</span>
+                        </a>
+                    </div>
+                    <div class="status-stack">
+                        <div class="status-card"><strong>LoRa</strong><span>Industrial network</span></div>
+                        <div class="status-card"><strong>ESP32</strong><span>Firmware nodes</span></div>
+                        <div class="status-card"><strong>KiCad</strong><span>Board design</span></div>
+                    </div>
+                </div>
+                <a class="scroll-cue" href="#capabilities" aria-label="Scroll to capabilities">
+                    <span>Scroll</span>
+                    <i aria-hidden="true"></i>
                 </a>
             </div>
-        </div>
+        </section>
 
-        <div class="scroll-indicator">
-            <span data-en="Scroll Down" data-tr="Aşağı Kaydır">Scroll Down</span>
-            <div class="scroll-arrow"></div>
-        </div>
-    </section>
-
-    <!-- QUICK INTRO CARDS -->
-    <section class="intro-cards" data-animate="scroll-reveal">
-        <div class="container">
-            <section class="stack">
-                <article class="card is-active">
-                    <div class="icon-box" aria-hidden="true">
-                        <!-- lightning -->
-                        <svg viewBox="0 0 24 24" class="icon">
-                            <path d="M13 2L3 14h7l-1 8 12-14h-7l-1-6z" fill="currentColor" />
-                        </svg>
+        <section class="section" id="capabilities">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div>
+                        <span class="kicker">Capabilities</span>
+                        <h2 class="section-title">Hardware to dashboard</h2>
                     </div>
-
-                    <h3 class="title" data-en="Embedded Systems" data-tr="Gömülü Sistemler">Embedded Systems</h3>
-                    <p class="desc" data-en="Developing IoT solutions with ESP32, STM32, and Arduino platforms"
-                        data-tr="ESP32, STM32 ve Arduino ile IoT çözümleri">Developing IoT solutions with ESP32, STM32,
-                        and Arduino platforms</p>
-                </article>
-
-                <article class="card">
-                    <div class="icon-box" aria-hidden="true">
-                        <!-- antenna -->
-                        <svg viewBox="0 0 24 24" class="icon">
-                            <path
-                                d="M12 2a1 1 0 0 1 1 1v8.2l3.6 3.6a1 1 0 0 1-1.4 1.4L12 13l-3.2 3.2a1 1 0 1 1-1.4-1.4L11 11.2V3a1 1 0 0 1 1-1z"
-                                fill="currentColor" />
-                            <path d="M5.5 19.5a9 9 0 0 1 13 0" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" />
-                            <path d="M8.5 16.5a5 5 0 0 1 7 0" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" />
-                        </svg>
-                    </div>
-
-                    <h3 class="title" data-en="Wireless Communication" data-tr="Kablosuz İletişim">Wireless
-                        Communication</h3>
-                    <p class="desc" data-en="LoRa networks and industrial automation systems"
-                        data-tr="LoRa ağları ve endüstriyel otomasyon sistemleri">LoRa networks and industrial
-                        automation systems</p>
-                </article>
-
-                <article class="card">
-                    <div class="icon-box" aria-hidden="true">
-                        <!-- wrench -->
-                        <svg viewBox="0 0 24 24" class="icon">
-                            <path d="M21 7.5a6 6 0 0 1-8.2 5.6l-6.9 6.9a2 2 0 0 1-2.8-2.8l6.9-6.9A6 6 0 1 1 21 7.5z"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
-                        </svg>
-                    </div>
-
-                    <h3 class="title" data-en="Hardware Design" data-tr="Donanım Tasarımı">Hardware Design</h3>
-                    <p class="desc" data-en="PCB design and circuit development with KiCAD"
-                        data-tr="KiCAD ile PCB tasarımı ve devre geliştirme">PCB design and circuit development with
-                        KiCAD</p>
-                </article>
-            </section>
-        </div>
-    </section>
-
-
-
-    <section class="featured-preview" data-animate="scroll-reveal">
-        <div class="container">
-            <div class="section-header-flex">
-                <h2 class="section-title"><span class="text-highlight">Recent</span> <span
-                        class="text-muted">Work</span></h2>
-                <a href="projects.html" class="view-all-link" data-en="View all projects" data-tr="Tüm projeler">
-                    View all projects
-                    <svg class="arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                </a>
+                    <p class="section-copy">A single scrollable portfolio for embedded boards, radio systems, backend
+                        control panels, and the engineering notes behind them.</p>
+                </div>
+                <div class="grid-3">
+                    <article class="card reveal">
+                        <div class="icon-mark">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2 4 14h7l-1 8 10-13h-7l0-7Z" />
+                            </svg>
+                        </div>
+                        <h3>Embedded Systems</h3>
+                        <p>ESP32, STM32, Arduino, sensor integration, local control logic, and low-level firmware.</p>
+                    </article>
+                    <article class="card reveal">
+                        <div class="icon-mark">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20v-8" />
+                                <path d="M5 12a10 10 0 0 1 14 0" />
+                                <path d="M8 15a6 6 0 0 1 8 0" />
+                                <circle cx="12" cy="8" r="2" />
+                            </svg>
+                        </div>
+                        <h3>Wireless Control</h3>
+                        <p>LoRa and Bluetooth projects focused on long range operation, reliability, and field use.</p>
+                    </article>
+                    <article class="card reveal">
+                        <div class="icon-mark">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="4" y="4" width="16" height="16" rx="2" />
+                                <path d="M9 9h6v6H9zM9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3" />
+                            </svg>
+                        </div>
+                        <h3>PCB Design</h3>
+                        <p>KiCad board layouts for RF, power, sensor hubs, and custom development kits.</p>
+                    </article>
+                </div>
             </div>
-            <div class="projects-grid-new">
-                <!-- Project 1: Pi Control Panel -->
-                <article class="project-card-new">
-                    <div class="card-header-new">
-                        <h3>Pi Control Panel</h3>
-                        <span class="badge-pill">Raspberry Pi</span>
-                    </div>
-                    <p class="card-desc-new">Web-based control panel for Raspberry Pi with system monitoring, GPIO
-                        control, and remote management</p>
-                    <a href="https://github.com/BGirginn/rasp_pi_webUI" target="_blank" class="btn-github-new">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-                        </svg>
-                        View on GitHub
-                    </a>
-                </article>
+        </section>
 
-                <!-- Project 2: FOU4 -->
-                <article class="project-card-new">
-                    <div class="card-header-new">
-                        <h3>FOU4 Pentest Toolkit</h3>
-                        <span class="badge-pill">Cyber Security</span>
+        <section class="section" id="projects">
+            <div class="container split-layout">
+                <aside class="side-rail reveal" aria-label="Project sections">
+                    <h2>Project Index</h2>
+                    <a href="#open-source">Open source</a>
+                    <a href="#lora-control">LoRa automation</a>
+                    <a href="#arduino-car">Robotics car</a>
+                    <a href="#gallery">PCB gallery</a>
+                </aside>
+
+                <div>
+                    <section id="open-source" class="section-nested">
+                        <div class="section-header reveal">
+                            <div>
+                                <span class="kicker">Selected Work</span>
+                                <h2 class="section-title">Recent builds</h2>
+                            </div>
+                            <p class="section-copy">Public repositories and research systems collected into one
+                                continuous project archive.</p>
+                        </div>
+                        <div class="project-grid">
+                            <article class="project-card reveal">
+                                <span class="tag hot">TUBITAK</span>
+                                <h3>LoRa Factory Automation System</h3>
+                                <p>Industrial wireless control system for Talu Textile using ESP32 nodes, a Raspberry Pi
+                                    gateway, and a long-range LoRa network.</p>
+                                <div class="tag-row"><span class="tag">LoRa</span><span class="tag">ESP32</span><span class="tag">Raspberry Pi</span></div>
+                                <footer><a class="project-link" href="#lora-control">Read case study</a></footer>
+                            </article>
+                            <article class="project-card reveal">
+                                <span class="tag">Raspberry Pi</span>
+                                <h3>Pi Control Panel</h3>
+                                <p>Modern web dashboard to monitor and control a Raspberry Pi remotely through Tailscale VPN.</p>
+                                <div class="tag-row"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">React</span></div>
+                                <footer><a class="project-link" href="https://github.com/BGirginn/rasp_pi_webUI" target="_blank" rel="noopener noreferrer">Open GitHub</a></footer>
+                            </article>
+                            <article class="project-card reveal">
+                                <span class="tag">SwiftUI</span>
+                                <h3>Aura Color Finder</h3>
+                                <p>iOS app that detects and analyzes aura colors from photos using Apple's Vision framework.</p>
+                                <div class="tag-row"><span class="tag">Swift</span><span class="tag">SwiftUI</span><span class="tag">iOS</span></div>
+                                <footer><a class="project-link" href="https://github.com/BGirginn/aura_swift" target="_blank" rel="noopener noreferrer">Open GitHub</a></footer>
+                            </article>
+                            <article class="project-card reveal">
+                                <span class="tag">Security</span>
+                                <h3>Kali Penetration Toolkit</h3>
+                                <p>Modular penetration-testing toolkit with interactive and CLI modes for Kali Linux workflows.</p>
+                                <div class="tag-row"><span class="tag">Python</span><span class="tag">Kali</span><span class="tag">CLI</span></div>
+                                <footer><a class="project-link" href="https://github.com/BGirginn/fou4" target="_blank" rel="noopener noreferrer">Open GitHub</a></footer>
+                            </article>
+                            <article class="project-card reveal">
+                                <span class="tag">Embedded</span>
+                                <h3>NightLamp</h3>
+                                <p>C++ night-lamp project focused on small embedded electronics and lighting behavior.</p>
+                                <div class="tag-row"><span class="tag">C++</span><span class="tag">Electronics</span></div>
+                                <footer><a class="project-link" href="https://github.com/BGirginn/NightLamp" target="_blank" rel="noopener noreferrer">Open GitHub</a></footer>
+                            </article>
+                            <article class="project-card reveal">
+                                <span class="tag">IoT</span>
+                                <h3>Safe Case</h3>
+                                <p>Smart secure-case concept with embedded security features and connected control.</p>
+                                <div class="tag-row"><span class="tag">IoT</span><span class="tag">Security</span><span class="tag">Embedded</span></div>
+                                <footer><a class="project-link" href="https://github.com/BGirginn/safe_case" target="_blank" rel="noopener noreferrer">Open GitHub</a></footer>
+                            </article>
+                        </div>
+                    </section>
+
+                    <section class="section-nested" aria-label="Research projects">
+                        <div class="section-header reveal">
+                            <div>
+                                <span class="kicker">Research and Competition</span>
+                                <h2 class="section-title">Case studies</h2>
+                            </div>
+                        </div>
+
+                        <article class="accordion-item open reveal" id="lora-control">
+                            <button class="accordion-header" type="button">
+                                <div>
+                                    <h2>LoRa Factory Automation System</h2>
+                                    <div class="tag-row">
+                                        <span class="tag hot">TUBITAK 2209-B</span>
+                                        <span class="tag">LoRa</span>
+                                        <span class="tag">ESP32</span>
+                                        <span class="tag">Raspberry Pi</span>
+                                        <span class="tag">Industrial IoT</span>
+                                    </div>
+                                </div>
+                                <span class="accordion-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
+                                </span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="project-content">
+                                    <p>An automated control system developed for Talu Textile as part of a TUBITAK-funded research project. It uses LoRa wireless communication to connect factory equipment across large industrial spaces.</p>
+                                    <h3>Project overview</h3>
+                                    <ul>
+                                        <li>Started in November 2024 as part of the TUBITAK grant program.</li>
+                                        <li>Developed with Talu Textile for a practical industrial deployment context.</li>
+                                        <li>Designed to replace rigid wired control systems with a flexible LoRa network.</li>
+                                        <li>Focused on range, reliability, and low-power operation.</li>
+                                    </ul>
+                                    <div class="tech-specs">
+                                        <h3>System architecture</h3>
+                                        <ul>
+                                            <li><strong>Communication:</strong> LoRa long-range wireless protocol.</li>
+                                            <li><strong>Nodes:</strong> ESP32 microcontrollers for sensor and actuator control.</li>
+                                            <li><strong>Gateway:</strong> Raspberry Pi for data aggregation and processing.</li>
+                                            <li><strong>Software:</strong> C++ firmware and Python gateway services.</li>
+                                        </ul>
+                                    </div>
+                                    <h3>Technical implementation</h3>
+                                    <ul>
+                                        <li>Custom LoRa network protocol tuned for factory conditions.</li>
+                                        <li>ESP32 nodes handle local readings and actuator commands.</li>
+                                        <li>Raspberry Pi gateway aggregates node data for a monitoring dashboard.</li>
+                                        <li>Failsafe behavior for critical control actions.</li>
+                                    </ul>
+                                    <a class="btn btn-primary" href="https://github.com/BGirginn/2209B" target="_blank" rel="noopener noreferrer">Open repository</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="accordion-item reveal" id="arduino-car">
+                            <button class="accordion-header" type="button">
+                                <div>
+                                    <h2>Bluetooth Arduino Robotics Car</h2>
+                                    <div class="tag-row">
+                                        <span class="tag">Arduino</span>
+                                        <span class="tag">Bluetooth</span>
+                                        <span class="tag">LIDAR</span>
+                                        <span class="tag hot">Competition Winner</span>
+                                    </div>
+                                </div>
+                                <span class="accordion-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg>
+                                </span>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="project-content">
+                                    <p>A robotics project built for Biga ICDAS Science High School's competition. The vehicle simulated a space mining rover with wireless control, object manipulation, and autonomous navigation.</p>
+                                    <h3>Project context</h3>
+                                    <ul>
+                                        <li>Developed between April and May 2020.</li>
+                                        <li>Competition theme: autonomous space mining vehicle prototype.</li>
+                                        <li>Completed all assigned missions with the highest accuracy.</li>
+                                    </ul>
+                                    <div class="tech-specs">
+                                        <h3>Hardware components</h3>
+                                        <ul>
+                                            <li>Arduino controller with Bluetooth remote control.</li>
+                                            <li>Infrared, ultrasonic, and LIDAR sensors for navigation.</li>
+                                            <li>Motor-driven robotic arm with pressure-sensitive gripper.</li>
+                                        </ul>
+                                    </div>
+                                    <h3>Key features</h3>
+                                    <ul>
+                                        <li>Line following using LIDAR scanning.</li>
+                                        <li>Object detection and distance measurement.</li>
+                                        <li>Wireless manual override and autonomous waypoint movement.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="gallery">
+            <div class="container">
+                <div class="section-header reveal">
+                    <div>
+                        <span class="kicker">PCB Inspection</span>
+                        <h2 class="section-title">Design gallery</h2>
                     </div>
-                    <p class="card-desc-new">Comprehensive penetration testing toolkit for Kali Linux with network
-                        scanning, WiFi analysis, and password attacks</p>
-                    <a href="https://github.com/BGirginn/fou4" target="_blank" class="btn-github-new">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
-                        </svg>
-                        View on GitHub
-                    </a>
+                    <p class="section-copy">RF layouts, microcontroller kits, power boards, and sensor interfaces in a
+                        scroll-native inspection gallery.</p>
+                </div>
+                <div class="gallery-grid">
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>LoRa Telemetry Board</h3>
+                        <p>4-layer RF optimized board with SX1276 transceiver and power management.</p>
+                        <div class="tag-row"><span class="spec-badge">4 Layers</span><span class="spec-badge">RF Design</span><span class="spec-badge">868/915 MHz</span><span class="spec-badge">KiCad</span></div>
+                    </article>
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>Avionics Interface Board</h3>
+                        <p>Flight-computer interface board with STM32, IMU sensor fusion, and CAN bus expansion.</p>
+                        <div class="tag-row"><span class="spec-badge">6 Layers</span><span class="spec-badge">STM32F4</span><span class="spec-badge">IMU</span><span class="spec-badge">CAN Bus</span></div>
+                    </article>
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>ESP32 Development Kit</h3>
+                        <p>Custom ESP32 board with USB-C, LiPo charging, and OLED display connector.</p>
+                        <div class="tag-row"><span class="spec-badge">2 Layers</span><span class="spec-badge">ESP32</span><span class="spec-badge">USB-C</span><span class="spec-badge">LiPo</span></div>
+                    </article>
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>High-Current Power Board</h3>
+                        <p>Buck/boost converter concept with multiple voltage rails and current monitoring.</p>
+                        <div class="tag-row"><span class="spec-badge">2 Layers</span><span class="spec-badge">30A Max</span><span class="spec-badge">3.3V/5V/12V</span></div>
+                    </article>
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>Multi-Sensor Hub</h3>
+                        <p>Modular interface board for I2C, SPI, analog inputs, and field sensor modules.</p>
+                        <div class="tag-row"><span class="spec-badge">4 Layers</span><span class="spec-badge">I2C/SPI</span><span class="spec-badge">16-bit ADC</span></div>
+                    </article>
+                    <article class="gallery-item reveal">
+                        <div class="gallery-preview" aria-hidden="true"></div>
+                        <h3>RF Power Amplifier</h3>
+                        <p>Low-noise 2.4 GHz amplifier layout with impedance matching network.</p>
+                        <div class="tag-row"><span class="spec-badge">2 Layers</span><span class="spec-badge">2.4 GHz</span><span class="spec-badge">LNA</span><span class="spec-badge">High Gain</span></div>
+                    </article>
+                </div>
+
+                <div class="section-header reveal layer-heading">
+                    <div>
+                        <span class="kicker">Stacked Board Anatomy</span>
+                        <h2 class="section-title">PCB layer model</h2>
+                    </div>
+                    <p class="section-copy">A static layer model showing the construction logic behind a simple
+                        multilayer PCB.</p>
+                </div>
+                <div class="exploded-pcb reveal">
+                    <div class="pcb-layer">Top Silkscreen</div>
+                    <div class="pcb-layer">Top Solder Mask</div>
+                    <div class="pcb-layer">Top Copper Signal</div>
+                    <div class="pcb-layer">FR4 Substrate</div>
+                    <div class="pcb-layer">Bottom Copper Ground</div>
+                    <div class="pcb-layer">Bottom Solder Mask</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="cv">
+            <div class="container cv-layout">
+                <aside class="side-rail reveal" aria-label="CV navigation">
+                    <h2>CV Sections</h2>
+                    <a href="#summary">Summary</a>
+                    <a href="#education">Education</a>
+                    <a href="#skills">Technical Skills</a>
+                    <a href="#cv-projects">Projects</a>
+                    <a href="#certifications">Certifications</a>
+                    <a href="#competencies">Core Competencies</a>
+                </aside>
+
+                <article class="cv-paper reveal">
+                    <header class="cv-header">
+                        <span class="eyebrow">Curriculum Vitae</span>
+                        <h1>Bora <span class="accent-text">Girgin</span></h1>
+                        <p class="page-copy">Electrical and Electronics Engineering Student</p>
+                        <div class="cv-contact">
+                            <a href="mailto:girginbora30@gmail.com">girginbora30@gmail.com</a>
+                            <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">github.com/bgirginn</a>
+                            <a href="https://linkedin.com/in/boragirgin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                            <span>Sakarya, Turkiye</span>
+                        </div>
+                        <div class="button-row">
+                            <a href="assets/pdf/BoraGirginCV.pdf" download class="btn btn-primary">Download CV</a>
+                            <button class="btn" type="button" onclick="window.print()">Print</button>
+                        </div>
+                    </header>
+
+                    <section class="cv-block" id="summary">
+                        <h2>Professional Summary</h2>
+                        <p>A motivated and detail-oriented electrical and electronics engineering student with a strong
+                            foundation in embedded systems and IoT projects. Experienced with Raspberry Pi, ESP32, STM32,
+                            LoRa networks, network security, PCB design, and practical hardware/software integration.</p>
+                    </section>
+
+                    <section class="cv-block" id="education">
+                        <h2>Education</h2>
+                        <div class="cv-item">
+                            <h3>Sakarya University</h3>
+                            <p class="meta">BSc. Electrical and Electronics Engineering | September 2022 - Present</p>
+                            <p>Sakarya, Turkiye</p>
+                        </div>
+                        <div class="cv-item">
+                            <h3>Biga ICDAS Science High School</h3>
+                            <p class="meta">September 2018 - June 2022</p>
+                            <p>Biga, Canakkale</p>
+                        </div>
+                    </section>
+
+                    <section class="cv-block" id="skills">
+                        <h2>Technical Skills</h2>
+                        <div class="skills-grid">
+                            <div class="skill-group">
+                                <h4>Programming</h4>
+                                <ul><li>Python</li><li>C / C++</li><li>C# / ASP.NET</li><li>MS SQL</li><li>Git</li></ul>
+                            </div>
+                            <div class="skill-group">
+                                <h4>Engineering Software</h4>
+                                <ul><li>MATLAB</li><li>AutoCAD</li><li>KiCad</li><li>Proteus</li><li>Cisco</li></ul>
+                            </div>
+                            <div class="skill-group">
+                                <h4>IoT / Embedded</h4>
+                                <ul><li>ESP32</li><li>STM32</li><li>Raspberry Pi</li><li>LoRa</li><li>Arduino</li><li>Linux Server</li></ul>
+                            </div>
+                            <div class="skill-group">
+                                <h4>Office & Tools</h4>
+                                <ul><li>Microsoft Office</li><li>Word / Excel</li><li>PowerPoint</li><li>SSMS</li></ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="cv-block" id="cv-projects">
+                        <h2>Projects</h2>
+                        <div class="cv-item">
+                            <h3>LoRa Automatic Control System</h3>
+                            <p class="meta">November 2024 - Present | TUBITAK-funded project</p>
+                            <ul>
+                                <li>Built an automated factory-control system using LoRa network technology.</li>
+                                <li>Used ESP32 and Raspberry Pi for industrial communication and gateway behavior.</li>
+                                <li>Developed with Talu Textile as part of a TUBITAK research project.</li>
+                                <li>Technologies: LoRa Network, C++, ESP32, Raspberry Pi.</li>
+                            </ul>
+                        </div>
+                        <div class="cv-item">
+                            <h3>Bluetooth Arduino Car Project</h3>
+                            <p class="meta">April 2020 - May 2020 | Science High School Robotics Competition</p>
+                            <ul>
+                                <li>Designed a prototype space mining vehicle with robotic arm and multiple sensors.</li>
+                                <li>Integrated IR, ultrasonic, LIDAR, motor control, and an FSR-based gripper.</li>
+                                <li>Achieved full mission success with the highest accuracy in the competition.</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section class="cv-block" id="certifications">
+                        <h2>Certifications</h2>
+                        <ul>
+                            <li>CoderSpace Cyber Security School Certificate</li>
+                            <li>NDG Linux Essentials Certificate</li>
+                            <li>Ethical Hacking Course - Atil Samancioglu</li>
+                            <li>Learn C# by Developing Applications - Murat Yucedag</li>
+                            <li>C++ Courses - Faruk Tutkus</li>
+                        </ul>
+                    </section>
+
+                    <section class="cv-block" id="competencies">
+                        <h2>Core Competencies</h2>
+                        <ul>
+                            <li>Embedded systems development and IoT solutions.</li>
+                            <li>Factory automation and industrial control systems.</li>
+                            <li>Wireless communication protocols including LoRa and Bluetooth.</li>
+                            <li>Microcontroller programming with ESP32, STM32, and Arduino.</li>
+                            <li>Circuit design and PCB development with KiCad.</li>
+                            <li>Network security, Linux administration, and server management.</li>
+                        </ul>
+                    </section>
                 </article>
             </div>
+        </section>
+
+        <section class="section" id="contact">
+            <div class="container contact-grid">
+                <article class="contact-card reveal">
+                    <span class="kicker">Signal Path Open</span>
+                    <h2>Contact Information</h2>
+                    <p>Reach out for collaboration, consulting, or project discussion. I am especially interested in
+                        practical hardware systems, factory automation, and embedded software.</p>
+
+                    <a class="contact-method" href="mailto:girginbora30@gmail.com">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16v16H4z" />
+                            <path d="m22 6-10 7L2 6" />
+                        </svg>
+                        <span><strong>Email</strong><span>girginbora30@gmail.com</span></span>
+                    </a>
+                    <a class="contact-method" href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                            <path d="M12 .5A12 12 0 0 0 8.2 23.9c.6.1.8-.2.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .4.2.7.8.6A12 12 0 0 0 12 .5Z" />
+                        </svg>
+                        <span><strong>GitHub</strong><span>github.com/bgirginn</span></span>
+                    </a>
+                    <a class="contact-method" href="https://linkedin.com/in/boragirgin" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
+                            <path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.55V9h3.57v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.2 0 22.23 0Z" />
+                        </svg>
+                        <span><strong>LinkedIn</strong><span>linkedin.com/in/boragirgin</span></span>
+                    </a>
+                    <div class="contact-method">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 21s7-6.2 7-12A7 7 0 1 0 5 9c0 5.8 7 12 7 12Z" />
+                            <circle cx="12" cy="9" r="2" />
+                        </svg>
+                        <span><strong>Location</strong><span>Turkiye</span></span>
+                    </div>
+                </article>
+
+                <aside class="contact-card signal-card reveal">
+                    <span class="kicker">Availability</span>
+                    <h2>Project signal</h2>
+                    <p>Best-fit work includes embedded prototypes, LoRa or Bluetooth control systems, Raspberry Pi
+                        dashboards, and PCB concept reviews.</p>
+                    <div>
+                        <div class="spec-row"><span class="spec-key">Response path</span><span class="spec-value">Email</span></div>
+                        <div class="spec-row"><span class="spec-key">Focus</span><span class="spec-value">IoT / PCB</span></div>
+                        <div class="spec-row"><span class="spec-key">Region</span><span class="spec-value">Remote / TR</span></div>
+                    </div>
+                    <div class="signal-bar" aria-hidden="true"><span style="width: 82%"></span></div>
+                    <a href="mailto:girginbora30@gmail.com" class="btn btn-primary">Start a conversation</a>
+                </aside>
+            </div>
+        </section>
+
+        <div id="pcbModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+            <div class="modal-backdrop" data-close-modal></div>
+            <div class="modal-content">
+                <button class="icon-btn modal-close" data-close-modal aria-label="Close modal">X</button>
+                <h2 id="modalTitle" class="section-title">PCB Details</h2>
+                <div class="modal-tabs" role="tablist">
+                    <button class="modal-tab active" role="tab" aria-selected="true" data-tab="top">Top View</button>
+                    <button class="modal-tab" role="tab" aria-selected="false" data-tab="bottom">Bottom View</button>
+                    <button class="modal-tab" role="tab" aria-selected="false" data-tab="specs">Specs</button>
+                </div>
+                <div class="modal-panel active" data-panel="top">
+                    <div class="modal-image-placeholder">Top board view placeholder</div>
+                </div>
+                <div class="modal-panel" data-panel="bottom">
+                    <div class="modal-image-placeholder">Bottom board view placeholder</div>
+                </div>
+                <div class="modal-panel" data-panel="specs">
+                    <div class="spec-row"><span class="spec-key">Design tool</span><span class="spec-value">KiCad</span></div>
+                    <div class="spec-row"><span class="spec-key">Stackup</span><span class="spec-value">2-6 layers</span></div>
+                    <div class="spec-row"><span class="spec-key">Focus</span><span class="spec-value">IoT / RF / Power</span></div>
+                    <div class="spec-row"><span class="spec-key">Status</span><span class="spec-value">Concept gallery</span></div>
+                </div>
+            </div>
         </div>
-    </section>
-    </div>
-    </section>
+    </main>
 
-    <!-- SKILLS OVERVIEW -->
-
-
-    <!-- FOOTER -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-col">
+                <div>
                     <h4>Bora Girgin</h4>
-                    <p>Embedded Systems Engineer specializing in IoT, PCB design, and firmware development.</p>
+                    <p>Embedded systems, IoT, PCB design, and firmware development.</p>
                 </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <a href="projects.html">Projects</a>
-                    <a href="pcb.html">Design Gallery</a>
-                    <a href="cv.html">CV</a>
+                <div>
+                    <h4>Navigate</h4>
+                    <a href="#home">Home</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#gallery">Design Gallery</a>
+                    <a href="#cv">CV</a>
                 </div>
-                <div class="footer-col">
+                <div>
                     <h4>Connect</h4>
-                    <!-- SOCIAL MEDIA LINKS (Uiverse: modern-mouse-31) -->
-                    <!-- PASTE HTML HERE -->
-                    <div class="uiverse-socials-placeholder">
-                        <a href="https://github.com/bgirginn" target="_blank">GitHub</a>
-                        <a href="https://linkedin.com/in/boragirgin" target="_blank">LinkedIn</a>
-                        <a href="mailto:girginbora30@gmail.com">Email</a>
-                    </div>
+                    <a href="https://github.com/bgirginn" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://linkedin.com/in/boragirgin" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="mailto:girginbora30@gmail.com">Email</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="year"></span> Bora Girgin. All rights reserved.</p>
-            </div>
+            <div class="footer-bottom">&copy; <span id="year"></span> Bora Girgin. All rights reserved.</div>
         </div>
     </footer>
 
-    <script src="js/animations.js"></script>
     <script src="js/script.js"></script>
 </body>
 

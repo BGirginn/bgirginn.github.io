@@ -1,574 +1,545 @@
-// ===========================
-// DEBUG MODE
-// ===========================
-const DEBUG = false; // Set to false for production
-
-function readStoredValue(key) {
-    try {
-        return localStorage.getItem(key);
-    } catch {
-        return null;
-    }
-}
-
-function writeStoredValue(key, value) {
-    try {
-        localStorage.setItem(key, value);
-    } catch {
-        // Ignore storage failures in private mode or restricted environments.
-    }
-}
-
-function getThemeToggleCheckbox() {
-    return document.getElementById('themeToggleCheckbox');
-}
-
-function syncThemeCheckbox(theme) {
-    const checkbox = getThemeToggleCheckbox();
-    if (checkbox) {
-        checkbox.checked = theme === 'light';
-    }
-}
-
-// ===========================
-// THEME TOGGLE WITH VIEW TRANSITION API
-// ===========================
-function initTheme() {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const savedTheme = readStoredValue('theme');
-    const theme = savedTheme === 'dark' || savedTheme === 'light'
-        ? savedTheme
-        : (prefersDark ? 'dark' : 'light');
-
-    applyTheme(theme);
-}
-
-function updateThemeIcon(theme) {
-    document.querySelectorAll('#themeIcon').forEach(icon => {
-        icon.textContent = theme === 'dark' ? '🌙' : '☀️';
-    });
-}
-
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    writeStoredValue('theme', theme);
-    syncThemeCheckbox(theme);
-    updateThemeIcon(theme);
-}
-
-// Initialize theme on load
-initTheme();
-
-function handleThemeToggleChange(event) {
-    const target = event.currentTarget;
-    const newTheme = target.checked ? 'light' : 'dark';
-    const toggleSwitch = target.closest('.toggle-switch');
-    const targetElement = toggleSwitch || target;
-    const rect = targetElement.getBoundingClientRect();
-
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-
-    if (!document.startViewTransition) {
-        applyTheme(newTheme);
-        return;
-    }
-
-    const endRadius = Math.hypot(
-        Math.max(x, innerWidth - x),
-        Math.max(y, innerHeight - y)
-    );
-
-    const transition = document.startViewTransition(() => {
-        applyTheme(newTheme);
-    });
-
-    transition.ready.then(() => {
-        document.documentElement.animate(
-            {
-                clipPath: [
-                    `circle(0px at ${x}px ${y}px)`,
-                    `circle(${endRadius}px at ${x}px ${y}px)`
-                ],
-            },
-            {
-                duration: 500,
-                easing: 'ease-out',
-                pseudoElement: '::view-transition-new(root)',
+(function () {
+    const storage = {
+        get(key) {
+            try {
+                return localStorage.getItem(key);
+            } catch {
+                return null;
             }
-        );
-    }).catch(() => {
-        // Ignore aborted transitions.
-    });
-}
+        },
+        set(key, value) {
+            try {
+                localStorage.setItem(key, value);
+            } catch {
+                return undefined;
+            }
+        }
+    };
 
-const themeToggleCheckbox = getThemeToggleCheckbox();
-if (themeToggleCheckbox) {
-    themeToggleCheckbox.addEventListener('change', handleThemeToggleChange);
-    syncThemeCheckbox(document.documentElement.getAttribute('data-theme') || 'light');
-}
+    const root = document.documentElement;
+    const navToggle = document.getElementById("navToggle");
+    const navMenu = document.getElementById("navMenu");
+    const themeToggle = document.getElementById("themeToggle");
+    const langToggle = document.getElementById("langToggle");
+    const year = document.getElementById("year");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// ===========================
-// LANGUAGE TOGGLE
-// ===========================
-function translatePage(lang) {
-    document.querySelectorAll('[data-en][data-tr]').forEach(el => {
-        // CRITICAL: Skip hero-title to keep "Bora Girgin" unchanged
-        if (el.closest('.hero-title')) {
+    function applyTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        storage.set("theme", theme);
+        if (themeToggle) {
+            themeToggle.setAttribute("aria-label", "Switch cream theme variant");
+        }
+    }
+
+    function initTheme() {
+        const saved = storage.get("theme");
+        applyTheme(saved === "dark" || saved === "light" ? saved : "light");
+    }
+
+    function translate(lang) {
+        root.setAttribute("lang", lang);
+        storage.set("language", lang);
+        document.querySelectorAll("[data-en][data-tr]").forEach((node) => {
+            node.textContent = node.getAttribute(lang === "tr" ? "data-tr" : "data-en");
+        });
+        if (langToggle) {
+            langToggle.textContent = lang === "tr" ? "EN" : "TR";
+        }
+    }
+
+    function initNav() {
+        if (!navToggle || !navMenu) return;
+
+        navToggle.addEventListener("click", () => {
+            const isOpen = navMenu.classList.toggle("active");
+            navToggle.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        navMenu.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+                navMenu.classList.remove("active");
+                navToggle.setAttribute("aria-expanded", "false");
+            });
+        });
+    }
+
+    function initSectionNav() {
+        const links = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
+        const sections = links
+            .map((link) => document.querySelector(link.getAttribute("href")))
+            .filter(Boolean);
+
+        if (links.length === 0 || sections.length === 0 || !("IntersectionObserver" in window)) return;
+
+        const setActive = (id) => {
+            links.forEach((link) => {
+                link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+            });
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+            if (visible?.target?.id) setActive(visible.target.id);
+        }, { rootMargin: "-35% 0px -52% 0px", threshold: [0.12, 0.24, 0.4] });
+
+        sections.forEach((section) => observer.observe(section));
+    }
+
+    function initReveal() {
+        const targets = document.querySelectorAll(".reveal");
+        if (targets.length === 0) return;
+
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+            targets.forEach((target) => target.classList.add("is-visible"));
             return;
         }
 
-        const text = lang === 'en' ? el.getAttribute('data-en') : el.getAttribute('data-tr');
-        if (text) {
-            el.textContent = text;
-        }
-    });
-}
-
-function toggleLanguage() {
-    const currentLang = document.documentElement.getAttribute('lang') || 'en';
-    const newLang = currentLang === 'en' ? 'tr' : 'en';
-
-    document.documentElement.setAttribute('lang', newLang);
-    writeStoredValue('language', newLang);
-
-    // Update all text
-    translatePage(newLang);
-
-    // Update button text on all pages
-    document.querySelectorAll('#langToggle').forEach(btn => {
-        btn.textContent = newLang === 'en' ? 'TR' : 'EN';
-    });
-}
-
-// Initialize language
-const savedLang = readStoredValue('language') === 'tr' ? 'tr' : 'en';
-document.documentElement.setAttribute('lang', savedLang);
-
-function updateLanguageButtons(lang) {
-    document.querySelectorAll('#langToggle').forEach(btn => {
-        btn.textContent = lang === 'en' ? 'TR' : 'EN';
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    translatePage(savedLang);
-    updateLanguageButtons(savedLang);
-
-    document.querySelectorAll('#langToggle').forEach(btn => {
-        btn.addEventListener('click', toggleLanguage);
-    });
-});
-
-// ===========================
-// PARTICLE ANIMATION
-// ===========================
-// Utility: Debounce function
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-class ParticleSystem {
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.particles = [];
-        this.particleCount = 80;
-        this.connectionDistance = 150;
-        this.connectionDistanceSq = this.connectionDistance * this.connectionDistance;
-        this.cachedTheme = null;
-        this.cachedParticleColor = null;
-        this.cachedParticleColorChannels = null;
-
-        this.resize();
-        this.init();
-        this.animate();
-
-        // Debounce resize to prevent performance issues (200ms)
-        const debouncedResize = debounce(() => this.resize(), 200);
-        window.addEventListener('resize', debouncedResize);
-    }
-
-    resize() {
-        this.canvas.width = this.canvas.offsetWidth;
-        this.canvas.height = this.canvas.offsetHeight;
-    }
-
-    init() {
-        this.particles = [];
-        for (let i = 0; i < this.particleCount; i++) {
-            this.particles.push({
-                x: Math.random() * this.canvas.width,
-                y: Math.random() * this.canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 2 + 1
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                }
             });
-        }
+        }, { threshold: 0.14, rootMargin: "0px 0px -50px 0px" });
+
+        targets.forEach((target) => observer.observe(target));
     }
 
-    getParticleColorState() {
-        const theme = document.documentElement.getAttribute('data-theme') || 'dark';
+    function initScrollEffects() {
+        const progress = document.querySelector(".scroll-progress span");
 
-        if (this.cachedTheme !== theme) {
-            this.cachedTheme = theme;
-            this.cachedParticleColor = getComputedStyle(document.documentElement)
-                .getPropertyValue('--particle-color').trim();
-            const channels = this.cachedParticleColor.match(/\d+/g);
-            this.cachedParticleColorChannels = channels && channels.length >= 3
-                ? channels.slice(0, 3)
-                : null;
+        function updateScrollState() {
+            const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const ratio = Math.min(1, Math.max(0, window.scrollY / max));
+            root.style.setProperty("--scroll-progress", ratio.toFixed(4));
+            root.style.setProperty("--hero-lift", `${(-34 * ratio).toFixed(2)}px`);
+            root.style.setProperty("--atmosphere-shift", `${(80 * ratio).toFixed(2)}px`);
+            root.style.setProperty("--scroll-cue-opacity", Math.max(0, 1 - ratio * 9).toFixed(3));
+            if (progress) {
+                progress.style.transform = `scaleX(${ratio})`;
+            }
         }
+
+        updateScrollState();
+        window.addEventListener("scroll", updateScrollState, { passive: true });
+        window.addEventListener("resize", updateScrollState);
+    }
+
+    function initAccordions() {
+        document.querySelectorAll(".accordion-item").forEach((item, index) => {
+            const header = item.querySelector(".accordion-header");
+            const content = item.querySelector(".accordion-content");
+            if (!header || !content) return;
+
+            const contentId = content.id || `accordion-content-${index}`;
+            content.id = contentId;
+            header.setAttribute("aria-controls", contentId);
+            header.setAttribute("aria-expanded", item.classList.contains("open") ? "true" : "false");
+
+            if (item.classList.contains("open")) {
+                content.style.height = "auto";
+                content.style.opacity = "1";
+            }
+
+            header.addEventListener("click", () => {
+                const isOpen = item.classList.contains("open");
+                document.querySelectorAll(".accordion-item.open").forEach((openItem) => {
+                    if (openItem === item) return;
+                    closeAccordion(openItem);
+                });
+                isOpen ? closeAccordion(item) : openAccordion(item);
+            });
+        });
+    }
+
+    function openAccordion(item) {
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+        if (!content) return;
+
+        item.classList.add("open");
+        if (header) header.setAttribute("aria-expanded", "true");
+
+        if (reduceMotion) {
+            content.style.height = "auto";
+            content.style.opacity = "1";
+            return;
+        }
+
+        content.style.height = `${content.scrollHeight}px`;
+        content.style.opacity = "1";
+        window.setTimeout(() => {
+            if (item.classList.contains("open")) {
+                content.style.height = "auto";
+            }
+        }, 240);
+    }
+
+    function closeAccordion(item) {
+        const header = item.querySelector(".accordion-header");
+        const content = item.querySelector(".accordion-content");
+        if (!content) return;
+
+        if (!reduceMotion) {
+            content.style.height = `${content.scrollHeight}px`;
+            content.offsetHeight;
+        }
+
+        item.classList.remove("open");
+        if (header) header.setAttribute("aria-expanded", "false");
+        content.style.height = "0";
+        content.style.opacity = "0";
+    }
+
+    function initGalleryModal() {
+        const modal = document.getElementById("pcbModal");
+        if (!modal) return;
+
+        const title = document.getElementById("modalTitle");
+        const closeButtons = modal.querySelectorAll("[data-close-modal]");
+        const tabs = modal.querySelectorAll(".modal-tab");
+        const panels = modal.querySelectorAll(".modal-panel");
+        let previousFocus = null;
+
+        function openModal(boardName) {
+            previousFocus = document.activeElement;
+            if (title) title.textContent = boardName;
+            modal.hidden = false;
+            document.body.style.overflow = "hidden";
+            const close = modal.querySelector(".modal-close");
+            if (close) close.focus();
+        }
+
+        function closeModal() {
+            modal.hidden = true;
+            document.body.style.overflow = "";
+            if (previousFocus && previousFocus.focus) previousFocus.focus();
+        }
+
+        document.querySelectorAll(".gallery-item").forEach((item) => {
+            item.setAttribute("tabindex", "0");
+            item.setAttribute("role", "button");
+            item.addEventListener("click", () => openModal(item.querySelector("h3")?.textContent || "PCB Details"));
+            item.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    item.click();
+                }
+            });
+        });
+
+        closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !modal.hidden) closeModal();
+        });
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const target = tab.dataset.tab;
+                tabs.forEach((node) => {
+                    const active = node.dataset.tab === target;
+                    node.classList.toggle("active", active);
+                    node.setAttribute("aria-selected", String(active));
+                });
+                panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === target));
+            });
+        });
+    }
+
+    function initHeroScene() {
+        const canvas = document.getElementById("heroScene");
+        if (!canvas) return null;
+
+        const ctx = canvas.getContext("2d", { alpha: true });
+        if (!ctx) return null;
+
+        let width = 0;
+        let height = 0;
+        let frame = 0;
+        const pointer = { x: 0, y: 0 };
+
+        function cssVar(name) {
+            return getComputedStyle(root).getPropertyValue(name).trim();
+        }
+
+        function lerpPoint(a, b, t) {
+            return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
+        }
+
+        function boardPoint(corners, u, v) {
+            const top = lerpPoint(corners[0], corners[1], u);
+            const bottom = lerpPoint(corners[3], corners[2], u);
+            return lerpPoint(top, bottom, v);
+        }
+
+        function poly(points, fill, stroke) {
+            ctx.beginPath();
+            points.forEach((point, index) => {
+                if (index === 0) ctx.moveTo(point.x, point.y);
+                else ctx.lineTo(point.x, point.y);
+            });
+            ctx.closePath();
+            if (fill) {
+                ctx.fillStyle = fill;
+                ctx.fill();
+            }
+            if (stroke) {
+                ctx.strokeStyle = stroke;
+                ctx.stroke();
+            }
+        }
+
+        function drawTrace(corners, points, color, widthValue) {
+            ctx.beginPath();
+            points.forEach(([u, v], index) => {
+                const point = boardPoint(corners, u, v);
+                if (index === 0) ctx.moveTo(point.x, point.y);
+                else ctx.lineTo(point.x, point.y);
+            });
+            ctx.strokeStyle = color;
+            ctx.lineWidth = widthValue;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.stroke();
+        }
+
+        function drawChip(corners, u, v, size, label, phase) {
+            const center = boardPoint(corners, u, v);
+            const tiltX = size * 1.24;
+            const tiltY = size * 0.44;
+            const depth = size * 0.22;
+            const body = [
+                { x: center.x - tiltX, y: center.y - tiltY },
+                { x: center.x + tiltX, y: center.y - tiltY * 0.58 },
+                { x: center.x + tiltX * 0.9, y: center.y + tiltY },
+                { x: center.x - tiltX * 1.08, y: center.y + tiltY * 0.58 }
+            ];
+            const side = body.map((point) => ({ x: point.x + depth, y: point.y + depth * 1.25 }));
+
+            poly([body[3], body[2], side[2], side[3]], "rgba(83, 58, 18, 0.84)", "rgba(217, 169, 75, 0.32)");
+            const chipGradient = ctx.createLinearGradient(body[0].x, body[0].y, body[2].x, body[2].y);
+            chipGradient.addColorStop(0, "rgba(250, 236, 199, 0.98)");
+            chipGradient.addColorStop(0.48, "rgba(101, 70, 21, 0.96)");
+            chipGradient.addColorStop(1, "rgba(219, 188, 119, 0.98)");
+            poly(body, chipGradient, "rgba(201, 209, 200, 0.32)");
+
+            ctx.save();
+            ctx.shadowColor = cssVar("--green");
+            ctx.shadowBlur = 18 + Math.sin(phase) * 5;
+            ctx.strokeStyle = "rgba(229, 201, 137, 0.50)";
+            ctx.lineWidth = 1;
+            ctx.strokeRect(center.x - size * 0.8, center.y - size * 0.34, size * 1.45, size * 0.62);
+            ctx.restore();
+
+            ctx.fillStyle = "rgba(229, 201, 137, 0.88)";
+            for (let i = 0; i < 9; i += 1) {
+                const p = i / 8;
+                const left = lerpPoint(body[0], body[3], p);
+                const right = lerpPoint(body[1], body[2], p);
+                ctx.fillRect(left.x - 7, left.y - 1, 10, 2);
+                ctx.fillRect(right.x - 2, right.y - 1, 10, 2);
+            }
+
+            ctx.fillStyle = "rgba(255, 249, 232, 0.82)";
+            ctx.font = `${Math.max(10, size * 0.18)}px "IBM Plex Mono", monospace`;
+            ctx.fillText(label, center.x - size * 0.58, center.y + size * 0.05);
+        }
+
+        function resize() {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = Math.max(1, rect.width);
+            height = Math.max(1, rect.height);
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            draw(performance.now());
+        }
+
+        function draw(time) {
+            const theme = root.getAttribute("data-theme") || "light";
+            const isLight = theme !== "dark";
+            const phase = time / 900;
+            const px = pointer.x * 18;
+            const py = pointer.y * 12;
+            const scrollRatio = Number.parseFloat(getComputedStyle(root).getPropertyValue("--scroll-progress")) || 0;
+            const scrollLift = scrollRatio * height * 0.18;
+
+            ctx.clearRect(0, 0, width, height);
+
+            const bg = ctx.createLinearGradient(0, 0, width, height);
+            bg.addColorStop(0, isLight ? "rgba(251, 243, 228, 0.97)" : "rgba(246, 234, 209, 0.97)");
+            bg.addColorStop(0.42, isLight ? "rgba(243, 228, 199, 0.94)" : "rgba(236, 216, 177, 0.94)");
+            bg.addColorStop(1, isLight ? "rgba(255, 250, 239, 0.98)" : "rgba(250, 241, 224, 0.98)");
+            ctx.fillStyle = bg;
+            ctx.fillRect(0, 0, width, height);
+
+            ctx.save();
+            ctx.globalAlpha = isLight ? 0.22 : 0.28;
+            ctx.strokeStyle = isLight ? "rgba(95, 69, 27, 0.12)" : "rgba(95, 69, 27, 0.13)";
+            ctx.lineWidth = 1;
+            for (let x = -80 + px * 0.3; x < width + 120; x += 42) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x - height * 0.16, height);
+                ctx.stroke();
+            }
+            for (let y = 4 + py * 0.25; y < height + 80; y += 42) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y + width * 0.12);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            const corners = [
+                { x: width * 0.20 + px * 0.8, y: height * 0.22 + py - scrollLift },
+                { x: width * 1.06 + px * 0.8, y: height * 0.36 + py - scrollLift },
+                { x: width * 0.78 + px * 0.8, y: height * 0.98 + py - scrollLift },
+                { x: width * -0.11 + px * 0.8, y: height * 0.79 + py - scrollLift }
+            ];
+            const depth = 58;
+            const side = corners.map((point) => ({ x: point.x + depth, y: point.y + depth * 1.18 }));
+
+            ctx.save();
+            ctx.shadowColor = isLight ? "rgba(143, 101, 15, 0.18)" : "rgba(143, 101, 15, 0.20)";
+            ctx.shadowBlur = isLight ? 34 : 40;
+            poly([corners[3], corners[2], side[2], side[3]], isLight ? "rgba(167, 140, 91, 0.28)" : "rgba(154, 122, 67, 0.32)", "rgba(167, 120, 27, 0.24)");
+            const boardGradient = ctx.createLinearGradient(corners[0].x, corners[0].y, corners[2].x, corners[2].y);
+            boardGradient.addColorStop(0, isLight ? "rgba(255, 249, 235, 0.96)" : "rgba(255, 244, 222, 0.94)");
+            boardGradient.addColorStop(0.35, isLight ? "rgba(238, 221, 186, 0.96)" : "rgba(229, 204, 159, 0.94)");
+            boardGradient.addColorStop(0.68, isLight ? "rgba(218, 197, 155, 0.92)" : "rgba(214, 187, 138, 0.92)");
+            boardGradient.addColorStop(1, isLight ? "rgba(247, 235, 207, 0.94)" : "rgba(244, 228, 195, 0.94)");
+            poly(corners, boardGradient, isLight ? "rgba(143, 101, 15, 0.24)" : "rgba(143, 101, 15, 0.26)");
+            ctx.restore();
+
+            ctx.save();
+            ctx.globalCompositeOperation = "overlay";
+            ctx.globalAlpha = isLight ? 0.18 : 0.22;
+            const wafer = boardPoint(corners, 0.68, 0.44);
+            ctx.beginPath();
+            ctx.ellipse(wafer.x, wafer.y, width * 0.19, height * 0.105, 0.22, 0, Math.PI * 2);
+            const waferGradient = ctx.createRadialGradient(wafer.x - 30, wafer.y - 24, 12, wafer.x, wafer.y, width * 0.22);
+            waferGradient.addColorStop(0, isLight ? "rgba(255,255,255,.75)" : "rgba(255,255,255,.18)");
+            waferGradient.addColorStop(0.46, isLight ? "rgba(110,95,69,.32)" : "rgba(180,160,116,.14)");
+            waferGradient.addColorStop(1, "rgba(0,0,0,.26)");
+            ctx.fillStyle = waferGradient;
+            ctx.fill();
+            ctx.restore();
+
+            ctx.save();
+            ctx.globalAlpha = isLight ? 0.34 : 0.46;
+            ctx.strokeStyle = isLight ? "rgba(95, 69, 27, 0.16)" : "rgba(246, 222, 168, 0.20)";
+            ctx.lineWidth = 1;
+            for (let u = 0.08; u <= 0.94; u += 0.08) {
+                const a = boardPoint(corners, u, 0.07);
+                const b = boardPoint(corners, u, 0.93);
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+            }
+            for (let v = 0.1; v <= 0.88; v += 0.08) {
+                const a = boardPoint(corners, 0.04, v);
+                const b = boardPoint(corners, 0.96, v);
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            const traceColor = isLight ? "rgba(143, 101, 15, 0.62)" : "rgba(143, 101, 15, 0.66)";
+            const amber = isLight ? "rgba(47, 111, 120, 0.34)" : "rgba(47, 111, 120, 0.32)";
+            drawTrace(corners, [[0.11, 0.22], [0.34, 0.23], [0.39, 0.33], [0.62, 0.35], [0.76, 0.45]], traceColor, 2.2);
+            drawTrace(corners, [[0.08, 0.52], [0.25, 0.50], [0.31, 0.61], [0.55, 0.62], [0.68, 0.74]], amber, 1.8);
+            drawTrace(corners, [[0.52, 0.12], [0.56, 0.28], [0.74, 0.31], [0.84, 0.38], [0.93, 0.38]], traceColor, 1.6);
+            drawTrace(corners, [[0.16, 0.79], [0.28, 0.72], [0.44, 0.76], [0.56, 0.69], [0.82, 0.73]], amber, 1.7);
+
+            drawChip(corners, 0.43, 0.47, Math.min(width, height) * 0.115, "BG-ATELIER", phase);
+            drawChip(corners, 0.74, 0.25, Math.min(width, height) * 0.058, "RF", phase + 1.2);
+            drawChip(corners, 0.25, 0.66, Math.min(width, height) * 0.07, "PWR", phase + 2.1);
+
+            ctx.save();
+            ctx.globalCompositeOperation = "screen";
+            const glow = ctx.createRadialGradient(width * 0.72 + px, height * 0.34 + py, 0, width * 0.72 + px, height * 0.34 + py, width * 0.36);
+            glow.addColorStop(0, isLight ? "rgba(143, 101, 15, 0.10)" : "rgba(143, 101, 15, 0.11)");
+            glow.addColorStop(0.38, isLight ? "rgba(47, 111, 120, 0.05)" : "rgba(47, 111, 120, 0.05)");
+            glow.addColorStop(1, "rgba(0, 0, 0, 0)");
+            ctx.fillStyle = glow;
+            ctx.fillRect(0, 0, width, height);
+            ctx.restore();
+
+            ctx.save();
+            ctx.globalAlpha = isLight ? 0.10 : 0.14;
+            ctx.fillStyle = isLight ? "#07120d" : "#ffffff";
+            for (let i = 0; i < 220; i += 1) {
+                const x = (Math.sin(i * 49.21) * 0.5 + 0.5) * width;
+                const y = (Math.sin(i * 71.37) * 0.5 + 0.5) * height;
+                ctx.fillRect(x, y, 1, 1);
+            }
+            ctx.restore();
+
+        }
+
+        function loop(time) {
+            draw(time);
+            if (!reduceMotion) frame = requestAnimationFrame(loop);
+        }
+
+        function handlePointer(event) {
+            const rect = canvas.getBoundingClientRect();
+            pointer.x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+            pointer.y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+        }
+
+        resize();
+        window.addEventListener("resize", resize);
+        window.addEventListener("mousemove", handlePointer, { passive: true });
+        if (!reduceMotion) frame = requestAnimationFrame(loop);
 
         return {
-            channels: this.cachedParticleColorChannels,
+            redraw: () => draw(performance.now()),
+            destroy: () => {
+                cancelAnimationFrame(frame);
+                window.removeEventListener("resize", resize);
+                window.removeEventListener("mousemove", handlePointer);
+            }
         };
     }
 
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    initTheme();
+    translate(storage.get("language") === "tr" ? "tr" : "en");
+    initNav();
+    initSectionNav();
+    initScrollEffects();
+    const heroScene = initHeroScene();
 
-        const { channels: particleColorChannels } = this.getParticleColorState();
-
-        // Update and draw particles
-        this.particles.forEach(particle => {
-            particle.x += particle.vx;
-            particle.y += particle.vy;
-
-            // Bounce off edges
-            if (particle.x < 0 || particle.x > this.canvas.width) particle.vx *= -1;
-            if (particle.y < 0 || particle.y > this.canvas.height) particle.vy *= -1;
-
-            // Draw particle
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = particleColor;
-            this.ctx.fill();
-        });
-
-        // Draw connections
-        for (let i = 0; i < this.particles.length; i++) {
-            for (let j = i + 1; j < this.particles.length; j++) {
-                const dx = this.particles[i].x - this.particles[j].x;
-                const dy = this.particles[i].y - this.particles[j].y;
-                const distanceSq = dx * dx + dy * dy;
-
-                if (distanceSq < this.connectionDistanceSq && particleColorChannels) {
-                    const distance = Math.sqrt(distanceSq);
-                    const opacity = (1 - distance / this.connectionDistance) * 0.3;
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-                    this.ctx.strokeStyle = `rgba(${particleColorChannels[0]}, ${particleColorChannels[1]}, ${particleColorChannels[2]}, ${opacity})`;
-                    this.ctx.lineWidth = 1;
-                    this.ctx.stroke();
-                }
-            }
-        }
-
-        requestAnimationFrame(() => this.animate());
-    }
-}
-
-// Initialize particle system (with reduced motion check)
-const particleCanvas = document.getElementById('particleCanvas');
-const prefersReducedMotion = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-if (particleCanvas && !prefersReducedMotion) {
-    new ParticleSystem(particleCanvas);
-}
-
-// ===========================
-// NAVIGATION
-// ===========================
-const navbar = document.getElementById('navbar');
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-
-// Scroll effect
-if (navbar) {
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 50);
-    }, { passive: true });
-}
-
-// Mobile nav toggle with scroll lock
-if (navToggle && navMenu) {
-    navToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isActive = navMenu.classList.toggle('active');
-        navToggle.classList.toggle('active');
-
-        // Update aria-expanded for accessibility
-        navToggle.setAttribute('aria-expanded', String(isActive));
-
-        // Lock/unlock body scroll on mobile
-        if (isActive) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    });
-
-    // Keyboard support for nav toggle
-    navToggle.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            navToggle.click();
-        }
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (navMenu && !navMenu.contains(e.target) && !navToggle.contains(e.target)) {
-            if (navMenu.classList.contains('active')) {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-                navToggle.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            }
-        }
-    });
-
-    // Close menu when clicking a link
-    if (navMenu) {
-        navMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                navToggle.classList.remove('active');
-                navToggle.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = '';
-            });
+    if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+            applyTheme(root.getAttribute("data-theme") === "light" ? "dark" : "light");
+            heroScene?.redraw();
         });
     }
-}
 
-// ===========================
-// FOOTER YEAR AUTO-UPDATE
-// ===========================
-const yearEl = document.getElementById('year');
-if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-}
-
-// ===========================
-// CV NAVIGATION SCROLL TRACKING
-// ===========================
-function updateCVNav() {
-    if (cvBlocks.length === 0 || cvNavLinks.length === 0) return;
-
-    let currentSection = 'summary';
-    let minDistance = Infinity;
-
-    cvBlocks.forEach(block => {
-        const rect = block.getBoundingClientRect();
-        const distance = Math.abs(rect.top - 120);
-
-        if (distance < minDistance && rect.top < window.innerHeight / 2) {
-            minDistance = distance;
-            currentSection = block.id;
-        }
-    });
-
-    cvNavLinks.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === `#${currentSection}`) {
-            link.classList.add('active');
-        } else {
-            link.classList.remove('active');
-        }
-    });
-}
-
-const cvBlocks = document.querySelectorAll('.cv-block[id]');
-const cvNavLinks = document.querySelectorAll('.cv-nav a');
-// Update CV nav on scroll
-if (cvNavLinks.length > 0) {
-    window.addEventListener('scroll', updateCVNav, { passive: true });
-    setTimeout(updateCVNav, 100);
-
-    // Update on nav click
-    cvNavLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            setTimeout(updateCVNav, 300);
+    if (langToggle) {
+        langToggle.addEventListener("click", () => {
+            translate(root.getAttribute("lang") === "tr" ? "en" : "tr");
         });
-    });
-}
-
-// ===========================
-// SCROLL REVEAL - HANDLED BY animations.js
-// ===========================
-// Scroll reveal animations are now unified in js/animations.js
-// This removes duplicate logic that was targeting different selectors
-
-// ===========================
-// SMOOTH SCROLL
-// ===========================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#' && href !== '') {
-            e.preventDefault();
-            const target = document.getElementById(href.slice(1));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-});
-
-// ===========================
-// PAGE LOAD ANIMATION
-// ===========================
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
-
-    // Custom Loader Logic
-    const loader = document.getElementById('loader-wrapper');
-    if (loader) {
-        setTimeout(() => {
-            loader.style.opacity = '0';
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500); // Transition duration
-        }, 800); // Minimal display time
-    }
-});
-
-// ===========================
-// PARALLAX SCROLL EFFECT
-// ===========================
-const parallaxElements = document.querySelectorAll('.parallax');
-if (parallaxElements.length > 0) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-
-        parallaxElements.forEach(element => {
-            const speed = Number(element.dataset.speed) || 0.5;
-            element.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    }, { passive: true });
-}
-
-// ===========================
-// AUTOMATED DIAGNOSTICS
-// ===========================
-window.addEventListener('load', function () {
-    if (!DEBUG) return; // Skip diagnostics in production
-
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('  🔧 SYSTEM DIAGNOSTICS');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-    // Check 1: Ghost layer (pointer-events)
-    const menu = document.querySelector('.nav-menu');
-    const menuStyle = menu ? getComputedStyle(menu) : null;
-    if (menuStyle) {
-        const pointerEvents = menuStyle.pointerEvents;
-        const isActive = menu.classList.contains('active');
-        if (!isActive && pointerEvents !== 'none') {
-            console.error('❌ FAIL: Menu blocking buttons (pointer-events:', pointerEvents, ')');
-        } else {
-            console.log('✅ PASS: Ghost layer removed (pointer-events:', pointerEvents, ')');
-        }
     }
 
-    // Check 2: Button z-index
-    const themeBtn = document.getElementById('themeToggle');
-    if (themeBtn) {
-        console.log('✅ PASS: Theme button exists');
-        const btnParent = themeBtn.parentElement;
-        if (btnParent) {
-            const parentZ = getComputedStyle(btnParent).zIndex;
-            console.log('ℹ️  INFO: Button container z-index:', parentZ);
-        }
-    } else {
-        console.error('❌ FAIL: Theme button not found');
+    if (year) {
+        year.textContent = new Date().getFullYear();
     }
 
-    // Check 3: Horizontal scroll detection
-    if (document.body.scrollWidth > window.innerWidth) {
-        console.warn('⚠️  WARN: Horizontal overflow detected (', document.body.scrollWidth, 'px)');
-    } else {
-        console.log('✅ PASS: No horizontal scroll');
-    }
-
-    // Check 4: Critical elements
-    const criticalIds = ['navbar', 'themeToggle', 'langToggle'];
-    criticalIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) {
-            console.error('❌ FAIL: Missing element #' + id);
-        }
-    });
-
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('  Diagnostics Complete');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-});
-
-// ===========================
-// BACK TO TOP BUTTON
-// ===========================
-(function () {
-    // Create back to top button (Uiverse style)
-    // Create back to top button (Icon Only)
-    if (document.querySelector('.back-to-top-wrapper')) {
-        return;
-    }
-
-    const backToTop = document.createElement('div');
-    backToTop.className = 'back-to-top-wrapper';
-    backToTop.innerHTML = `
-        <button class="back-to-top-btn" aria-label="Back to top">
-            <svg
-                width="32"
-                height="32"
-                stroke-width="3"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-            >
-                <path
-                    d="M12 19V5M5 12l7-7 7 7"
-                    stroke-linejoin="round"
-                    stroke-linecap="round"
-                ></path>
-            </svg>
-        </button>
-    `;
-    document.body.appendChild(backToTop);
-
-    // Show/hide based on scroll position
-    function toggleBackToTop() {
-        if (window.pageYOffset > 300) {
-            backToTop.classList.add('visible');
-        } else {
-            backToTop.classList.remove('visible');
-        }
-    }
-
-    window.addEventListener('scroll', toggleBackToTop, { passive: true });
-    toggleBackToTop();
-
-    // Scroll to top on click
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+    document.addEventListener("DOMContentLoaded", () => {
+        initReveal();
+        initAccordions();
+        initGalleryModal();
+        heroScene?.redraw();
     });
 })();
