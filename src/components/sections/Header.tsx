@@ -2,28 +2,12 @@
 
 import { Download, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { track } from "@vercel/analytics";
 import { siteContent } from "@/content/site";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("hero");
-
-  useEffect(() => {
-    const targets = siteContent.nav
-      .map((item) => document.querySelector(item.href))
-      .filter((target): target is Element => target !== null);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((entry) => entry.isIntersecting);
-        if (visible?.target.id) setActive(visible.target.id);
-      },
-      { rootMargin: "-42% 0px -42% 0px" },
-    );
-    targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
-  }, []);
 
   function scrollToHash(href: string) {
     const target = document.querySelector(href);
@@ -52,28 +36,6 @@ export function Header() {
             </span>
           </span>
         </Link>
-        <nav className="hidden items-center gap-1 border border-[var(--color-border)] bg-[rgba(255,255,255,0.025)] p-1 lg:flex">
-          {siteContent.nav.map((item) => {
-            const id = item.href.replace("#", "");
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] transition-colors duration-200 hover:text-[var(--color-gold)] ${
-                  active === id
-                    ? "bg-[rgba(201,169,110,0.1)] text-[var(--color-gold)]"
-                    : "text-[var(--color-muted)]"
-                }`}
-                onClick={(event) => {
-                  event.preventDefault();
-                  scrollToHash(item.href);
-                }}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
         <div className="flex items-center gap-3">
           <a
             href="/cv.pdf"
@@ -85,7 +47,7 @@ export function Header() {
           </a>
           <button
             type="button"
-            className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-[var(--color-border)] text-[var(--color-text)] lg:hidden"
+            className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-[var(--color-border)] text-[var(--color-text)] 2xl:hidden"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
@@ -95,7 +57,7 @@ export function Header() {
         </div>
       </div>
       {open ? (
-        <div className="fixed inset-0 top-[var(--header-height)] z-40 bg-[var(--color-bg)] lg:hidden">
+        <div className="fixed inset-0 top-[var(--header-height)] z-40 bg-[var(--color-bg)] 2xl:hidden">
           <nav className="container-grid flex h-full flex-col justify-center gap-8">
             {siteContent.nav.map((item) => (
               <Link

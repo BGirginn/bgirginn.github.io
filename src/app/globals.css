@@ -103,6 +103,14 @@ textarea {
   padding-block: clamp(96px, 14vw, 224px);
 }
 
+@media (min-width: 768px) {
+  .work-section-shell {
+    align-items: flex-start;
+    padding-top: calc(var(--header-height) + 24px);
+    padding-bottom: 48px;
+  }
+}
+
 .soft-panel {
   border: 1px solid var(--color-border);
   background: linear-gradient(180deg, rgba(19, 26, 35, 0.68), rgba(10, 15, 20, 0.58));
