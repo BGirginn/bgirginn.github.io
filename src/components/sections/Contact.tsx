@@ -24,21 +24,22 @@ export function Contact() {
 
   async function onSubmit(values: ContactPayload) {
     setStatus("idle");
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
 
-    if (response.ok) {
+    try {
+      const subject = encodeURIComponent(`Project inquiry from ${values.name}`);
+      const body = encodeURIComponent(
+        `Name: ${values.name}\nEmail: ${values.email}\n\n${values.message}`,
+      );
+
+      window.location.href = `mailto:${siteContent.brand.email}?subject=${subject}&body=${body}`;
       track("contact_submit", { status: "success" });
       setStatus("success");
       reset();
       return;
+    } catch {
+      track("contact_submit", { status: "error" });
+      setStatus("error");
     }
-
-    track("contact_submit", { status: "error" });
-    setStatus("error");
   }
 
   return (

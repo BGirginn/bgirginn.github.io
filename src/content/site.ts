@@ -110,8 +110,8 @@ export const siteContent = {
     title: "Let's build reliable electronic systems.",
     description:
       "Send a concise note about the product, board, firmware or review you need.",
-    success: "Message sent.",
-    error: "Something went wrong. Try again.",
+    success: "Your email app is ready with the message.",
+    error: "Something went wrong. Email hello@bgirgin.dev directly.",
   },
   footerLinks: [
     { label: "GitHub", href: "https://github.com/BGirginn" },

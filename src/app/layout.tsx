@@ -1,14 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
-
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist",
-  display: "swap",
-});
 
 const siteUrl = "https://bgirgin.dev";
 
@@ -28,7 +21,7 @@ export const metadata: Metadata = {
     siteName: "bgirgin.dev",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "PCB render with Bora Girgin embedded systems and PCB design text",
@@ -42,7 +35,7 @@ export const metadata: Metadata = {
     title: "Bora Girgin | Embedded Systems & PCB Design",
     description:
       "Hardware, firmware and system-level engineering for reliable electronic products.",
-    images: ["/og-image.png"],
+    images: ["/og-image.svg"],
   },
   keywords: [
     "Embedded Systems Engineer",
@@ -79,7 +72,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geist.variable}>
+    <html lang="en">
       <body>
         {children}
         <script
