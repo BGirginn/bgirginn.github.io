@@ -1,81 +1,165 @@
 "use client";
 
 import { Download, Menu, X } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import { siteContent } from "@/content/site";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const toggle = useRef<HTMLButtonElement>(null);
+  const menu = useRef<HTMLElement>(null);
 
-  function scrollToHash(href: string) {
-    const target = document.querySelector(href);
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const links = Array.from(
+      menu.current?.querySelectorAll<HTMLAnchorElement>("a") ?? [],
+    );
+    links[0]?.focus();
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggle.current?.focus();
+      }
+      if (event.key !== "Tab") return;
+      const controls = [toggle.current, ...links].filter(
+        (element): element is HTMLButtonElement | HTMLAnchorElement =>
+          element !== null,
+      );
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    }
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setOpen(false);
+    };
+    window.addEventListener("keydown", handleKey);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKey);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [open]);
+
+  function navigate(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
+    const target = document.querySelector<HTMLElement>(href);
     if (!target) return;
+    event.preventDefault();
+    setOpen(false);
     window.history.pushState(null, "", href);
-    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    requestAnimationFrame(() => {
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+        block: "start",
+      });
+      // Move keyboard focus into the selected section after closing the overlay.
+      const heading = target.querySelector<HTMLElement>("h1, h2");
+      if (heading) {
+        heading.tabIndex = -1;
+        heading.focus({ preventScroll: true });
+      }
+    });
   }
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-[rgba(201,169,110,0.22)] bg-[#080C11]/95 shadow-[0_18px_70px_rgba(0,0,0,0.34)] backdrop-blur-xl">
-      <div className="container-grid flex h-[var(--header-height)] items-center justify-between gap-5">
-        <Link
+    <header className="site-header">
+      <div className="container-grid header-inner">
+        <a
           href="#hero"
-          className="flex min-w-0 items-center gap-4"
+          className="site-brand"
           aria-label="bgirgin.dev home"
+          onClick={(event) => navigate(event, "#hero")}
         >
-          <span className="grid h-11 w-11 place-items-center border border-[var(--color-gold)] bg-[rgba(201,169,110,0.08)] text-lg font-semibold tracking-tight">
-            BG
+          <span className="brand-mark">
+            BG<span>.</span>
           </span>
-          <span className="hidden min-w-0 sm:block">
-            <span className="block text-sm font-semibold leading-none">
-              {siteContent.brand.name}
-            </span>
-            <span className="mt-1 block text-[10px] uppercase tracking-[0.14em] text-[var(--color-muted)]">
-              {siteContent.brand.tagline}
-            </span>
+          <span className="brand-copy">
+            <strong>{siteContent.brand.name}</strong>
+            <span>Embedded engineering</span>
           </span>
-        </Link>
-        <div className="flex items-center gap-3">
+        </a>
+        <nav className="desktop-nav" aria-label="Main navigation">
+          {siteContent.nav.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(event) => navigate(event, item.href)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <div className="header-actions">
           <a
             href="/cv.pdf"
-            className="hidden h-11 items-center gap-2 border border-[var(--color-border)] px-4 text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-muted)] transition-colors duration-200 hover:border-[var(--color-gold)] hover:text-[var(--color-gold)] sm:inline-flex"
+            className="header-cv"
             onClick={() => track("cv_download", { location: "top_bar" })}
           >
-            <Download size={15} />
-            CV
+            <Download size={14} /> CV
           </a>
           <button
+            ref={toggle}
             type="button"
-            className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-[var(--color-border)] text-[var(--color-text)] 2xl:hidden"
+            className="menu-toggle"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
             onClick={() => setOpen((value) => !value)}
           >
             {open ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
       </div>
-      {open ? (
-        <div className="fixed inset-0 top-[var(--header-height)] z-40 bg-[var(--color-bg)] 2xl:hidden">
-          <nav className="container-grid flex h-full flex-col justify-center gap-8">
-            {siteContent.nav.map((item) => (
-              <Link
+      {open && (
+        <nav
+          ref={menu}
+          id="mobile-navigation"
+          className="site-menu"
+          aria-label="Mobile navigation"
+        >
+          <div className="container-grid">
+            <p className="engineering-eyebrow">
+              Navigation / Engineering studies
+            </p>
+            {siteContent.nav.map((item, index) => (
+              <a
                 key={item.href}
                 href={item.href}
-                className="text-[clamp(38px,12vw,64px)] font-semibold leading-none"
-                onClick={() => {
-                  track("cta_click", { label: item.label, location: "mobile_nav" });
-                  scrollToHash(item.href);
-                  setOpen(false);
+                onClick={(event) => {
+                  track("cta_click", {
+                    label: item.label,
+                    location: "mobile_nav",
+                  });
+                  navigate(event, item.href);
                 }}
               >
+                <span>{String(index + 1).padStart(2, "0")}</span>
                 {item.label}
-              </Link>
+              </a>
             ))}
-          </nav>
-        </div>
-      ) : null}
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

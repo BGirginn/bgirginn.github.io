@@ -8,11 +8,13 @@ import { Process } from "@/components/sections/Process";
 import { ProgressIndicator } from "@/components/sections/ProgressIndicator";
 import { Signature } from "@/components/sections/Signature";
 import { Work } from "@/components/sections/Work";
+import { SiteMotion } from "@/components/ui/SiteMotion";
 
 export default function Home() {
   return (
     <>
       <Header />
+      <SiteMotion />
       <ProgressIndicator />
       <main>
         <Hero />

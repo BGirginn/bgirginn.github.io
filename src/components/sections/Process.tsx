@@ -8,68 +8,84 @@ import { siteContent } from "@/content/site";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { gsap } from "@/lib/gsap";
 
+const descriptions = [
+  "Define constraints, interfaces and expected behavior.",
+  "Connect power, control and communication decisions.",
+  "Translate the architecture into a circuit.",
+  "Resolve placement, routing and power paths.",
+  "Build drivers, control logic and device interfaces.",
+  "Bring up the board and integrate the system.",
+  "Check signals, behavior and failure conditions.",
+  "Use measurements to guide the next revision.",
+];
+
 export function Process() {
   const ref = useRef<HTMLElement>(null);
   const reduced = usePrefersReducedMotion();
-
   useGSAP(
     () => {
       if (!ref.current || reduced) return;
       gsap.fromTo(
         ".process-line",
-        { scaleY: 0 },
+        { scaleX: 0 },
         {
-          scaleY: 1,
-          transformOrigin: "top",
+          scaleX: 1,
+          transformOrigin: "left",
           scrollTrigger: {
             trigger: ref.current,
-            start: "top 60%",
-            end: "bottom 65%",
+            start: "top 70%",
+            end: "center 45%",
             scrub: true,
           },
         },
       );
     },
-    { scope: ref, dependencies: [reduced] },
+    { scope: ref, dependencies: [reduced], revertOnUpdate: true },
   );
 
   return (
     <section
       id="process"
       ref={ref}
-      data-scroll-lock
-      className="relative min-h-screen"
+      className="site-section relative min-h-screen"
     >
       <div className="section-shell md:flex md:min-h-screen md:items-center md:py-[calc(var(--header-height)+32px)]">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-12">
-            <div className="lg:col-span-5">
-              <SectionLabel>Engineering Process</SectionLabel>
-              <h2 className="text-[clamp(34px,4vw,56px)] font-semibold leading-tight">
-                A predictable path from requirement to validated prototype.
+          <div className="section-heading-row" data-reveal>
+            <div>
+              <SectionLabel number="03">Engineering Process</SectionLabel>
+              <h2 className="section-title">
+                Define. Build. Measure.
+                <br />
+                <span>Then refine.</span>
               </h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--color-muted)]">
-                The work moves from constraints to architecture, then through
-                layout, firmware, bring-up and iteration.
-              </p>
             </div>
-            <div className="lg:col-span-6 lg:col-start-7">
-              <div className="relative pl-10">
-                <div className="absolute left-[11px] top-2 h-[calc(100%-24px)] w-px bg-[var(--color-border)]" />
-                <div className="process-line absolute left-[11px] top-2 h-[calc(100%-24px)] w-px origin-top bg-[var(--color-blue)]" />
-                <ol className="grid gap-7">
-                  {siteContent.process.map((step, index) => (
-                    <li key={step} className="relative">
-                      <span className="absolute -left-10 top-1 flex h-6 w-6 items-center justify-center border border-[var(--color-gold)] bg-[var(--color-bg)] text-[10px] text-[var(--color-gold)]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <h3 className="text-2xl font-semibold">{step}</h3>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            </div>
+            <p className="section-intro">
+              A predictable path from requirements to a validated prototype.
+              Each stage informs the next decision.
+            </p>
           </div>
+          <div className="process-board">
+            <div className="process-tracks" aria-hidden="true">
+              <span className="process-line" />
+              <span className="process-line" />
+            </div>
+            <ol className="process-steps">
+              {siteContent.process.map((step, index) => (
+                <li key={step} data-reveal>
+                  <span className="process-node">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3>{step}</h3>
+                  <p>{descriptions[index]}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <p className="process-note technical-caption">
+            <span aria-hidden="true">↳</span> Validation feeds the next
+            iteration.
+          </p>
         </Container>
       </div>
     </section>

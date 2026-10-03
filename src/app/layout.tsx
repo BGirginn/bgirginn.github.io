@@ -1,9 +1,16 @@
 import type { Metadata, Viewport } from "next";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const siteUrl = "https://bgirgin.dev";
+const displayFont = localFont({
+  src: "../../public/fonts/ChakraPetch-SemiBold.ttf",
+  variable: "--font-display",
+  weight: "600",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -24,7 +31,7 @@ export const metadata: Metadata = {
         url: "/og-image.svg",
         width: 1200,
         height: 630,
-        alt: "PCB render with Bora Girgin embedded systems and PCB design text",
+        alt: "Bora Girgin holographic embedded systems and PCB design interface",
       },
     ],
     locale: "en_US",
@@ -49,7 +56,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0A0F14",
+  themeColor: "#080c11",
 };
 
 const structuredData = {
@@ -72,7 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={displayFont.variable}>
       <body>
         {children}
         <script

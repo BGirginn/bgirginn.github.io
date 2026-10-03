@@ -7,7 +7,7 @@ export const siteContent = {
     copyright: "© Bora Girgin",
   },
   nav: [
-    { label: "Signature", href: "#signature" },
+    { label: "Hardware", href: "#signature" },
     { label: "Work", href: "#work" },
     { label: "Process", href: "#process" },
     { label: "Capabilities", href: "#capabilities" },
@@ -15,10 +15,10 @@ export const siteContent = {
     { label: "Contact", href: "#contact" },
   ],
   hero: {
-    title: "Embedded Systems\n& PCB Design",
+    title: "Hardware.\nFirmware.\nOne system.",
     description:
-      "Hardware, firmware and system-level engineering for reliable electronic products.",
-    primaryCta: { label: "View Selected Work", href: "#work" },
+      "Electrical and embedded systems engineering, from the circuit board to the code that brings it to life.",
+    primaryCta: { label: "Explore the Hardware", href: "#signature" },
     secondaryCta: { label: "Get In Touch", href: "#contact" },
   },
   signature: {

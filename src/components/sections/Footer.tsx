@@ -1,27 +1,28 @@
 "use client";
 
 import { track } from "@vercel/analytics";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { siteContent } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--color-border)] py-12">
+    <footer className="site-footer">
       <Container>
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xl font-semibold">{siteContent.brand.name}</p>
+            <p className="footer-name">
+              <span>BG.</span> {siteContent.brand.name}
+            </p>
             <p className="mt-2 text-sm text-[var(--color-muted)]">
               {siteContent.brand.tagline}
             </p>
-            <p className="mt-6 text-sm text-[var(--color-subtle)]">
+            <p className="mt-6 technical-caption">
               {siteContent.brand.copyright}
             </p>
           </div>
-          <nav className="flex flex-wrap gap-5 text-sm text-[var(--color-muted)]">
+          <nav className="footer-links" aria-label="Social and document links">
             {siteContent.footerLinks.map((link) => (
-              <Link
+              <a
                 key={link.label}
                 href={link.href}
                 className="transition-colors duration-200 hover:text-[var(--color-gold)]"
@@ -30,7 +31,7 @@ export function Footer() {
                 }}
               >
                 {link.label}
-              </Link>
+              </a>
             ))}
           </nav>
         </div>

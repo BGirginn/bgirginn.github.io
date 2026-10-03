@@ -1,11 +1,14 @@
 type SectionLabelProps = {
   children: string;
+  number?: string;
 };
 
-export function SectionLabel({ children }: SectionLabelProps) {
+export function SectionLabel({ children, number }: SectionLabelProps) {
   return (
-    <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-gold)]">
-      {children}
+    <p className="section-label">
+      {number && <span className="section-index">{number}</span>}
+      <span>{children}</span>
+      <span className="section-label-line" aria-hidden="true" />
     </p>
   );
 }

@@ -2,33 +2,28 @@
 
 import { useEffect, useState } from "react";
 
-export function useWebGLAvailable() {
-  const [available, setAvailable] = useState(false);
+export function useWebGLAvailable(enabled = true) {
+  const [available, setAvailable] = useState<boolean | null>(null);
 
   useEffect(() => {
-    let context: RenderingContext | null = null;
+    if (!enabled) return;
 
     try {
-      if (!window.WebGLRenderingContext) {
+      if (!window.WebGL2RenderingContext) {
         setAvailable(false);
         return;
       }
 
       const canvas = document.createElement("canvas");
-      context =
-        canvas.getContext("webgl2", { failIfMajorPerformanceCaveat: false }) ||
-        canvas.getContext("webgl", { failIfMajorPerformanceCaveat: false }) ||
-        canvas.getContext("experimental-webgl");
+      const context = canvas.getContext("webgl2", {
+        failIfMajorPerformanceCaveat: true,
+      });
       setAvailable(Boolean(context));
+      context?.getExtension("WEBGL_lose_context")?.loseContext();
     } catch {
       setAvailable(false);
     }
-
-    return () => {
-      const gl = context as WebGLRenderingContext | WebGL2RenderingContext | null;
-      gl?.getExtension("WEBGL_lose_context")?.loseContext();
-    };
-  }, []);
+  }, [enabled]);
 
   return available;
 }

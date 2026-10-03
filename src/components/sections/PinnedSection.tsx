@@ -16,8 +16,7 @@ export function PinnedSection({
   return (
     <section
       id={id}
-      data-scroll-lock
-      className={`relative min-h-screen ${className}`}
+      className={`site-section relative min-h-screen ${className}`}
     >
       <div
         className={`section-shell md:flex md:min-h-screen md:items-center md:py-[calc(var(--header-height)+32px)] ${contentClassName}`}

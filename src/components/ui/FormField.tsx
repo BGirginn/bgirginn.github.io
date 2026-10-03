@@ -13,24 +13,36 @@ export function FormField({
   registration,
   multiline = false,
 }: FormFieldProps) {
-  const fieldClass =
-    "mt-2 w-full border border-[var(--color-border)] bg-[#0D131A] px-4 py-3 text-base text-[var(--color-text)] transition-colors duration-200 placeholder:text-[var(--color-subtle)] focus:border-[var(--color-gold)]";
+  const fieldClass = "contact-input";
+  const errorId = `${registration.name}-error`;
 
   return (
-    <label className="block">
-      <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
-        {label}
-      </span>
+    <label className="contact-field">
+      <span className="contact-field-label">{label}</span>
       {multiline ? (
         <textarea
           className={`${fieldClass} min-h-32 resize-y lg:min-h-[clamp(112px,16vh,152px)]`}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          maxLength={2000}
           {...registration}
         />
       ) : (
-        <input className={fieldClass} {...registration} />
+        <input
+          className={fieldClass}
+          type={registration.name === "email" ? "email" : "text"}
+          autoComplete={registration.name === "email" ? "email" : "name"}
+          maxLength={registration.name === "name" ? 100 : undefined}
+          aria-invalid={!!error}
+          aria-describedby={error ? errorId : undefined}
+          {...registration}
+        />
       )}
       {error ? (
-        <span className="mt-2 block text-sm text-[var(--color-gold-light)]">
+        <span
+          id={errorId}
+          className="mt-2 block text-sm text-[var(--color-gold-light)]"
+        >
           {error.message}
         </span>
       ) : null}
