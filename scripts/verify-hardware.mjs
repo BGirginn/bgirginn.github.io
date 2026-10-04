@@ -225,7 +225,50 @@ try {
     await page.locator(".hardware-hud[aria-hidden='true']").count(),
     1,
   );
+  for (const viewport of [
+    { width: 1024, height: 768 },
+    { width: 1280, height: 720 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1000 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await seek(page, 0);
+    const overlappingLabels = await page.evaluate(() => {
+      const heading = document
+        .querySelector(".hardware-heading h2")
+        .getBoundingClientRect();
+      return Array.from(
+        document.querySelectorAll(".hardware-hud-labels > span"),
+      )
+        .filter((element) => {
+          const label = element.getBoundingClientRect();
+          return (
+            label.left < heading.right &&
+            label.right > heading.left &&
+            label.top < heading.bottom &&
+            label.bottom > heading.top
+          );
+        })
+        .map((element) => element.textContent);
+    });
+    assert.deepEqual(
+      overlappingLabels,
+      [],
+      `HUD labels must clear the heading at ${viewport.width}x${viewport.height}`,
+    );
+  }
+  results.hudHeadingClearance = "passed";
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await seek(page, 0);
   results.assembledIdleDraws = await idleDraws(page);
+  const orbitScale = () =>
+    page
+      .locator(".hardware-hud-orbits")
+      .evaluate(
+        (element) =>
+          new DOMMatrixReadOnly(getComputedStyle(element).transform).a,
+      );
+  const assembledOrbitScale = await orbitScale();
   assert.equal(
     await page.locator(".explorer-static svg").count(),
     0,
@@ -275,6 +318,11 @@ try {
     "The completed model must have an inspection hold before release",
   );
   results.explodedIdleDraws = await idleDraws(page);
+  assert.ok(
+    (await orbitScale()) > assembledOrbitScale + 0.1,
+    "The concentric HUD must expand with the common-center assembly",
+  );
+  results.radialHud = "passed";
   await page.screenshot({ path: `${artifacts}/robot-hologram-exploded.png` });
   results.robotLineCallsPerFrame = await page.evaluate(
     () => window.hardwareTest.maxCalls,
@@ -589,6 +637,13 @@ try {
     await reducedPage.evaluate(() => window.hardwareTest.maxScanStrength),
     0,
     "Reduced motion must disable shader scanning",
+  );
+  assert.equal(
+    await reducedPage
+      .locator(".hardware-hud-orbits")
+      .evaluate((element) => getComputedStyle(element).transform),
+    "none",
+    "Reduced motion must disable orbital expansion",
   );
   results.reducedMotion = "passed";
   await reduced.close();

@@ -24,12 +24,18 @@ enclosure, electronics, servo bodies, mounting
 frames, foot links and cable references. Every movable group has
 `userData.explode`; one shared smoothstep curve drives all offsets from the
 first scroll movement. The common center is the complete assembled geometry's
-bounding-box center. Each part keeps its original direction from that center.
+bounding-box center. Each part keeps its original direction from that center,
+except for the two rear legs (Leg 2 and Leg 3 in the default view). Those legs swing outward by
+15 degrees to each side as separation increases. All five groups of each rear
+leg follow this exception; the assembled pose and the other four legs are
+unchanged.
 One increasing radius map supplies core clearance and additional spacing
 beyond the hip actuators; a part farther out in the assembled robot remains
 farther out throughout the movement. The six sets of matching leg components
-retain their circular rings and original angles, rather than becoming rows or
-columns. There are no per-part start delays. PCB board and components continue
+retain their circular radii rather than becoming rows or columns. Rear-leg
+angular spread is applied after radial translation around the same common
+center, preserving radius order even during intermediate animation frames.
+There are no per-part start delays. PCB board and components continue
 their simultaneous vertical separation. The assembly finishes in the first 88% of the sticky scroll range; the remainder holds the
 completed model for inspection. The CSS sticky geometry sets the release point.
 The scroll handler writes to a mutable ref and updates React only when the
@@ -54,8 +60,8 @@ secondary metal/cable details use 0.9 pixels with lower opacity. Board outlines
 use 1.3 pixels. The canvas has no glow filter. Tiny screw heads, pin clusters,
 the illustrative trace grid and bevel rims are simplified while retaining all
 six articulated leg assemblies. The cover, board and chassis have visible
-vertical gaps in the fully exploded pose. All leg mechanisms stay on their
-assembled radial directions. The foot links form the outermost circular
+vertical gaps in the fully exploded pose. The two rear leg mechanisms swing
+sideways; all other legs stay on their assembled radial directions. The foot links form the outermost circular
 envelope. Parts translate without scaling or changing their geometry, and
 remain three-dimensional and orbitable. Perspective can still put the outlines
 of front and rear components over one another when orbiting.
@@ -71,12 +77,17 @@ distortion. Camera orbit direction is preserved while the distance changes.
 Portrait views retain aspect-aware framing.
 
 The holographic treatment adds cool cyan outlines, sparse frame brackets and
-counter-rotating segmented HUD rings. A scan line sweeps across the viewport and
+counter-rotating segmented HUD rings with sparse tick marks and amber cardinal accents.
+The concentric frame expands with the assembly's common-center separation;
+it does not move parts independently or introduce staged starts.
+A scan line sweeps across the viewport and
 tints the actual Three.js line shaders. Scan position, intensity and ring angles
 derive from assembly progress, not an endless clock. The DOM overlay is
 decorative, ignores pointer events and has no fabricated sensor readings.
 The shader uniforms are shared by the scene's materials; the PCB source asset
 is unchanged. Settled, offscreen and hidden scenes retain zero new GPU draws.
+Reduced motion also removes the ring expansion. The board outline and cables use amber;
+low-opacity secondary lines distinguish cable references without adding geometry.
 
 Desktop fetches scene code within 300 pixels of the section, without initializing
 WebGL before arrival. PCB code and the local GLB load only after the PCB subject
@@ -110,8 +121,9 @@ The browser checks verify:
 - Constant stage position during scroll, increasing separation, full separation
   before release, and the next section entering after release.
 - Geometry checks for one common radial center, inner/outer distance order,
-  six circular rings with their assembled angles, gaps between the three central
-  layers, simultaneous motion without per-part delays, and framing margins at
+  six circular rings with their assembled angles and the two rear-leg exceptions,
+  unchanged assembled geometry, rear-only lateral clearance, gaps between the
+  three central layers, simultaneous motion without per-part delays, and framing margins at
   four assembly phases and four aspect ratios.
   `verify-hardware-layout.mjs` compiles the actual geometry sources in memory
   with the installed TypeScript compiler; no generated files or Node TS loader

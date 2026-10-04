@@ -79,7 +79,7 @@ export function HexapodModel({ scan }: { scan: HologramScan }) {
         <group
           key={part.name}
           name={part.name}
-          userData={{ explode: part.offset }}
+          userData={{ explode: part.offset, radialSpread: part.radialSpread }}
         >
           {part.batches.map((batch) => (
             <Surface key={batch.surface} batch={batch} scan={scan} />

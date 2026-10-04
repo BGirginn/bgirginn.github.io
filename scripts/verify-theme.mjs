@@ -45,7 +45,7 @@ async function assertLayout(page) {
     "Visible content must finish revealing",
   );
   const clippedHeadings = await page
-    .locator(".capability-domain h3, .project-summary h3")
+    .locator(".hero-title, .capability-domain h3, .project-summary h3")
     .evaluateAll((headings) =>
       headings
         .filter((heading) => heading.scrollWidth > heading.clientWidth + 1)
@@ -72,6 +72,37 @@ try {
   await page.evaluate(() => document.fonts.ready);
   assert.equal(await page.locator("h1").count(), 1);
   assert.equal(await page.locator(".desktop-nav").isVisible(), true);
+  assert.equal(
+    await page.locator(".hero-console-heading").count(),
+    0,
+    "The original text-only introduction must not gain a console card",
+  );
+  const theme = await page.evaluate(() => {
+    const tokens = getComputedStyle(document.documentElement);
+    return {
+      background: tokens.getPropertyValue("--color-bg").trim(),
+      cyan: tokens.getPropertyValue("--color-cyan").trim(),
+      accent: tokens.getPropertyValue("--color-gold").trim(),
+      unboxedSections: Array.from(
+        document.querySelectorAll(
+          ".hero-text-layout, .project-record, .process-board, .capability-matrix, .system-drawing, .contact-console",
+        ),
+      ).every(
+        (element) => getComputedStyle(element).backgroundImage === "none",
+      ),
+    };
+  });
+  assert.deepEqual(
+    theme,
+    {
+      background: "#080c11",
+      cyan: "#86c9c6",
+      accent: "#c9a96e",
+      unboxedSections: true,
+    },
+    "Preserve the original dark/cyan/amber theme and open layouts",
+  );
+  results.originalTheme = "passed";
   const typeface = await page
     .locator("h1")
     .evaluate((element) => getComputedStyle(element).fontFamily);
@@ -114,6 +145,112 @@ try {
     "Invalid submission must not open email",
   );
   results.desktopAndForm = "passed";
+
+  // A normal end-of-page view must show the complete contact form above the
+  // footer and below the fixed header, including on short laptop screens.
+  const contactViewports = [
+    { width: 1024, height: 768 },
+    { width: 1280, height: 720 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1000 },
+  ];
+  await page.reload();
+  for (const viewport of contactViewports) {
+    await page.setViewportSize(viewport);
+    await page.evaluate(() =>
+      scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "instant",
+      }),
+    );
+    await page.waitForTimeout(800);
+    const fit = await page.evaluate(() => {
+      const box = (selector) => {
+        const rect = document.querySelector(selector).getBoundingClientRect();
+        return { top: rect.top, bottom: rect.bottom, height: rect.height };
+      };
+      return {
+        header: box(".site-header"),
+        form: box(".contact-console"),
+        heading: box("#contact h2"),
+        footer: box(".site-footer"),
+        overflow: document.documentElement.scrollWidth > innerWidth,
+      };
+    });
+    assert.ok(
+      fit.form.top >= fit.header.bottom + 8,
+      `Contact form must clear the header at ${viewport.width}x${viewport.height}`,
+    );
+    assert.ok(
+      fit.heading.top >= fit.header.bottom + 8,
+      "Contact heading must clear the header",
+    );
+    assert.ok(
+      fit.form.bottom <= fit.footer.top - 8,
+      "Contact form must clear the footer",
+    );
+    assert.ok(fit.footer.height <= 82, "Desktop footer must remain compact");
+    assert.equal(fit.overflow, false);
+    await page.screenshot({
+      path: `${artifacts}/contact-fit-${viewport.width}-${viewport.height}.png`,
+    });
+  }
+  results.contactViewportFit =
+    "passed: 1024x768, 1280x720, 1440x900, 1920x1000";
+  await page.setViewportSize({ width: 1280, height: 600 });
+  await page.evaluate(() =>
+    scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    }),
+  );
+  for (const control of await page
+    .locator(".contact-input, .contact-console button[type=submit]")
+    .all()) {
+    await control.evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+    const accessible = await control.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      const header = document
+        .querySelector(".site-header")
+        .getBoundingClientRect();
+      return rect.top >= header.bottom + 8 && rect.bottom <= innerHeight;
+    });
+    assert.ok(
+      accessible,
+      "Every form control must remain reachable on short screens",
+    );
+  }
+  const normalHeight = await page
+    .locator("#contact")
+    .evaluate((element) => element.offsetHeight);
+  await page.locator("textarea.contact-input").evaluate((element) => {
+    element.style.height = "480px";
+  });
+  assert.ok(
+    (await page
+      .locator("#contact")
+      .evaluate((element) => element.offsetHeight)) >
+      normalHeight + 250,
+    "An enlarged textarea must grow the section rather than clip its content",
+  );
+  await page.getByRole("button", { name: "Prepare Email" }).click();
+  assert.equal(
+    await page.locator(".contact-input[aria-invalid='true']").count(),
+    3,
+  );
+  await page
+    .getByRole("button", { name: "Prepare Email" })
+    .evaluate((element) =>
+      element.scrollIntoView({ block: "center", behavior: "instant" }),
+    );
+  assert.ok(
+    await page.getByRole("button", { name: "Prepare Email" }).isVisible(),
+  );
+  await page.reload();
+  results.contactNaturalGrowth =
+    "passed: short viewport, resized textarea and form errors";
 
   await page.setViewportSize({ width: 1600, height: 1000 });
   await goToSection(page, "capabilities");

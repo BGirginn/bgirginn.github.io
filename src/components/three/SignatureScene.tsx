@@ -24,6 +24,10 @@ import {
 } from "@/lib/hardware-explorer";
 import { hardwareCamera } from "@/lib/hardware-camera";
 import { createHologramScan } from "@/lib/hologram-material";
+import {
+  positionHardwarePart,
+  type RadialSpread,
+} from "@/lib/hardware-geometry";
 
 const PCBModel = lazy(() =>
   import("@/components/three/PCBModel").then((module) => ({
@@ -158,10 +162,11 @@ function Assembly({
         | [number, number, number]
         | undefined;
       if (offset) {
-        object.position.set(
-          offset[0] * separation,
-          offset[1] * separation,
-          offset[2] * separation,
+        positionHardwarePart(
+          object.position,
+          offset,
+          separation,
+          object.userData.radialSpread as RadialSpread | undefined,
         );
       }
     });

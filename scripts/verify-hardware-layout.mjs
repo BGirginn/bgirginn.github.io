@@ -56,7 +56,9 @@ export async function verifyHardwareLayout() {
   const geometryModule = await sourceModule("../src/lib/hardware-geometry.ts", {
     "@/lib/hardware-camera": cameraModule,
   });
-  const { buildHexapodParts } = await import(geometryModule);
+  const { buildHexapodParts, positionHardwarePart } = await import(
+    geometryModule
+  );
   const parts = buildHexapodParts();
   const central = parts.filter((part) => !part.name.startsWith("Leg "));
   const legs = parts.filter((part) => part.name.startsWith("Leg "));
@@ -87,7 +89,8 @@ export async function verifyHardwareLayout() {
   function projectedBounds(part, camera, progress = 1) {
     const bounds = new Box2();
     const separation = getAssemblySeparation(progress);
-    const offset = new Vector3(...part.offset).multiplyScalar(separation);
+    const offset = new Vector3();
+    positionHardwarePart(offset, part.offset, separation, part.radialSpread);
     const rotation =
       hardwareCamera.robotRotation +
       hardwareCamera.robotSeparationTurn * progress;
@@ -137,17 +140,26 @@ export async function verifyHardwareLayout() {
     );
     for (const progress of [0, 0.01, 0.35, 0.75, 1]) {
       const separation = getAssemblySeparation(progress);
-      const moved = centers.map((center, index) =>
-        center
-          .clone()
-          .addScaledVector(new Vector3(...parts[index].offset), separation)
-          .sub(origin),
-      );
+      const moved = centers.map((center, index) => {
+        const part = parts[index];
+        const offset = new Vector3();
+        positionHardwarePart(
+          offset,
+          part.offset,
+          separation,
+          part.radialSpread,
+        );
+        return center.clone().add(offset).sub(origin);
+      });
       for (const index of ordered) {
-        const start = centers[index].clone().sub(origin);
+        const part = parts[index];
+        const start = centers[index]
+          .clone()
+          .sub(origin)
+          .applyAxisAngle(axis, (part.radialSpread?.angle ?? 0) * separation);
         assert.ok(
           start.clone().cross(moved[index]).length() < 0.00001,
-          `${parts[index].name} must move on its original ray from the common assembly center`,
+          `${parts[index].name} must keep its specified direction about the common assembly center`,
         );
         assert.ok(
           moved[index].dot(start) > 0,
@@ -185,19 +197,65 @@ export async function verifyHardwareLayout() {
           Math.max(...radii) - Math.min(...radii) < 0.00001,
           `${name} must retain its circular envelope`,
         );
-        const angles = ring
-          .map((point) => Math.atan2(point.z, point.x))
-          .sort((a, b) => a - b);
-        for (let index = 0; index < angles.length; index++) {
-          const next =
-            angles[(index + 1) % angles.length] +
-            (index === angles.length - 1 ? Math.PI * 2 : 0);
+        for (const { part, index } of parts
+          .map((part, index) => ({ part, index }))
+          .filter(({ part }) => part.name.endsWith(`/ ${name}`))) {
+          const initial = centers[index].clone().sub(origin);
+          const expected = initial.applyAxisAngle(
+            axis,
+            (part.radialSpread?.angle ?? 0) * separation,
+          );
+          const actual = moved[index];
           assert.ok(
-            Math.abs(next - angles[index] - Math.PI / 3) < 0.00001,
-            `${name} must retain the six assembled directions`,
+            Math.abs(
+              Math.atan2(actual.z, actual.x) -
+                Math.atan2(expected.z, expected.x),
+            ) < 0.00001,
+            `${part.name} must retain its assembled angle or the specified rear-leg spread`,
           );
         }
       }
+    }
+    const rear = parts.filter((part) => part.radialSpread);
+    assert.equal(
+      rear.length,
+      10,
+      "Only the two rear legs' five groups receive extra spread",
+    );
+    for (const part of parts) {
+      const expectedAngle = part.name.startsWith("Leg 2 /")
+        ? -Math.PI / 12
+        : part.name.startsWith("Leg 3 /")
+          ? Math.PI / 12
+          : 0;
+      assert.equal(part.radialSpread?.angle ?? 0, expectedAngle);
+      if (!part.radialSpread) continue;
+      assert.deepEqual(part.radialSpread.origin, origin.toArray());
+      const unchanged = new Vector3(...part.center)
+        .add(new Vector3(...part.offset))
+        .applyAxisAngle(
+          axis,
+          hardwareCamera.robotRotation + hardwareCamera.robotSeparationTurn,
+        );
+      const offset = new Vector3();
+      positionHardwarePart(offset, part.offset, 1, part.radialSpread);
+      const changed = new Vector3(...part.center)
+        .add(offset)
+        .applyAxisAngle(
+          axis,
+          hardwareCamera.robotRotation + hardwareCamera.robotSeparationTurn,
+        );
+      const sign = part.name.startsWith("Leg 2 /") ? 1 : -1;
+      assert.ok(
+        (changed.dot(right) - unchanged.dot(right)) * sign > 0.6,
+        `${part.name} must visibly move away from the enclosure to its own side`,
+      );
+      positionHardwarePart(offset, part.offset, 0, part.radialSpread);
+      assert.equal(
+        offset.lengthSq(),
+        0,
+        "The assembled pose must stay unchanged",
+      );
     }
     const [chassis, enclosure, board] = central.map((part) =>
       projectedBounds(part),
@@ -250,7 +308,7 @@ export async function verifyHardwareLayout() {
         }
       }
     }
-    return "common-center radial expansion, inner/outer order, circular envelope, all parts fit: passed";
+    return "common-center radius order, two rear legs spread, circular envelope, all parts fit: passed";
   } finally {
     parts.forEach((part) =>
       part.batches.forEach((batch) => batch.geometry.dispose()),

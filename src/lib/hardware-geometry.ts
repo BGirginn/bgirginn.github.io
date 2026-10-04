@@ -14,12 +14,41 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 
 export type PartSurface = "shell" | "servo" | "metal" | "board" | "copper";
 export type GeometryBatch = { surface: PartSurface; geometry: BufferGeometry };
+export type RadialSpread = {
+  center: [number, number, number];
+  origin: [number, number, number];
+  angle: number;
+};
 export type HardwarePart = {
   name: string;
   center: [number, number, number];
   offset: [number, number, number];
+  radialSpread?: RadialSpread;
   batches: GeometryBatch[];
 };
+
+export function positionHardwarePart(
+  position: Vector3,
+  offset: [number, number, number],
+  separation: number,
+  spread?: RadialSpread,
+) {
+  position.set(
+    offset[0] * separation,
+    offset[1] * separation,
+    offset[2] * separation,
+  );
+  if (!spread || separation === 0) return;
+  const x = spread.center[0] - spread.origin[0] + position.x;
+  const z = spread.center[2] - spread.origin[2] + position.z;
+  const angle = spread.angle * separation;
+  const cosine = Math.cos(angle);
+  const sine = Math.sin(angle);
+  // Swing only the two rear groups about the common center. Rotating their
+  // centers after radial expansion preserves radius order and the round envelope.
+  position.x += x * cosine + z * sine - x;
+  position.z += z * cosine - x * sine - z;
+}
 
 class PartBuilder {
   private geometries = new Map<PartSurface, BufferGeometry[]>();
@@ -156,6 +185,7 @@ export function buildHexapodParts(): HardwarePart[] {
     lid.finish("Enclosure"),
     electronics.finish("Illustrative control board"),
   ];
+  const rearLegParts = new Map<HardwarePart, number>();
   for (let i = 0; i < 6; i++) {
     const angle = (i * Math.PI) / 3 + Math.PI / 6;
     const rotation = new Matrix4().makeRotationY(angle);
@@ -166,6 +196,8 @@ export function buildHexapodParts(): HardwarePart[] {
         .applyMatrix4(rotation)
         .toArray() as [number, number, number];
       parts.push(part);
+      if (i === 1 || i === 2)
+        rearLegParts.set(part, ((i === 1 ? -1 : 1) * Math.PI) / 12);
     };
 
     const hip = new PartBuilder();
@@ -227,6 +259,13 @@ export function buildHexapodParts(): HardwarePart[] {
   });
   const center = assemblyBounds.getCenter(new Vector3());
   parts.forEach((part) => {
+    const spreadAngle = rearLegParts.get(part);
+    if (spreadAngle !== undefined)
+      part.radialSpread = {
+        center: part.center,
+        origin: center.toArray() as [number, number, number],
+        angle: spreadAngle,
+      };
     const radial = new Vector3(...part.center).sub(center);
     const radius = radial.length();
     if (radius === 0) return;

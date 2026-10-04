@@ -7,6 +7,11 @@ section numbers and secondary details. The introduction is text-only;
 the line-only Three.js models appear in the hardware section below it. Other
 sections use SVG and CSS.
 
+The [Iron Man 2 video](https://www.youtube.com/watch?v=Ddk9ci6geSs) is a motion
+reference only: synchronized common-center disassembly, expanding orbital
+frames and progress-driven scanning. The owner's existing dark/cyan/amber palette
+and open section layouts are retained.
+
 ## Design and behavior
 
 - The hero contains only the heading, introduction, navigation buttons and
@@ -34,6 +39,11 @@ sections use SVG and CSS.
   keyboard focus wrapping, and closes on navigation or a desktop resize. Menu
   navigation moves focus to the destination heading. Modified link clicks retain
   the browser's native behavior. Hash navigation respects reduced motion.
+- Desktop Contact and the footer share the final viewport after subtracting the
+  fixed header. The footer is 80px tall; form spacing, heading size and initial
+  textarea height adapt to viewport height. These are minimum heights, so field
+  errors and a manually enlarged textarea grow the page with normal scrolling.
+  Mobile uses a natural single-column flow and a compact stacked footer.
 - Contact continues to prepare a `mailto:` draft. The interface states this
   behavior explicitly. Field errors are associated with their inputs through
   `aria-describedby` and `aria-invalid`; no delivery service is added.
@@ -54,7 +64,9 @@ npm run verify:hardware
 Set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` when using an existing Chromium browser.
 Theme checks cover horizontal overflow at 320, 360, 375, 390, 768, 1024, 1440 and 1600px,
 section navigation, reveals, mobile menu focus and Escape, resize cleanup,
-invalid form input, motion preference changes, local assets and runtime errors.
+invalid form input, end-of-page Contact/footer fit, short-screen overflow,
+textarea enlargement, the original palette and absence of added blue panels,
+heading fit, motion preference changes, local assets and runtime errors.
 They never submit a valid message or contact an email recipient. Screenshots and
 results are saved to the ignored `output/playwright/theme/` directory.
 

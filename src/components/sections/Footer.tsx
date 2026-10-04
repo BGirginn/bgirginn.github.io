@@ -8,18 +8,16 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <Container>
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <div>
+        <div className="footer-inner">
+          <div className="footer-brand">
             <p className="footer-name">
               <span>BG.</span> {siteContent.brand.name}
             </p>
-            <p className="mt-2 text-sm text-[var(--color-muted)]">
-              {siteContent.brand.tagline}
-            </p>
-            <p className="mt-6 technical-caption">
-              {siteContent.brand.copyright}
-            </p>
+            <p className="footer-tagline">{siteContent.brand.tagline}</p>
           </div>
+          <p className="footer-copyright technical-caption">
+            {siteContent.brand.copyright}
+          </p>
           <nav className="footer-links" aria-label="Social and document links">
             {siteContent.footerLinks.map((link) => (
               <a

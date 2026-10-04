@@ -21,7 +21,7 @@ export function FormField({
       <span className="contact-field-label">{label}</span>
       {multiline ? (
         <textarea
-          className={`${fieldClass} min-h-32 resize-y lg:min-h-[clamp(112px,16vh,152px)]`}
+          className={fieldClass}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
           maxLength={2000}

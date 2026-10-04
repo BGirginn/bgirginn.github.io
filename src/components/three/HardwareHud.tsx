@@ -17,18 +17,30 @@ export function HardwareHud({ reduced }: { reduced: boolean }) {
           <path d="M48 340V360 M38 350H58 M952 340V360 M942 350H962" />
         </g>
         <g transform="translate(500 350)">
-          <circle
-            className="hardware-hud-dial"
-            r="278"
-            pathLength="100"
-            strokeDasharray="14 12 6 18 10 40"
-          />
-          <circle
-            className="hardware-hud-counterdial"
-            r="295"
-            pathLength="100"
-            strokeDasharray="4 21 4 21 4 21 4 21"
-          />
+          <g className="hardware-hud-orbits">
+            <circle
+              className="hardware-hud-dial"
+              r="278"
+              pathLength="100"
+              strokeDasharray="14 12 6 18 10 40"
+            />
+            <circle
+              className="hardware-hud-counterdial"
+              r="295"
+              pathLength="100"
+              strokeDasharray="4 21 4 21 4 21 4 21"
+            />
+            <circle
+              className="hardware-hud-ticks"
+              r="307"
+              pathLength="120"
+              strokeDasharray="0.12 1.88"
+            />
+            <path
+              className="hardware-hud-accent"
+              d="M-295 0h-12 M295 0h12 M0-295v-12 M0 295v12"
+            />
+          </g>
         </g>
         <g className="hardware-hud-dots">
           <circle cx="56" cy="134" r="2" />

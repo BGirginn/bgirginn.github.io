@@ -43,18 +43,15 @@ export function Contact() {
   }
 
   return (
-    <section
-      id="contact"
-      className="site-section contact-section relative min-h-screen py-24 md:flex md:items-center md:pt-[calc(var(--header-height)+44px)] md:pb-10"
-    >
+    <section id="contact" className="site-section contact-section">
       <Container>
-        <div className="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+        <div className="contact-layout">
           <div className="lg:col-span-5" data-reveal>
             <SectionLabel number="06">Contact</SectionLabel>
             <h2 className="section-title max-w-[13ch]">
               {siteContent.contact.title}
             </h2>
-            <p className="mt-5 max-w-xl text-[clamp(16px,1.2vw,18px)] leading-8 text-[var(--color-muted)]">
+            <p className="contact-description">
               {siteContent.contact.description}
             </p>
             <a
@@ -63,13 +60,13 @@ export function Contact() {
             >
               {siteContent.brand.email}
             </a>
-            <p className="technical-caption mt-8">
+            <p className="technical-caption contact-focus">
               Hardware / Firmware / Technical review
             </p>
           </div>
           <div className="lg:col-span-6 lg:col-start-7" data-reveal>
             <form
-              className="contact-console grid gap-5 p-5 md:p-6 lg:p-7"
+              className="contact-console"
               onSubmit={handleSubmit(onSubmit)}
               noValidate
             >
@@ -101,20 +98,22 @@ export function Contact() {
                 <Send size={16} />
                 {isSubmitting ? "Preparing..." : "Prepare Email"}
               </button>
-              <p className="technical-caption">
-                Opens your email app with a draft.
-              </p>
-              <div aria-live="polite" className="min-h-6 text-sm">
-                {status === "success" ? (
-                  <span className="text-[var(--color-gold-light)]">
-                    {siteContent.contact.success}
-                  </span>
-                ) : null}
-                {status === "error" ? (
-                  <span className="text-[var(--color-gold-light)]">
-                    {siteContent.contact.error}
-                  </span>
-                ) : null}
+              <div className="contact-form-footer">
+                <p className="technical-caption">
+                  Opens your email app with a draft.
+                </p>
+                <div aria-live="polite" className="contact-status text-sm">
+                  {status === "success" ? (
+                    <span className="text-[var(--color-gold-light)]">
+                      {siteContent.contact.success}
+                    </span>
+                  ) : null}
+                  {status === "error" ? (
+                    <span className="text-[var(--color-gold-light)]">
+                      {siteContent.contact.error}
+                    </span>
+                  ) : null}
+                </div>
               </div>
             </form>
           </div>

@@ -16,6 +16,7 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --color-hover: rgba(201, 169, 110, 0.08);
   --header-height: 82px;
+  --footer-height: 80px;
   color-scheme: dark;
 }
 
@@ -264,6 +265,18 @@ textarea {
 .hardware-hud-frame {
   opacity: 0.38;
 }
+.hardware-hud-orbits {
+  transform: scale(calc(0.88 + var(--assembly-progress, 0) * 0.16));
+}
+.hardware-hud-ticks {
+  opacity: 0.22;
+  stroke-width: 3;
+}
+.hardware-hud-accent {
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  opacity: 0.7;
+}
 .hardware-hud-dial,
 .hardware-hud-counterdial {
   transform-box: fill-box;
@@ -301,8 +314,8 @@ textarea {
 }
 .hardware-hud-labels {
   position: absolute;
-  top: 165px;
-  left: 6%;
+  top: 7%;
+  left: 32%;
   right: 6%;
   display: flex;
   justify-content: space-between;
@@ -321,6 +334,7 @@ textarea {
 .hardware-hud.is-static {
   animation: none;
 }
+.hardware-hud.is-static .hardware-hud-orbits,
 .hardware-hud.is-static .hardware-hud-dial,
 .hardware-hud.is-static .hardware-hud-counterdial {
   transform: none;
@@ -1205,7 +1219,25 @@ h3 {
 }
 
 .contact-section {
+  position: relative;
+  padding-block: 48px;
+  scroll-margin-top: var(--header-height);
   background: radial-gradient(ellipse at 20% 60%, #86c9c605, transparent 65%);
+}
+.contact-layout {
+  display: grid;
+  align-items: center;
+  gap: 32px;
+}
+.contact-description {
+  max-width: 36rem;
+  margin-top: 20px;
+  font-size: clamp(16px, 1.2vw, 18px);
+  line-height: 1.8;
+  color: var(--color-muted);
+}
+.contact-focus {
+  margin-top: clamp(16px, 3svh, 32px);
 }
 .contact-address {
   display: inline-block;
@@ -1217,6 +1249,9 @@ h3 {
 }
 .contact-console {
   position: relative;
+  display: grid;
+  gap: clamp(12px, calc(3svh - 10px), 20px);
+  padding: clamp(16px, 2.4svh, 28px);
   border: 1px solid var(--color-border);
   background: #0a121780;
 }
@@ -1247,7 +1282,7 @@ h3 {
   justify-content: space-between;
   gap: 20px;
   border-bottom: 1px solid var(--color-border);
-  padding-bottom: 16px;
+  padding-bottom: clamp(10px, 1.6svh, 16px);
   font: 10px/1.6 var(--font-mono);
   color: var(--color-cyan);
 }
@@ -1267,13 +1302,22 @@ h3 {
 .contact-input {
   width: 100%;
   display: block;
-  margin-top: 8px;
+  margin-top: clamp(6px, 1svh, 8px);
   border: 1px solid var(--color-border);
   background: #080c1155;
   color: var(--color-text);
-  padding: 12px;
+  min-height: 44px;
+  padding: clamp(8px, calc(2svh - 6px), 12px);
   font-size: 16px;
   transition: border-color 0.2s;
+}
+textarea.contact-input {
+  height: clamp(80px, calc(20svh - 60px), 152px);
+  min-height: 80px;
+  resize: vertical;
+}
+.contact-status:not(:empty) {
+  margin-top: 8px;
 }
 .contact-input:focus {
   border-color: var(--color-cyan);
@@ -1284,30 +1328,92 @@ h3 {
 
 .site-footer {
   border-top: 1px solid var(--color-border);
-  padding: 40px 0;
+  padding: 14px 0;
+}
+.footer-inner {
+  display: grid;
+  grid-template-areas: "brand" "links" "copyright";
+  align-items: center;
+  gap: 8px 24px;
+}
+.footer-brand {
+  grid-area: brand;
+}
+.footer-tagline {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+.footer-copyright {
+  grid-area: copyright;
 }
 .footer-name {
   display: flex;
   align-items: center;
   gap: 16px;
   font:
-    600 19px var(--font-display),
+    600 16px / 1.25 var(--font-display),
     sans-serif;
 }
 .footer-name > span {
   color: var(--color-cyan);
 }
 .footer-links {
+  grid-area: links;
   display: flex;
   flex-wrap: wrap;
-  gap: 28px;
+  gap: 24px;
   color: var(--color-muted);
   font: 10px var(--font-mono);
+}
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
 }
 .footer-links a::after {
   content: "↗";
   margin-left: 7px;
   color: var(--color-cyan);
+}
+@media (min-width: 768px) {
+  .footer-inner {
+    grid-template-areas: "brand links" "copyright links";
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+@media (min-width: 1024px) {
+  .contact-section {
+    /* Share the final viewport with the fixed header and compact footer.
+       Content can still grow when errors, zoom or a resized textarea need space. */
+    min-height: calc(100dvh - var(--header-height) - var(--footer-height));
+    display: flex;
+    align-items: center;
+    padding-block: clamp(12px, 2.4svh, 28px);
+  }
+  .contact-layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 48px;
+  }
+  .contact-section .section-title {
+    font-size: clamp(32px, min(4.1vw, 5.5svh), 60px);
+  }
+  .contact-section .section-label {
+    margin-bottom: clamp(16px, 3svh, 26px);
+  }
+  .contact-description {
+    margin-top: clamp(12px, 2.2svh, 20px);
+    font-size: clamp(15px, min(1.2vw, 2svh), 18px);
+  }
+  .site-footer {
+    min-height: var(--footer-height);
+  }
+  .footer-inner {
+    min-height: calc(var(--footer-height) - 29px);
+    grid-template-areas: "brand copyright links";
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
 }
 
 .section-rail {
