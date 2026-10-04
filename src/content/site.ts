@@ -1,9 +1,11 @@
+const contactEmail = "girginbora30@gmail.com";
+
 export const siteContent = {
   brand: {
     name: "Bora Girgin",
     mark: "BG.",
     tagline: "Embedded Systems & PCB Design",
-    email: "hello@bgirgin.dev",
+    email: contactEmail,
     copyright: "© Bora Girgin",
   },
   nav: [
@@ -111,12 +113,12 @@ export const siteContent = {
     description:
       "Send a concise note about the product, board, firmware or review you need.",
     success: "Your email app is ready with the message.",
-    error: "Something went wrong. Email hello@bgirgin.dev directly.",
+    error: `Something went wrong. Email ${contactEmail} directly.`,
   },
   footerLinks: [
     { label: "GitHub", href: "https://github.com/BGirginn" },
     { label: "LinkedIn", href: "https://www.linkedin.com/" },
-    { label: "Email", href: "mailto:hello@bgirgin.dev" },
+    { label: "Email", href: `mailto:${contactEmail}` },
     { label: "CV", href: "/cv.pdf" },
   ],
 };

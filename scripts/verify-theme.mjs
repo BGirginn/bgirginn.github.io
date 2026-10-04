@@ -128,6 +128,23 @@ try {
   assert.equal(await page.locator(".project-record").count(), 3);
   assert.equal(await page.locator(".capability-domain").count(), 5);
   assert.equal(await page.locator(".process-steps li").count(), 8);
+  const contactEmail = "girginbora30@gmail.com";
+  assert.equal(
+    await page.locator(".contact-address").textContent(),
+    contactEmail,
+  );
+  assert.equal(
+    await page.locator(".contact-address").getAttribute("href"),
+    `mailto:${contactEmail}`,
+  );
+  assert.equal(
+    await page
+      .locator(".footer-links a")
+      .filter({ hasText: /^Email$/ })
+      .getAttribute("href"),
+    `mailto:${contactEmail}`,
+  );
+  results.contactEmail = "passed: contact address and footer link";
   await page.getByRole("button", { name: "Prepare Email" }).click();
   const invalid = page.locator(".contact-input[aria-invalid='true']");
   await invalid.first().waitFor();
