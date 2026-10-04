@@ -220,6 +220,10 @@ try {
     .getByRole("link", { name: "Explore the Hardware", exact: true })
     .click();
   await page.locator(".explorer-canvas.is-ready canvas").waitFor();
+  assert.equal(await page.getByRole("button", { name: "01 Quadropod V0", exact: true }).getAttribute("aria-pressed"), "true");
+  assert.equal(await page.locator(".explorer-tabs button").first().textContent(), "01Quadropod V0");
+  await page.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
+  await page.locator(".explorer-canvas.is-ready canvas").waitFor();
   await seek(page, 0);
   assert.equal(
     await page.locator(".hardware-hud[aria-hidden='true']").count(),
@@ -443,7 +447,7 @@ try {
   await page.evaluate(() => window.resetObserver.disconnect());
   results.orbitAndReset = "passed";
   await page
-    .getByRole("button", { name: "02 PCB assembly", exact: true })
+    .getByRole("button", { name: "03 PCB assembly", exact: true })
     .click();
   await page.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(modelRequests.length, 1);
@@ -490,6 +494,7 @@ try {
       mobileErrors.push(`${response.status()} ${response.url()}`);
   });
   await mobilePage.goto(`${baseURL}/#signature`);
+  await mobilePage.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
   await mobilePage.waitForTimeout(400);
   assert.equal(await mobilePage.locator("canvas").count(), 0);
   await assertNoOverflow(mobilePage);
@@ -575,14 +580,14 @@ try {
   }
   await mobilePage.setViewportSize({ width: 390, height: 844 });
   await mobilePage
-    .getByRole("button", { name: "02 PCB assembly", exact: true })
+    .getByRole("button", { name: "03 PCB assembly", exact: true })
     .tap();
   await mobilePage.locator(".explorer-canvas.is-ready canvas").waitFor();
   await mobilePage.getByRole("button", { name: "Exploded", exact: true }).tap();
   await idleDraws(mobilePage);
   await assertNoOverflow(mobilePage);
   await mobilePage
-    .getByRole("button", { name: "01 Hexapod robot", exact: true })
+    .getByRole("button", { name: "02 Hexapod robot", exact: true })
     .tap();
   await mobilePage.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(await range.inputValue(), "0");
@@ -604,6 +609,7 @@ try {
   await instrument(reduced);
   const reducedPage = await reduced.newPage();
   await reducedPage.goto(`${baseURL}/#signature`);
+  await reducedPage.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
   await reducedPage.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(
     await reducedPage
@@ -646,6 +652,47 @@ try {
     "Reduced motion must disable orbital expansion",
   );
   results.reducedMotion = "passed";
+  const cadErrors = [];
+  reducedPage.on("pageerror", (error) => cadErrors.push(error.message));
+  await reducedPage.getByRole("button", { name: "01 Quadropod V0", exact: true }).click();
+  await reducedPage.locator(".explorer-canvas.is-ready canvas").waitFor();
+  assert.match(await reducedPage.locator(".explorer-source-note").textContent(), /Original FreeCAD leg assembly/);
+  await reducedPage.getByRole("button", { name: "Assembled", exact: true }).click();
+  await reducedPage.screenshot({ path: `${artifacts}/quadropod-assembled.png` });
+  await reducedPage.getByRole("button", { name: "Exploded", exact: true }).click();
+  assert.match(await reducedPage.locator(".assembly-story").textContent(), /Open mechanical assembly/);
+  results.quadropodIdleDraws = await idleDraws(reducedPage);
+  await reducedPage.screenshot({ path: `${artifacts}/quadropod-open.png` });
+  const originalCanvas = await reducedPage.locator("canvas").elementHandle();
+  await reducedPage.getByRole("button", { name: "FreeCAD colors", exact: true }).click();
+  await reducedPage.waitForFunction(() => window.hardwareTest.triangles > 0);
+  assert.equal(await reducedPage.getByRole("slider").inputValue(), "100");
+  assert.ok(await originalCanvas.evaluate((canvas) => canvas === document.querySelector("canvas")));
+  results.quadropodSolidIdleDraws = await idleDraws(reducedPage);
+  await reducedPage.getByRole("button", { name: "Assembled", exact: true }).click();
+  await reducedPage.screenshot({ path: `${artifacts}/quadropod-solid.png` });
+  await reducedPage.getByRole("button", { name: "Line", exact: true }).click();
+  await idleDraws(reducedPage);
+  const surfaceDraws = await reducedPage.evaluate(() => window.hardwareTest.triangles);
+  await reducedPage.getByRole("button", { name: "Exploded", exact: true }).click();
+  await idleDraws(reducedPage);
+  assert.equal(await reducedPage.evaluate(() => window.hardwareTest.triangles), surfaceDraws, "Line mode must stop rendering solid surfaces");
+  await reducedPage.setViewportSize({ width: 320, height: 800 });
+  await reducedPage.locator('img[src="/models/quadropod.svg"]').waitFor();
+  assert.ok(await reducedPage.locator('.explorer-static img').evaluate((image) => image.complete && image.naturalWidth > 0));
+  assert.ok(await reducedPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  const openButton = await reducedPage.getByRole("button", { name: "Open interactive 3D" }).boundingBox();
+  const story = await reducedPage.locator(".assembly-story").boundingBox();
+  assert.ok(openButton.y + openButton.height < story.y, "Mobile CAD activation must not overlap its description");
+  await reducedPage.screenshot({ path: `${artifacts}/quadropod-mobile.png` });
+  await reducedPage.getByRole("button", { name: "Open interactive 3D" }).click();
+  await reducedPage.locator(".explorer-canvas.is-ready canvas").waitFor();
+  await reducedPage.getByRole("button", { name: "FreeCAD colors", exact: true }).click();
+  assert.equal(await reducedPage.getByRole("button", { name: "FreeCAD colors", exact: true }).getAttribute("aria-pressed"), "true");
+  await idleDraws(reducedPage);
+  await reducedPage.screenshot({ path: `${artifacts}/quadropod-solid-mobile.png` });
+  assert.deepEqual(cadErrors, []);
+  results.quadropod = "passed: CAD loading, cover controls, idle rendering and 320px fallback";
   await reduced.close();
 
   const unsupported = await browser.newContext({

@@ -1,17 +1,20 @@
 # Hardware sequence
 
-The hardware section (`#signature`) is a transparent, line-only 3D scene
-integrated into the site's dark background. It contains two separate subjects:
+The hardware section (`#signature`) is a transparent 3D scene
+integrated into the site's dark background. It contains three separate subjects:
 
 - **Hexapod robot:** procedural geometry reconstructed from the supplied photo.
   The geometry, servo proportions and internal electronics are illustrative.
   There is no source CAD, schematic or verified controller specification.
+- **Quadropod V0 leg:** original FreeCAD edge geometry from the supplied leg
+  assembly, with removable covers and nominal servo/fastener references.
 - **PCB assembly:** the existing `/models/web.glb` KiCad export. Source geometry
   is preserved, centered and scaled. Components separate from the board; this
   does not depict hidden copper layers.
 
-There are no filled meshes, solid/drawing modes, white panels or externally
-fetched HDRI assets. Both the 3D models and the mobile SVG fallback use outlines.
+Hexapod and PCB retain their line-only views. Quadropod also offers a solid
+view using the source FreeCAD colors. There are no white panels or externally
+fetched HDRI assets. Mobile starts with an outline reference.
 Descriptions and source notes live in `src/lib/hardware-explorer.ts`.
 
 ## Scroll behavior
@@ -128,7 +131,7 @@ The browser checks verify:
   `verify-hardware-layout.mjs` compiles the actual geometry sources in memory
   with the installed TypeScript compiler; no generated files or Node TS loader
   are required.
-- Zero filled-surface calls, actual 0.9–1.45-pixel robot strokes without additive
+- Zero filled-surface calls in line mode, actual 0.9–1.45-pixel robot strokes without additive
   glare, PCB batching and
   zero new draws at idle. Wide-line shader quads are counted separately.
 - A ready-only, noninteractive HUD and an actual bounded scan uniform in the
@@ -142,4 +145,40 @@ The browser checks verify:
 
 WebGL counters are injected by the test harness. They are absent from the site.
 The historical `part1.md`–`part4.md` cover the earlier design; this document
-records the owner's newer line-only, pinned holographic sequence.
+records the pinned holographic sequence and the CAD appearance controls.
+
+## Quadropod V0 CAD leg
+
+The first and default subject, **Quadropod V0**, displays a single leg assembly exported
+from `Quadropod_v0_copy.FCStd`. It is not a complete quadruped. The eight
+PartDesign bodies and supplier/fastener reference groups retain their source
+assembly coordinates. Construction axes and sketch history are excluded.
+Servo, horn and fastener shapes are nominal references; physical fit, strength
+and load capacity have not been established by this web visualization.
+
+`public/models/quadropod.json` contains sampled CAD edges (0.15 mm deflection),
+normalized uniformly and converted from Z-up to Y-up. The asset also contains
+indexed surface meshes and the actual per-part diffuse colors read from the
+FCStd version-3 material lists. Unsupported material layouts fail export. The source SHA-256 is
+embedded in the asset. `quadropod.svg` is an orthographic projection of those
+same edges for mobile fallback. The JSON and renderer load only when selected.
+The femur and tibia covers move aside together; this inspection animation does
+not simulate the validated multi-step physical cover removal path. Fasteners
+remain in their assembled positions.
+
+Regenerate both assets with a Python interpreter that can import FreeCAD:
+
+```sh
+PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
+  /Applications/FreeCAD.app/Contents/Resources/bin/python \
+  scripts/export-quadropod.py /path/to/Quadropod_v0_copy.FCStd
+```
+
+The exporter reads and closes the original document without saving it. The
+editable source, backups, macros and construction scripts are not published.
+
+The Quadropod **Line / FreeCAD colors** control becomes available after 3D
+activation. Switching preserves the canvas, orbit and cover separation. Solid
+mode uses local scene lights and depth-tested opaque materials; light and tone
+mapping can differ from FreeCAD's viewport. Line mode remains the default.
+The reduced-motion and demand-rendering behavior applies to both modes.

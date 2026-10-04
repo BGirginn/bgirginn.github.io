@@ -1,4 +1,6 @@
-export type HardwareSubject = "robot" | "pcb";
+export type HardwareSubject = "robot" | "pcb" | "quadropod";
+
+export type HardwareAppearance = "line" | "solid";
 
 export type AssemblyMotion = {
   progress: number;
@@ -30,9 +32,27 @@ export const assemblyStages = [
   },
 ] as const;
 
+export const quadropodStages = [
+  { start: 0, label: "Quadropod V0 leg assembly", detail: "Original FreeCAD geometry: articulated links, servo references and removable covers." },
+  { start: 0.04, label: "Inspect beneath the covers", detail: "The femur and tibia covers move aside to reveal the leg structure." },
+  { start: 0.96, label: "Open mechanical assembly", detail: "Cover separation is a viewing aid, not the physical removal path. Physical fit and load capacity remain unverified." },
+] as const;
+
 export const hardwareSubjects = {
-  robot: {
+  quadropod: {
     number: "01",
+    name: "Quadropod V0",
+    category: "Mechanical design / FreeCAD",
+    description: "A single articulated leg prototype with removable femur and tibia covers.",
+    source: "Original FreeCAD leg assembly, not a complete robot. Servos and fasteners are nominal CAD references. Physical fit and load capacity are unverified.",
+    parts: [
+      { name: "Links", detail: "Parametric femur and tibia geometry." },
+      { name: "Covers", detail: "Separate removable covers with M2 fasteners." },
+      { name: "References", detail: "Nominal SG90 servos and connection hardware." },
+    ],
+  },
+  robot: {
+    number: "02",
     name: "Hexapod robot",
     category: "Robotics / embedded systems",
     description:
@@ -56,7 +76,7 @@ export const hardwareSubjects = {
     ],
   },
   pcb: {
-    number: "02",
+    number: "03",
     name: "PCB assembly",
     category: "Electronics / KiCad",
     description:
@@ -81,4 +101,5 @@ export const hardwareSubjects = {
       },
     ],
   },
+
 } as const;

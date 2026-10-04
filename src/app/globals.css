@@ -576,12 +576,25 @@ textarea {
     font-size: 36px;
   }
   .explorer-tabs {
+    gap: 14px;
     top: 160px;
     left: 0;
     right: auto;
   }
   .explorer-viewport {
     inset: 180px -10px 210px;
+  }
+  .hardware-section[data-subject="quadropod"] .explorer-viewport {
+    bottom: 300px;
+  }
+  .hardware-section[data-subject="quadropod"] .assembly-story {
+    bottom: 155px;
+  }
+  .hardware-section[data-subject="quadropod"] .assembly-manual {
+    bottom: 95px;
+  }
+  .hardware-section[data-subject="quadropod"] .assembly-footer {
+    bottom: 58px;
   }
   .explorer-scale {
     display: none;
@@ -1621,5 +1634,42 @@ textarea.contact-input {
   }
   .process-line {
     transform: none !important;
+  }
+}
+
+.explorer-appearance {
+  position: absolute;
+  top: 102px;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid #294239;
+  background: #080c11;
+}
+.explorer-appearance button {
+  padding: 7px 12px;
+  border: 0;
+  background: transparent;
+  color: #718e8a;
+  font-size: 11px;
+  cursor: pointer;
+}
+.explorer-appearance button[aria-pressed="true"] {
+  background: #20332f;
+  color: #c3e1d9;
+}
+.explorer-appearance button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+@media (max-width: 1023px) {
+  .explorer-appearance {
+    top: 207px;
+    right: 0;
+  }
+  .hardware-section[data-subject="quadropod"] .explorer-viewport {
+    top: 246px;
   }
 }

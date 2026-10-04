@@ -21,6 +21,7 @@ import {
   getAssemblySeparation,
   type AssemblyMotion,
   type HardwareSubject,
+  type HardwareAppearance,
 } from "@/lib/hardware-explorer";
 import { hardwareCamera } from "@/lib/hardware-camera";
 import { createHologramScan } from "@/lib/hologram-material";
@@ -35,8 +36,15 @@ const PCBModel = lazy(() =>
   })),
 );
 
+const QuadropodModel = lazy(() =>
+  import("@/components/three/QuadropodModel").then((module) => ({
+    default: module.QuadropodModel,
+  })),
+);
+
 type SceneProps = {
   subject: HardwareSubject;
+  appearance: HardwareAppearance;
   motion: RefObject<AssemblyMotion>;
   reduced: boolean;
   active: boolean;
@@ -78,6 +86,7 @@ function CameraReset({ version }: { version: number }) {
 
 function Assembly({
   subject,
+  appearance,
   motion,
   reduced,
   active,
@@ -184,6 +193,8 @@ function Assembly({
     <group ref={group}>
       {subject === "robot" ? (
         <HexapodModel scan={scan} />
+      ) : subject === "quadropod" ? (
+        <QuadropodModel scan={scan} appearance={appearance} />
       ) : (
         <PCBModel scan={scan} />
       )}
@@ -218,9 +229,13 @@ export function SignatureScene(props: SceneProps) {
         }}
         style={{ touchAction: "pan-y" }}
       >
+        <ambientLight intensity={1.4} />
+        <directionalLight position={[5, 8, 6]} intensity={2} />
+        <directionalLight position={[-5, 3, -4]} intensity={0.8} />
         <Suspense fallback={null}>
           <Assembly
             subject={subject}
+            appearance={props.appearance}
             motion={motion}
             reduced={reduced}
             active={active}

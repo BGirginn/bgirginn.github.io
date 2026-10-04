@@ -7,6 +7,17 @@ export function HardwareDrawing({
   subject?: HardwareSubject;
 }) {
   const id = useId().replace(/:/g, "");
+  if (subject === "quadropod") {
+    return (
+      <img
+        src="/models/quadropod.svg"
+        className="hardware-drawing"
+        width="800"
+        height="580"
+        alt="Original FreeCAD geometry of the Quadropod V0 leg with removable covers"
+      />
+    );
+  }
   return (
     <svg
       viewBox="0 0 800 580"

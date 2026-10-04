@@ -9,9 +9,11 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useWebGLAvailable } from "@/hooks/use-webgl-available";
 import {
   assemblyStages,
+  quadropodStages,
   hardwareSubjects,
   type AssemblyMotion,
   type HardwareSubject,
+  type HardwareAppearance,
 } from "@/lib/hardware-explorer";
 
 const loadScene = () =>
@@ -45,7 +47,8 @@ export function Signature() {
   const motion = useRef<AssemblyMotion>({ progress: 0, invalidate: null });
   const phaseRef = useRef(0);
   const [phase, setPhase] = useState(0);
-  const [subject, setSubject] = useState<HardwareSubject>("robot");
+  const [subject, setSubject] = useState<HardwareSubject>("quadropod");
+  const [appearance, setAppearance] = useState<HardwareAppearance>("line");
   const [desktop, setDesktop] = useState(false);
   const [visible, setVisible] = useState(false);
   const [requested, setRequested] = useState(false);
@@ -59,7 +62,12 @@ export function Signature() {
   const interactive =
     ready && Boolean(webgl) && !failed && (desktop || requested);
   const pinned = desktop && !reduced && webgl !== false && !failed;
-  const stages = subject === "robot" ? assemblyStages : pcbStages;
+  const stages =
+    subject === "robot"
+      ? assemblyStages
+      : subject === "quadropod"
+        ? quadropodStages
+        : pcbStages;
   const currentStage = stages[Math.min(phase, stages.length - 1)];
   const project = hardwareSubjects[subject];
   const markReady = useCallback(() => setReady(true), []);
@@ -178,6 +186,7 @@ export function Signature() {
     <section
       ref={section}
       id="signature"
+      data-subject={subject}
       className={`hardware-section ${reduced || failed || webgl === false ? "is-static" : ""}`}
       aria-labelledby="hardware-title"
     >
@@ -209,6 +218,21 @@ export function Signature() {
             </button>
           ))}
         </div>
+        {subject === "quadropod" ? (
+          <div className="explorer-appearance" role="group" aria-label="Model appearance">
+            {(["line", "solid"] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                disabled={!interactive}
+                aria-pressed={appearance === mode}
+                onClick={() => setAppearance(mode)}
+              >
+                {mode === "line" ? "Line" : "FreeCAD colors"}
+              </button>
+            ))}
+          </div>
+        ) : null}
         <div
           className="explorer-viewport"
           aria-label={`${project.name} interactive view`}
@@ -228,6 +252,7 @@ export function Signature() {
                 key={subject}
                 cameraReset={cameraReset}
                 subject={subject}
+                appearance={appearance}
                 motion={motion}
                 reduced={reduced}
                 active={visible && pageVisible}
@@ -259,9 +284,11 @@ export function Signature() {
           <span className="explorer-scale">
             {subject === "robot"
               ? "PHOTO-BASED RECONSTRUCTION"
-              : "ORIGINAL KICAD GEOMETRY"}
+              : subject === "quadropod"
+                ? "ORIGINAL FREECAD GEOMETRY"
+                : "ORIGINAL KICAD GEOMETRY"}
             <br />
-            LINE ASSEMBLY / {project.number}
+            {subject === "quadropod" && appearance === "solid" ? "SOLID" : "LINE"} ASSEMBLY / {project.number}
           </span>
         </div>
         <div className="assembly-story" aria-live="polite">
