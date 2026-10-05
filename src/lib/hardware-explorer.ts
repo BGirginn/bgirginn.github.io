@@ -16,19 +16,19 @@ export const assemblyStages = [
   {
     start: 0,
     label: "Complete assembly",
-    detail: "Six articulated legs around a central enclosure.",
+    detail: "Four covered legs around a segmented chassis.",
   },
   {
     start: 0.04,
     label: "Synchronized separation",
     detail:
-      "Enclosure, electronics and all six leg mechanisms expand together.",
+      "Four intact legs move outward while covers, chassis quarters and the deck separate.",
   },
   {
     start: 0.96,
     label: "Full assembly breakdown",
     detail:
-      "Every modeled assembly is exposed. Continue scrolling to the next project.",
+      "Inspect the leg assemblies and lifted covers. This is a viewing aid, not a physical disassembly sequence.",
   },
 ] as const;
 
@@ -53,26 +53,14 @@ export const hardwareSubjects = {
   },
   robot: {
     number: "02",
-    name: "Hexapod robot",
-    category: "Robotics / embedded systems",
-    description:
-      "Six articulated legs around a compact central enclosure. Explore how the mechanical assembly opens up around its electronics.",
-    source:
-      "Photo-based reconstruction. Geometry and internal electronics are illustrative.",
+    name: "Covered spider",
+    category: "Robotics / FreeCAD + STL",
+    description: "A four-legged robot with 41 printed components, eight SG90 servos and their original horns.",
+    source: "Original print STLs with FreeCAD colors and eight nominal SG90 servo/horn assemblies. Both views share the same geometry. Fasteners and electronics are not shown; physical fit and loads remain unverified.",
     parts: [
-      {
-        name: "Enclosure",
-        detail: "A removable cover separates the body from the electronics.",
-      },
-      {
-        name: "Actuation",
-        detail: "Repeated servo and linkage assemblies form the six legs.",
-      },
-      {
-        name: "Control electronics",
-        detail:
-          "The internal board is an illustrative layout, not the robot's actual circuit.",
-      },
+      { name: "Chassis", detail: "Four chassis quarters, seam plates and a central deck." },
+      { name: "Legs", detail: "Four articulated legs, each with HIP and KNEE SG90 references." },
+      { name: "Covers", detail: "Separate femur and tibia covers on each leg." },
     ],
   },
   pcb: {

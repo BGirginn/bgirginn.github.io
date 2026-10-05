@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
-import { verifyHardwareLayout } from "./verify-hardware-layout.mjs";
+import { verifyCoveredSpider } from "./verify-covered-spider.mjs";
 
 const baseURL = process.env.HARDWARE_TEST_URL ?? "http://127.0.0.1:4173";
 assert.ok(
@@ -10,7 +10,7 @@ assert.ok(
 );
 const artifacts = "output/playwright";
 await mkdir(artifacts, { recursive: true });
-const results = { explodedLayout: await verifyHardwareLayout() };
+const results = { stlAssembly: await verifyCoveredSpider() };
 const browser = await chromium.launch({
   headless: true,
   executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE,
@@ -20,6 +20,7 @@ async function instrument(context) {
   await context.addInitScript(() => {
     window.hardwareTest = {
       draws: 0,
+      surfaceColors: {},
       triangles: 0,
       strokes: 0,
       additiveStrokes: 0,
@@ -62,6 +63,12 @@ async function instrument(context) {
               values[0] === gl.TRIANGLE_FAN
             ) {
               const program = gl.getParameter(gl.CURRENT_PROGRAM);
+              const projection = gl.getUniformLocation(program, "projectionMatrix");
+              const modelView = gl.getUniformLocation(program, "modelViewMatrix");
+              if (projection) stats.projection = Array.from(gl.getUniform(program, projection));
+              // Linear model-view terms reveal camera/model rotations; translation is
+              // expected to change as parts separate, but projection scale must not.
+              if (modelView) stats.viewBasis = Array.from(gl.getUniform(program, modelView)).slice(0, 12);
               const width = gl.getUniformLocation(program, "linewidth");
               const resolution = gl.getUniformLocation(program, "resolution");
               // Three's wide-line shader draws stroke quads, not filled model faces.
@@ -91,7 +98,14 @@ async function instrument(context) {
                 }
                 stats.minStrokeWidth = Math.min(stats.minStrokeWidth, value);
                 stats.maxStrokeWidth = Math.max(stats.maxStrokeWidth, value);
-              } else stats.triangles++;
+              } else {
+                stats.triangles++;
+                const diffuse = gl.getUniformLocation(program, "diffuse");
+                if (diffuse) {
+                  const rgb = Array.from(gl.getUniform(program, diffuse));
+                  stats.surfaceColors[rgb.map((value) => value.toFixed(4)).join(",")] = true;
+                }
+              }
             }
             stats.maxCalls = Math.max(stats.maxCalls, stats.currentCalls);
             return draw(...values);
@@ -222,7 +236,7 @@ try {
   await page.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(await page.getByRole("button", { name: "01 Quadropod V0", exact: true }).getAttribute("aria-pressed"), "true");
   assert.equal(await page.locator(".explorer-tabs button").first().textContent(), "01Quadropod V0");
-  await page.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
+  await page.getByRole("button", { name: "02 Covered spider", exact: true }).click();
   await page.locator(".explorer-canvas.is-ready canvas").waitFor();
   await seek(page, 0);
   assert.equal(
@@ -273,6 +287,10 @@ try {
           new DOMMatrixReadOnly(getComputedStyle(element).transform).a,
       );
   const assembledOrbitScale = await orbitScale();
+  const assembledProjection = await page.evaluate(() => window.hardwareTest.projection);
+  const assembledViewBasis = await page.evaluate(() => window.hardwareTest.viewBasis);
+  assert.equal(assembledProjection.length, 16);
+
   assert.equal(
     await page.locator(".explorer-static svg").count(),
     0,
@@ -322,6 +340,12 @@ try {
     "The completed model must have an inspection hold before release",
   );
   results.explodedIdleDraws = await idleDraws(page);
+  assert.deepEqual(await page.evaluate(() => window.hardwareTest.projection), assembledProjection,
+    "Covered spider projection must not zoom out during scroll");
+  assert.deepEqual(await page.evaluate(() => window.hardwareTest.viewBasis), assembledViewBasis,
+    "Covered spider must not rotate or scale while separating");
+  results.fixedSpiderProjection = "passed";
+
   assert.ok(
     (await orbitScale()) > assembledOrbitScale + 0.1,
     "The concentric HUD must expand with the common-center assembly",
@@ -353,8 +377,8 @@ try {
     "Robot overlaps must not accumulate white additive glare",
   );
   assert.ok(
-    strokes.segments > 0 && strokes.segments <= 2000,
-    "The robot overview must stay below 2,000 edge segments to limit visual clutter",
+    strokes.segments > 0 && strokes.segments <= results.stlAssembly.segments,
+    "The STL robot must not draw more edges than its verified source geometry",
   );
   results.robotStrokeWidths = [
     Number(strokes.minWidth.toFixed(2)),
@@ -494,7 +518,7 @@ try {
       mobileErrors.push(`${response.status()} ${response.url()}`);
   });
   await mobilePage.goto(`${baseURL}/#signature`);
-  await mobilePage.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
+  await mobilePage.getByRole("button", { name: "02 Covered spider", exact: true }).click();
   await mobilePage.waitForTimeout(400);
   assert.equal(await mobilePage.locator("canvas").count(), 0);
   await assertNoOverflow(mobilePage);
@@ -587,7 +611,7 @@ try {
   await idleDraws(mobilePage);
   await assertNoOverflow(mobilePage);
   await mobilePage
-    .getByRole("button", { name: "02 Hexapod robot", exact: true })
+    .getByRole("button", { name: "02 Covered spider", exact: true })
     .tap();
   await mobilePage.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(await range.inputValue(), "0");
@@ -609,7 +633,7 @@ try {
   await instrument(reduced);
   const reducedPage = await reduced.newPage();
   await reducedPage.goto(`${baseURL}/#signature`);
-  await reducedPage.getByRole("button", { name: "02 Hexapod robot", exact: true }).click();
+  await reducedPage.getByRole("button", { name: "02 Covered spider", exact: true }).click();
   await reducedPage.locator(".explorer-canvas.is-ready canvas").waitFor();
   assert.equal(
     await reducedPage
@@ -652,6 +676,43 @@ try {
     "Reduced motion must disable orbital expansion",
   );
   results.reducedMotion = "passed";
+  const spiderCanvas = await reducedPage.locator("canvas").elementHandle();
+  const beforeSolid = await reducedPage.evaluate(() => window.hardwareTest.triangles);
+  await reducedPage.evaluate(() => { window.hardwareTest.surfaceColors = {}; });
+  await reducedPage.getByRole("button", { name: "FreeCAD colors", exact: true }).click();
+  await reducedPage.waitForFunction((before) => window.hardwareTest.triangles > before, beforeSolid);
+  assert.ok(await spiderCanvas.evaluate((canvas) => canvas === document.querySelector("canvas")));
+  results.spiderSolidIdleDraws = await idleDraws(reducedPage);
+  assert.equal(await reducedPage.evaluate(() => Object.keys(window.hardwareTest.surfaceColors).length), 12,
+    "FreeCAD view must render all 12 source colors, including SG90 blue and horn ivory");
+
+  await reducedPage.getByRole("button", { name: "Assembled", exact: true }).click();
+  await reducedPage.screenshot({ path: `${artifacts}/covered-spider-solid.png` });
+  const spiderMobile = await reduced.newPage();
+  await spiderMobile.setViewportSize({ width: 320, height: 800 });
+  await spiderMobile.goto(`${baseURL}/#signature`);
+  await spiderMobile.getByRole("button", { name: "02 Covered spider", exact: true }).click();
+  await spiderMobile.locator('img[src="/models/covered-spider/outline.svg"]').waitFor();
+  await spiderMobile.locator('.explorer-static img').evaluate((image) => image.decode());
+  assert.ok(await spiderMobile.locator('.explorer-static img').evaluate((image) => image.complete && image.naturalWidth > 0));
+  await spiderMobile.getByRole("button", { name: "Open interactive 3D" }).click();
+  await spiderMobile.locator(".explorer-canvas.is-ready canvas").waitFor();
+  await spiderMobile.getByRole("button", { name: "FreeCAD colors", exact: true }).click();
+  assert.equal(await spiderMobile.getByRole("button", { name: "FreeCAD colors", exact: true }).getAttribute("aria-pressed"), "true");
+  assert.ok(await spiderMobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+  await idleDraws(spiderMobile);
+  const mobileFooter = await spiderMobile.locator(".assembly-footer").boundingBox();
+  const mobileSource = await spiderMobile.locator(".explorer-source-note").boundingBox();
+  assert.ok(mobileFooter.y + mobileFooter.height < mobileSource.y, "Mobile source note must clear camera reset controls");
+  await spiderMobile.screenshot({ path: `${artifacts}/covered-spider-solid-mobile.png` });
+  await spiderMobile.close();
+  await reducedPage.getByRole("button", { name: "Line", exact: true }).click();
+  await idleDraws(reducedPage);
+  const afterSolid = await reducedPage.evaluate(() => window.hardwareTest.triangles);
+  await reducedPage.getByRole("button", { name: "Exploded", exact: true }).click();
+  await idleDraws(reducedPage);
+  assert.equal(await reducedPage.evaluate(() => window.hardwareTest.triangles), afterSolid);
+  results.spiderAppearance = "passed: source-colored STL and SG90 surfaces, line-only switch, preserved canvas and idle pause";
   const cadErrors = [];
   reducedPage.on("pageerror", (error) => cadErrors.push(error.message));
   await reducedPage.getByRole("button", { name: "01 Quadropod V0", exact: true }).click();

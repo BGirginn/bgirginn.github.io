@@ -1,151 +1,80 @@
 # Hardware sequence
 
-The hardware section (`#signature`) is a transparent 3D scene
-integrated into the site's dark background. It contains three separate subjects:
+The hardware section (`#signature`) contains three separate subjects:
 
-- **Hexapod robot:** procedural geometry reconstructed from the supplied photo.
-  The geometry, servo proportions and internal electronics are illustrative.
-  There is no source CAD, schematic or verified controller specification.
-- **Quadropod V0 leg:** original FreeCAD edge geometry from the supplied leg
-  assembly, with removable covers and nominal servo/fastener references.
-- **PCB assembly:** the existing `/models/web.glb` KiCad export. Source geometry
-  is preserved, centered and scaled. Components separate from the board; this
-  does not depict hidden copper layers.
+- **Quadropod V0:** the existing single-leg FreeCAD model, unchanged. It remains
+  the default and offers Line / FreeCAD colors.
+- **Covered spider:** the original printed STL parts of the four-legged
+  `covered_spider` assembly, replacing the photo-based hexapod. It offers
+  Line / STL solid. Both modes use the same meshes and placements.
+- **PCB assembly:** the existing KiCad GLB, with its line-only view.
 
-Hexapod and PCB retain their line-only views. Quadropod also offers a solid
-view using the source FreeCAD colors. There are no white panels or externally
-fetched HDRI assets. Mobile starts with an outline reference.
-Descriptions and source notes live in `src/lib/hardware-explorer.ts`.
+## Covered spider STL assembly
 
-## Scroll behavior
+`public/models/covered-spider/` contains 11 byte-for-byte copies of the package's
+STLs and `assembly.json`, which records their SHA-256 hashes, source CAD hash,
+41 named instances, assembly transforms and inspection offsets. The original
+STLs use print-bed coordinates. The exporter reverses the documented printing
+placements and applies the matching FreeCAD instance placements. Every transformed
+mesh bounding box must match its CAD part within 0.06 mm or export fails.
+The assembled model is centered, uniformly scaled and converted from Z-up to Y-up.
 
-On desktop the hardware stage sticks below the header. A native scroll range of
-2.8 viewport heights drives the complete disassembly; scroll events are not
-cancelled and the browser retains normal wheel, keyboard and reverse scrolling.
-All robot parts expand together from the assembled model's common center:
-enclosure, electronics, servo bodies, mounting
-frames, foot links and cable references. Every movable group has
-`userData.explode`; one shared smoothstep curve drives all offsets from the
-first scroll movement. The common center is the complete assembled geometry's
-bounding-box center. Each part keeps its original direction from that center,
-except for the two rear legs (Leg 2 and Leg 3 in the default view). Those legs swing outward by
-15 degrees to each side as separation increases. All five groups of each rear
-leg follow this exception; the assembled pose and the other four legs are
-unchanged.
-One increasing radius map supplies core clearance and additional spacing
-beyond the hip actuators; a part farther out in the assembled robot remains
-farther out throughout the movement. The six sets of matching leg components
-retain their circular radii rather than becoming rows or columns. Rear-leg
-angular spread is applied after radial translation around the same common
-center, preserving radius order even during intermediate animation frames.
-There are no per-part start delays. PCB board and components continue
-their simultaneous vertical separation. The assembly finishes in the first 88% of the sticky scroll range; the remainder holds the
-completed model for inspection. The CSS sticky geometry sets the release point.
-The scroll handler writes to a mutable ref and updates React only when the
-narrative chapter changes. Camera orbit and reset remain available.
+The printed assembly includes four chassis quarters, four seam plates, a central
+deck and eight printed components on each of four legs. Servo, fastener and
+reserved electronics references are deliberately absent because they are not in
+the STL package. Physical fit and load capacity are not established by the viewer.
+STL has no source material colors; the solid view uses a neutral material with
+local lights. The 139,892 original triangles are preserved. The line view extracts
+69,428 feature-edge segments at a 28-degree threshold, without drawing the filled
+surfaces. Its strokes use normal alpha blending and 0.9/1.45 CSS-pixel widths.
+The higher edge count reflects the supplied detailed meshes, replacing the old
+procedural robot's 2,000-segment budget.
 
-Reduced motion and unsupported WebGL2 disable pinning. Mobile starts with a
-transparent SVG and offers explicit 3D activation; its assembly controls work
-with the keyboard as well as touch. Reduced motion also removes damping and
-the scan pass, ring rotation and HUD entrance animation.
+`CoveredSpiderModel` loads only when selected. Cached STL geometry is never mutated;
+private placed copies and line resources are disposed on unmount. Appearance
+switching preserves the canvas, orbit and assembly separation. The mobile SVG
+is a matching CAD-edge projection of the same printed components.
 
-## Rendering and assets
+Regenerate from the matching package with FreeCAD's Python:
 
-`frameloop="demand"` renders only while separation or the camera is moving. The
-canvas renders its initial frame before stopping outside the section or in a
-hidden tab. Readiness is reported from that first frame, not from component mount.
-Desktop loading uses a status message, never the old static robot drawing. If
-WebGL is unavailable, an explicit message replaces the scene and pinning ends.
-Materials render transparent line segments. The robot uses normal alpha
-blending so overlapping strokes do not add up to white glare. Its primary shell
-outlines retain a 1.45 CSS-pixel stroke; actuator bodies use 1.05 pixels and
-secondary metal/cable details use 0.9 pixels with lower opacity. Board outlines
-use 1.3 pixels. The canvas has no glow filter. Tiny screw heads, pin clusters,
-the illustrative trace grid and bevel rims are simplified while retaining all
-six articulated leg assemblies. The cover, board and chassis have visible
-vertical gaps in the fully exploded pose. The two rear leg mechanisms swing
-sideways; all other legs stay on their assembled radial directions. The foot links form the outermost circular
-envelope. Parts translate without scaling or changing their geometry, and
-remain three-dimensional and orbitable. Perspective can still put the outlines
-of front and rear components over one another when orbiting.
-The simplified robot has 1,650 edge segments per frame, down from 3,504; the
-browser check caps the overview at 2,000 to prevent reintroducing dense detail.
+```sh
+PYTHONPATH=/Applications/FreeCAD.app/Contents/Resources/lib \
+  /Applications/FreeCAD.app/Contents/Resources/bin/python \
+  scripts/export-covered-spider.py /path/to/covered_spider_Package
+```
 
-Robot edges use `LineSegments2`; its shader uses triangle quads only
-to rasterize lines, never filled model surfaces. The assembled robot uses a
-31-degree field of view (approximately 17% larger than the previous 36-degree
-view). During separation it eases back to 38 degrees and increases the camera distance
-to 19.5 model units to fit the circular layout without excessive perspective
-distortion. Camera orbit direction is preserved while the distance changes.
-Portrait views retain aspect-aware framing.
+The source CAD is read and closed without saving. Source construction scripts,
+macros and editable CAD are not published.
 
-The holographic treatment adds cool cyan outlines, sparse frame brackets and
-counter-rotating segmented HUD rings with sparse tick marks and amber cardinal accents.
-The concentric frame expands with the assembly's common-center separation;
-it does not move parts independently or introduce staged starts.
-A scan line sweeps across the viewport and
-tints the actual Three.js line shaders. Scan position, intensity and ring angles
-derive from assembly progress, not an endless clock. The DOM overlay is
-decorative, ignores pointer events and has no fabricated sensor readings.
-The shader uniforms are shared by the scene's materials; the PCB source asset
-is unchanged. Settled, offscreen and hidden scenes retain zero new GPU draws.
-Reduced motion also removes the ring expansion. The board outline and cables use amber;
-low-opacity secondary lines distinguish cable references without adding geometry.
+## Interaction and rendering
 
-Desktop fetches scene code within 300 pixels of the section, without initializing
-WebGL before arrival. PCB code and the local GLB load only after the PCB subject
-is selected. Camera reset reuses the existing canvas and geometry, preserves
-separation and does not re-enter loading. Source materials and geometry are
-not mutated. `PCBModel` batches 1,096 source primitives by material/category
-before building their edge geometry. The geometry created by either model is
-disposed when it is unmounted.
+Desktop uses a sticky stage and a native scroll range of 2.8 viewport heights.
+The inspection animation uses a shared smoothstep curve, completing in the first
+88% of the range. Each leg moves outward as an intact group; covers lift along
+their local outward direction, chassis quarters open slightly, and seam plates
+and the central deck lift vertically. This is a viewing aid, not a physical
+disassembly sequence. Covered spider camera distance, field of view and model
+rotation stay constant throughout scrolling, with aspect-aware framing. Orbit
+and reset remain available. PCB and single-leg inspection behavior is unchanged.
 
-Use an actual CAD assembly when one becomes available. Export named, separate
-nodes for covers, electronics, actuators, frames and foot links. Keep movement
-behavior and explicitly identify any remaining illustrative geometry. Never
-add controller models, operating limits or firmware claims without evidence.
+Demand rendering stops when the camera and assembly settle, outside the section,
+and in hidden tabs. The first rendered frame marks readiness. The cyan scan and
+concentric HUD follow scroll progress rather than an endless clock. Reduced motion
+disables pinning, damping and decorative motion. Mobile begins with an SVG and
+requires explicit 3D activation. WebGL failure produces an explicit fallback.
 
 ## Validation
 
-Run `npm run build`, then `npm run typecheck`; concurrent execution can race on
-Next's generated `.next/types` files. Serve the production export with:
+Run `npm run build`, then `npm run typecheck`; running them concurrently can race
+on generated Next types. Run `npm run verify:preview` and serve with `npm run preview`.
+Then run `npm run verify:hardware`, using `PLAYWRIGHT_CHROMIUM_EXECUTABLE` if needed.
+Artifacts are saved in `output/playwright/`.
 
-```sh
-npm run preview
-```
-
-`npm run verify:hardware` checks the local build and saves screenshots plus
-`verification.json` in `output/playwright/`. Use Playwright's installed Chromium
-or set `PLAYWRIGHT_CHROMIUM_EXECUTABLE` to an existing Chromium executable.
-
-The browser checks verify:
-
-- A text-only hero with no drawings, WebGL initialization or model preload.
-- Constant stage position during scroll, increasing separation, full separation
-  before release, and the next section entering after release.
-- Geometry checks for one common radial center, inner/outer distance order,
-  six circular rings with their assembled angles and the two rear-leg exceptions,
-  unchanged assembled geometry, rear-only lateral clearance, gaps between the
-  three central layers, simultaneous motion without per-part delays, and framing margins at
-  four assembly phases and four aspect ratios.
-  `verify-hardware-layout.mjs` compiles the actual geometry sources in memory
-  with the installed TypeScript compiler; no generated files or Node TS loader
-  are required.
-- Zero filled-surface calls in line mode, actual 0.9–1.45-pixel robot strokes without additive
-  glare, PCB batching and
-  zero new draws at idle. Wide-line shader quads are counted separately.
-- A ready-only, noninteractive HUD and an actual bounded scan uniform in the
-  compiled robot line shaders.
-- An initial frame in a hidden preview, subsequent idle pause, and resuming on
-  visibility change; desktop contains no static drawing.
-- Orbit/reset without remounting or loading, preserved separation, mobile
-  activation, touch orbit, keyboard assembly controls, robot/PCB switching,
-  portrait sizes from 320px and landscape framing.
-- Reduced motion, WebGL2 fallback and absence of horizontal overflow.
-
-WebGL counters are injected by the test harness. They are absent from the site.
-The historical `part1.md`–`part4.md` cover the earlier design; this document
-records the pinned holographic sequence and the CAD appearance controls.
+The suite verifies original STL hashes, all 41 instances, eight covers, four legs,
+triangle/edge counts, centering, placement matrices, and assembled/exploded framing.
+Browser checks cover sticky scrolling, shader scanning, idle pause, orbit/reset,
+responsive framing, mobile activation, appearance switching, reduced motion,
+WebGL fallback, the unchanged single-leg controls, and PCB switching.
 
 ## Quadropod V0 CAD leg
 

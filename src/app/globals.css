@@ -584,8 +584,18 @@ textarea {
   .explorer-viewport {
     inset: 180px -10px 210px;
   }
+  .hardware-section[data-subject="robot"] .explorer-viewport,
   .hardware-section[data-subject="quadropod"] .explorer-viewport {
     bottom: 300px;
+  }
+  .hardware-section[data-subject="robot"] .assembly-story {
+    bottom: 190px;
+  }
+  .hardware-section[data-subject="robot"] .assembly-manual {
+    bottom: 125px;
+  }
+  .hardware-section[data-subject="robot"] .assembly-footer {
+    bottom: 95px;
   }
   .hardware-section[data-subject="quadropod"] .assembly-story {
     bottom: 155px;
@@ -1669,6 +1679,7 @@ textarea.contact-input {
     top: 207px;
     right: 0;
   }
+  .hardware-section[data-subject="robot"] .explorer-viewport,
   .hardware-section[data-subject="quadropod"] .explorer-viewport {
     top: 246px;
   }

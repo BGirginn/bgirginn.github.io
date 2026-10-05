@@ -218,7 +218,7 @@ export function Signature() {
             </button>
           ))}
         </div>
-        {subject === "quadropod" ? (
+        {subject !== "pcb" ? (
           <div className="explorer-appearance" role="group" aria-label="Model appearance">
             {(["line", "solid"] as const).map((mode) => (
               <button
@@ -283,12 +283,12 @@ export function Signature() {
           ) : null}
           <span className="explorer-scale">
             {subject === "robot"
-              ? "PHOTO-BASED RECONSTRUCTION"
+              ? "STL + FREECAD ASSEMBLY"
               : subject === "quadropod"
                 ? "ORIGINAL FREECAD GEOMETRY"
                 : "ORIGINAL KICAD GEOMETRY"}
             <br />
-            {subject === "quadropod" && appearance === "solid" ? "SOLID" : "LINE"} ASSEMBLY / {project.number}
+            {subject !== "pcb" && appearance === "solid" ? "SOLID" : "LINE"} ASSEMBLY / {project.number}
           </span>
         </div>
         <div className="assembly-story" aria-live="polite">

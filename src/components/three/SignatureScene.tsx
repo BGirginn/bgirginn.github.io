@@ -16,7 +16,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei/core/OrbitControls";
 import type { OrbitControls as OrbitControlsInstance } from "three-stdlib";
 import { Group, MathUtils, PerspectiveCamera, Vector3 } from "three";
-import { HexapodModel } from "@/components/three/HexapodModel";
 import {
   getAssemblySeparation,
   type AssemblyMotion,
@@ -25,10 +24,13 @@ import {
 } from "@/lib/hardware-explorer";
 import { hardwareCamera } from "@/lib/hardware-camera";
 import { createHologramScan } from "@/lib/hologram-material";
-import {
-  positionHardwarePart,
-  type RadialSpread,
-} from "@/lib/hardware-geometry";
+import { positionHardwarePart } from "@/lib/hardware-geometry";
+
+const CoveredSpiderModel = lazy(() =>
+  import("@/components/three/CoveredSpiderModel").then((module) => ({
+    default: module.CoveredSpiderModel,
+  })),
+);
 
 const PCBModel = lazy(() =>
   import("@/components/three/PCBModel").then((module) => ({
@@ -131,28 +133,14 @@ function Assembly({
       const orbitTarget =
         (controls as OrbitControlsInstance | undefined)?.target ??
         framingTarget;
-      const distance =
-        subject === "robot"
-          ? MathUtils.lerp(
-              assembledDistance,
-              hardwareCamera.robotExplodedDistance,
-              separation,
-            )
-          : assembledDistance;
+      const distance = assembledDistance;
       if (
         Math.abs(camera.position.distanceTo(orbitTarget) - distance) > 0.00001
       ) {
         camera.position.sub(orbitTarget).setLength(distance).add(orbitTarget);
         camera.updateMatrixWorld();
       }
-      const baseFov =
-        subject === "robot"
-          ? MathUtils.lerp(
-              hardwareCamera.robotFov,
-              hardwareCamera.robotExplodedFov,
-              MathUtils.smoothstep(current.current, 0, 0.8),
-            )
-          : hardwareCamera.fov;
+      const baseFov = subject === "robot" ? hardwareCamera.robotFov : hardwareCamera.fov;
       const horizontalFit = Math.max(
         1,
         hardwareCamera.horizontalFit / (size.width / size.height),
@@ -175,12 +163,11 @@ function Assembly({
           object.position,
           offset,
           separation,
-          object.userData.radialSpread as RadialSpread | undefined,
         );
       }
     });
     group.current.rotation.y =
-      current.current * hardwareCamera.robotSeparationTurn;
+      subject === "robot" ? 0 : current.current * hardwareCamera.robotSeparationTurn;
     if (!reportedReady.current) {
       reportedReady.current = true;
       onReady();
@@ -192,7 +179,7 @@ function Assembly({
   return (
     <group ref={group}>
       {subject === "robot" ? (
-        <HexapodModel scan={scan} />
+        <CoveredSpiderModel scan={scan} appearance={appearance} />
       ) : subject === "quadropod" ? (
         <QuadropodModel scan={scan} appearance={appearance} />
       ) : (
