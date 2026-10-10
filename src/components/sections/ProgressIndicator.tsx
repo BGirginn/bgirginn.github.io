@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type MouseEvent, useEffect, useState } from "react";
 import { siteContent } from "@/content/site";
 
-const items = [{ label: "Home", href: "#hero" }, ...siteContent.nav].map(
+const items = [{ label: "Home", href: "#hero" }, ...siteContent.sectionNav].map(
   (item) => ({
     ...item,
     id: item.href.replace("#", ""),

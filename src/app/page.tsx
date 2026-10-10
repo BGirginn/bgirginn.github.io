@@ -10,16 +10,23 @@ import { Signature } from "@/components/sections/Signature";
 import { Work } from "@/components/sections/Work";
 import { SiteMotion } from "@/components/ui/SiteMotion";
 
+import { ServiceOverview } from "@/components/company/ServiceOverview";
+import { ProductShowcase } from "@/components/company/ProductShowcase";
+import { VenturePreview } from "@/components/sections/VenturePreview";
+
 export default function Home() {
   return (
     <>
       <Header />
       <SiteMotion />
       <ProgressIndicator />
-      <main>
+      <main id="main-content">
         <Hero />
+        <ProductShowcase />
+        <ServiceOverview />
         <Signature />
         <Work />
+        <VenturePreview />
         <Process />
         <Capabilities />
         <About />

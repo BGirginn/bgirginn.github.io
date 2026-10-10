@@ -128,7 +128,7 @@ try {
   assert.equal(await page.locator(".project-record").count(), 3);
   assert.equal(await page.locator(".capability-domain").count(), 5);
   assert.equal(await page.locator(".process-steps li").count(), 8);
-  const contactEmail = "girginbora30@gmail.com";
+  const contactEmail = "contact@bgirgin.dev";
   assert.equal(
     await page.locator(".contact-address").textContent(),
     contactEmail,
@@ -348,10 +348,10 @@ try {
   await mobileNav.getByRole("link", { name: "Contact" }).click();
   await page.waitForTimeout(1500);
   assert.equal(await mobileNav.count(), 0);
-  assert.equal(new URL(page.url()).hash, "#contact");
+  assert.equal(new URL(page.url()).pathname, "/contact/");
   assert.equal(
     await page
-      .locator("#contact h2")
+      .locator("h1")
       .evaluate((element) => element === document.activeElement),
     true,
   );

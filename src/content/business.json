@@ -1,0 +1,576 @@
+{
+  "displayName": "BGirgin Hardware",
+  "websiteUrl": "https://bgirgin.dev",
+  "legalEntityName": {
+    "value": "",
+    "status": "needs_verification",
+    "evidence": ""
+  },
+  "legalRegistrationStatus": {
+    "value": "",
+    "status": "needs_verification",
+    "evidence": ""
+  },
+  "foundingDate": {
+    "value": "",
+    "status": "needs_verification",
+    "evidence": ""
+  },
+  "publicContactEmail": {
+    "value": "girginbora30@gmail.com",
+    "status": "verified",
+    "evidence": "Founder-confirmed existing portfolio contact"
+  },
+  "domainContactEmail": {
+    "value": "contact@bgirgin.dev",
+    "status": "verified",
+    "evidence": "User confirmed the company contact mailbox on 2026-10-10; delivery was not independently tested."
+  },
+  "founder": {
+    "name": "Bora Girgin",
+    "role": "Hardware & embedded systems developer",
+    "ventureFounderRole": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "background": {
+      "value": "Electrical and electronics engineering",
+      "status": "verified",
+      "evidence": "Existing portfolio engineering focus; degree and institution are not asserted"
+    },
+    "education": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "experience": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    }
+  },
+  "socialProfiles": [
+    {
+      "label": "GitHub",
+      "value": "https://github.com/BGirginn",
+      "status": "verified",
+      "evidence": "Public profile identifies Bora Girgin and lists bgirgin.dev"
+    },
+    {
+      "label": "LinkedIn",
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    }
+  ],
+  "venture": {
+    "name": {
+      "value": "BGirgin Hardware",
+      "status": "verified",
+      "evidence": "User-confirmed BGirgin Hardware brand and hardware / embedded systems focus on 2026-10-10"
+    },
+    "mission": {
+      "value": "Hardware and embedded systems engineering across robotics and industrial automation, led by Quadropod and Industrial LoRa Platform.",
+      "status": "verified",
+      "evidence": "User identified Quadropod and the supplied industrial automation project as main company products on 2026-10-10."
+    },
+    "problem": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "solution": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "intendedCustomers": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "stage": "Industrial platform completed / Quadropod CAD prototype",
+    "context": "BGirgin Hardware develops robotics and industrial embedded systems. Its main products are Quadropod, a robotics project at the CAD prototype stage, and Industrial LoRa Platform, a completed company project connecting factory equipment to central monitoring."
+  },
+  "milestones": [
+    {
+      "name": "Industrial LoRa Platform",
+      "status": "completed",
+      "detail": "Completed company project for modular factory data collection, notification routing and central management.",
+      "evidence": "/products/industrial-lora/"
+    },
+    {
+      "name": "Quadropod V0 CAD design",
+      "status": "completed",
+      "detail": "The articulated leg, removable covers and nominal servo geometry are available in the CAD-derived explorer.",
+      "evidence": "/?hardware=quadropod#signature"
+    },
+    {
+      "name": "Physical and embedded prototype",
+      "status": "planned",
+      "detail": "Build and validate the physical leg alongside its local embedded controller.",
+      "evidence": ""
+    },
+    {
+      "name": "Robotics system integration",
+      "status": "planned",
+      "detail": "Connect validated mechanical and embedded subsystems, with documented operating limits.",
+      "evidence": ""
+    }
+  ],
+  "claude": {
+    "status": "planned",
+    "description": "Planned for Quadropod engineering workflows: documentation analysis, configuration assistance and diagnostic suggestions. Hardware commands must remain behind a deterministic validation layer; local firmware retains real-time control.",
+    "evidence": [],
+    "useCases": [
+      "Technical documentation analysis",
+      "Engineering workflow automation",
+      "Hardware diagnostics assistance",
+      "Natural-language robotics task configuration",
+      "Structured command generation"
+    ],
+    "safety": "Any future hardware command path must use deterministic schema validation, an allowlist, bounded parameters, device-state checks and explicit operator approval before execution. Local controllers retain real-time motor control and emergency-stop authority.",
+    "prototypeEvidence": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "integrationEvidence": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    }
+  },
+  "products": [
+    {
+      "id": "quadropod",
+      "name": "Quadropod",
+      "description": "The main robotics project at BGirgin Hardware. Its current V0 CAD prototype is a single articulated leg with removable femur and tibia covers and nominal SG90 servo references.",
+      "targetUser": {
+        "value": "",
+        "status": "needs_verification",
+        "evidence": ""
+      },
+      "status": "prototype",
+      "architecture": "FreeCAD assembly → exported geometry → interactive Three.js inspection with a mobile SVG fallback.",
+      "components": [
+        "FreeCAD",
+        "SG90 CAD references",
+        "Removable covers / M2 fastener references",
+        "Three.js / React Three Fiber"
+      ],
+      "repository": "https://github.com/BGirginn/bgirginn.github.io",
+      "demo": "/?hardware=quadropod#signature",
+      "evidence": [
+        {
+          "label": "Inspect the original CAD-derived geometry",
+          "href": "/#signature"
+        },
+        {
+          "label": "Geometry export and validation notes",
+          "href": "https://github.com/BGirginn/bgirginn.github.io/blob/main/docs/hardware-explorer.md"
+        }
+      ],
+      "roadmap": [
+        {
+          "name": "Physical prototype validation",
+          "status": "planned",
+          "detail": "Measure assembly fit, cover access and structural behaviour on a physical leg prototype."
+        },
+        {
+          "name": "Embedded control prototype",
+          "status": "planned",
+          "detail": "Define actuator interfaces, local motion control, bounded commands and device telemetry."
+        },
+        {
+          "name": "System integration tests",
+          "status": "planned",
+          "detail": "Establish repeatable bench tests for motion limits, emergency stop and hardware/software integration."
+        }
+      ],
+      "preview": {
+        "src": "/models/quadropod.svg",
+        "alt": "CAD-derived drawing of the Quadropod V0 articulated leg with removable covers and SG90 servo references.",
+        "caption": "Quadropod V0 · articulated leg CAD prototype"
+      },
+      "designation": "Main robotics product"
+    },
+    {
+      "id": "industrial-lora",
+      "name": "Industrial LoRa Platform",
+      "description": "A completed BGirgin Hardware project for factory monitoring and automation. Modular equipment interfaces and ESP32 field nodes connect through LoRa to a central SBC, with structured notification routing, event history and a local-network management interface.",
+      "designation": "Main industrial product",
+      "detailHref": "/products/industrial-lora/",
+      "completionEvidence": {
+        "value": "Completed company engineering project",
+        "status": "verified",
+        "evidence": "User instructed this project to be presented as a completed BGirgin Hardware company project on 2026-10-10. Technical scope derives from bora_girgin_projesi.docx.pdf pages 4-6; that PDF is a proposal, not a completion or measurement report."
+      },
+      "targetUser": {
+        "value": "Factory operations and engineering teams",
+        "status": "verified",
+        "evidence": "User-supplied project document pages 2-4 describe industrial facility monitoring and operations."
+      },
+      "status": "completed",
+      "architecture": "Equipment interfaces → I2C / UART → ESP32 field nodes with C firmware → LoRa → SBC running Go → notification registry, event journal and local-network management interface.",
+      "components": [
+        "LoRa",
+        "ESP32 / C",
+        "SBC / Go",
+        "I2C / UART",
+        "Notification registry / event journal"
+      ],
+      "repository": "",
+      "demo": "",
+      "evidence": [
+        {
+          "label": "Company project overview",
+          "href": "/products/industrial-lora/"
+        }
+      ],
+      "roadmap": [],
+      "architectureStages": [
+        {
+          "title": "Equipment interfaces",
+          "detail": "Machine signals and sensors / I2C or UART"
+        },
+        {
+          "title": "Field nodes",
+          "detail": "ESP32 / C firmware / LoRa notifications"
+        },
+        {
+          "title": "Central management",
+          "detail": "SBC / Go / registry, journal and LAN interface"
+        }
+      ],
+      "caseStudy": {
+        "headline": "Factory signals. One operational view.",
+        "problem": "Factory equipment exposes data through different interfaces, leaving machine events and sensor readings distributed across the production floor. A central system needs to identify the source, understand the message type and retain the event history.",
+        "solution": "A layered system connects equipment-specific interfaces to ESP32 field nodes and a central SBC. LoRa carries structured notifications; the main system manages identities, routes notifications to subscribed nodes and makes journaled records accessible on the local network.",
+        "capabilities": [
+          {
+            "title": "Modular equipment interfaces",
+            "detail": "Equipment-specific adapters communicate with field nodes through I2C or UART, keeping machine integration separate from wireless transport."
+          },
+          {
+            "title": "Distributed field nodes",
+            "detail": "ESP32-based nodes aggregate equipment notifications using C firmware and communicate with the main system over LoRa."
+          },
+          {
+            "title": "Notification registry & routing",
+            "detail": "The main system assigns node and record identifiers, associates notification types with UUIDs, and records donor and subscriber relationships for message routing."
+          },
+          {
+            "title": "Event history & local access",
+            "detail": "The central Go management layer journals notifications and exposes a local-network interface for reviewing machine events and sensor history."
+          }
+        ],
+        "workflow": [
+          {
+            "name": "Register",
+            "detail": "The main system identifies each node and registers the notification types it produces or accepts."
+          },
+          {
+            "name": "Collect & transmit",
+            "detail": "An equipment interface supplies a machine event or sensor reading to its node, which packages it as a LoRa notification."
+          },
+          {
+            "name": "Journal & route",
+            "detail": "The main system stores the notification and forwards it to subscribed nodes where required."
+          },
+          {
+            "name": "Review",
+            "detail": "Operators access the local-network interface to inspect the recorded event and its source."
+          }
+        ],
+        "example": "A button event and a temperature reading illustrate the message path: each equipment interface produces its own notification type, the field node forwards it, and the main system records the event for review. This describes the system workflow rather than a live demonstration.",
+        "outcome": "The completed company project brings equipment interfaces, distributed nodes and central management into a modular industrial automation system, with identifiable notifications, event history and local-network access."
+      }
+    },
+    {
+      "id": "pi-control",
+      "name": "Pi Control Panel",
+      "description": "A Raspberry Pi monitoring and management project with a browser interface and a host agent.",
+      "targetUser": {
+        "value": "",
+        "status": "needs_verification",
+        "evidence": ""
+      },
+      "status": "development",
+      "architecture": "React interface → FastAPI API → Python agent over Unix socket RPC; SQLite telemetry storage and SSE updates.",
+      "components": [
+        "Raspberry Pi",
+        "React / Vite",
+        "FastAPI / Python agent",
+        "SQLite / Caddy"
+      ],
+      "repository": "https://github.com/BGirginn/rasp_pi_webUI",
+      "demo": "",
+      "evidence": [
+        {
+          "label": "Source and architecture documentation",
+          "href": "https://github.com/BGirginn/rasp_pi_webUI#readme"
+        }
+      ],
+      "roadmap": [
+        {
+          "name": "Product scope and intended users",
+          "status": "planned",
+          "detail": "Verify a product direction before presenting this engineering project as a commercial offering."
+        }
+      ],
+      "designation": "Supporting software project"
+    }
+  ],
+  "projects": [
+    {
+      "name": "OS",
+      "status": "development",
+      "objective": "Explore low-level system structure and control flow.",
+      "implementation": "C source code in the public operating-system repository.",
+      "evidence": "https://github.com/BGirginn/OS",
+      "limitations": "No runtime benchmark or release validation is asserted.",
+      "eyebrow": "01 Featured Project",
+      "summary": "C-based operating-system work focused on low-level structure, control flow and system behavior.",
+      "role": "Low-level C · Systems Programming",
+      "stack": "C · GNU GPL-3.0 · Main branch",
+      "outcome": "Active systems-level codebase",
+      "href": "https://github.com/BGirginn/OS"
+    },
+    {
+      "name": "rasp_pi_webUI",
+      "status": "development",
+      "objective": "Monitor and manage Raspberry Pi operation through a browser.",
+      "implementation": "React UI, FastAPI, host agent, telemetry and service-management code documented in the repository.",
+      "evidence": "https://github.com/BGirginn/rasp_pi_webUI",
+      "limitations": "Repository evidence does not establish customer use or a commercial launch.",
+      "eyebrow": "02 System Build",
+      "summary": "Raspberry Pi web interface work connecting hardware-oriented operation with a browser-based control surface.",
+      "role": "Interface · Runtime Control · Deployment",
+      "stack": "React · FastAPI · Python agent · Raspberry Pi",
+      "outcome": "Remote device control layer",
+      "href": "https://github.com/BGirginn/rasp_pi_webUI"
+    },
+    {
+      "name": "NightLamp",
+      "status": "prototype",
+      "objective": "Implement compact lighting and device behavior.",
+      "implementation": "C++ variants for color-cycle and Bluetooth/button behavior in the repository.",
+      "evidence": "https://github.com/BGirginn/NightLamp",
+      "limitations": "Physical performance and product availability have not been verified.",
+      "eyebrow": "03 Reliability Work",
+      "summary": "C++ embedded-style project for controlled lighting behavior and compact device logic.",
+      "role": "Embedded Logic · C++ · Device Behavior",
+      "stack": "C++ · Control Logic · Hardware-facing code",
+      "outcome": "Small device firmware prototype",
+      "href": "https://github.com/BGirginn/NightLamp"
+    }
+  ],
+  "primaryProductId": "quadropod",
+  "company": {
+    "headline": "Engineering the connection between mechanics, electronics and code.",
+    "description": "BGirgin Hardware is a hardware and embedded systems engineering brand led by Bora Girgin. Its main products bring two disciplines together: Quadropod for robotics development and Industrial LoRa Platform for factory monitoring and automation.",
+    "principles": [
+      {
+        "title": "Systems before components",
+        "detail": "Define power, motion, communication and firmware interfaces together before committing to an implementation."
+      },
+      {
+        "title": "Evidence at every stage",
+        "detail": "Keep CAD, source code and validation records connected. Treat simulation, browser demonstrations and physical measurements as separate forms of evidence."
+      },
+      {
+        "title": "Design for the next revision",
+        "detail": "Use documented interfaces, accessible assemblies and clear handover material to make iteration practical."
+      }
+    ],
+    "registeredAddress": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "phone": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    }
+  },
+  "services": [
+    {
+      "id": "electronics",
+      "name": "Electronics & PCB design",
+      "summary": "Discuss a circuit, board revision or hardware interface from requirements through prototype preparation.",
+      "scope": [
+        "Power and signal architecture",
+        "Schematic and layout review",
+        "Component and interface selection"
+      ],
+      "deliverables": [
+        "Agreed schematic and layout scope",
+        "Design review findings",
+        "Prototype preparation and validation plan"
+      ],
+      "evidence": {
+        "label": "Inspect the PCB design",
+        "href": "/?hardware=pcb#signature"
+      }
+    },
+    {
+      "id": "firmware",
+      "name": "Embedded firmware",
+      "summary": "Plan device behaviour and firmware interfaces around the hardware, operating constraints and failure modes.",
+      "scope": [
+        "C / C++ device logic",
+        "Peripheral and communication interfaces",
+        "Bring-up and diagnostic workflow"
+      ],
+      "deliverables": [
+        "Firmware and interface specification",
+        "Source and build instructions within the agreed scope",
+        "Bench test scenarios and known limitations"
+      ],
+      "evidence": {
+        "label": "Explore embedded project work",
+        "href": "https://github.com/BGirginn/NightLamp"
+      }
+    },
+    {
+      "id": "robotics",
+      "name": "Robotics & mechanical prototyping",
+      "summary": "Connect actuator geometry, mechanical interfaces and an embedded control plan for a robotics prototype.",
+      "scope": [
+        "Articulated mechanism and CAD review",
+        "Assembly access and cable routing",
+        "Motion interfaces and operating limits"
+      ],
+      "deliverables": [
+        "CAD and assembly documentation within the agreed scope",
+        "Actuator interface and control requirements",
+        "Physical validation checklist"
+      ],
+      "evidence": {
+        "label": "Explore Quadropod",
+        "href": "/products/#quadropod"
+      }
+    },
+    {
+      "id": "integration",
+      "name": "Device integration & technical review",
+      "summary": "Bring a device, host agent and browser interface into a coherent system, or review an existing engineering design.",
+      "scope": [
+        "Device telemetry and operating state",
+        "Host agent and user interface boundaries",
+        "System architecture and integration review"
+      ],
+      "deliverables": [
+        "System and interface map",
+        "Prioritised review findings",
+        "Integration and handover checklist"
+      ],
+      "evidence": {
+        "label": "Explore the device software",
+        "href": "/products/#pi-control"
+      }
+    }
+  ],
+  "engagementSteps": [
+    {
+      "name": "Discovery",
+      "detail": "Share the system, current stage, constraints and the problem you need to solve.",
+      "output": "A clear project brief"
+    },
+    {
+      "name": "Scope & proposal",
+      "detail": "Agree the deliverables, assumptions, exclusions, schedule and commercial terms before starting work.",
+      "output": "A written scope and proposal"
+    },
+    {
+      "name": "Design & iteration",
+      "detail": "Review architecture, interfaces and implementation in agreed stages. Track decisions and changes.",
+      "output": "Reviewable engineering artefacts"
+    },
+    {
+      "name": "Validation & handover",
+      "detail": "Assess the agreed acceptance criteria and record results, limitations and the next steps.",
+      "output": "A documented handover"
+    }
+  ],
+  "inquiryChecklist": [
+    "What the system should do and its current development stage",
+    "Existing CAD, schematic, source code or interface documentation",
+    "Power, size, communication and operating constraints",
+    "Required deliverables, target schedule and budget context"
+  ],
+  "faq": [
+    {
+      "question": "What does BGirgin Hardware focus on?",
+      "answer": "Hardware, embedded systems, robotics and industrial automation. Quadropod and Industrial LoRa Platform are the main products, supported by electronics, firmware and device software work."
+    },
+    {
+      "question": "Can I buy a Quadropod robot today?",
+      "answer": "Quadropod is currently a development project, not an off-the-shelf robot. The available V0 evidence is an articulated leg CAD prototype. Physical validation and embedded control are planned."
+    },
+    {
+      "question": "What is Industrial LoRa Platform?",
+      "answer": "A completed BGirgin Hardware company project for factory monitoring and automation. It combines modular equipment interfaces, ESP32 nodes, LoRa transport, an SBC-based Go management layer, a notification registry and an event journal with local-network access."
+    },
+    {
+      "question": "How do I start an engineering discussion?",
+      "answer": "Use the contact form to prepare an email, or email Bora Girgin directly. Include the system, current stage, constraints and the work you need. Scope and availability are discussed before any commitment."
+    },
+    {
+      "question": "What determines pricing and delivery dates?",
+      "answer": "The agreed scope, technical uncertainty, required deliverables and validation work. There is no fixed public price or guaranteed lead time; these belong in a written proposal."
+    },
+    {
+      "question": "Can I share confidential project information?",
+      "answer": "Start with a non-confidential summary. Discuss confidentiality arrangements before sharing sensitive files, credentials, schematics or proprietary source code. The website does not provide a file upload service."
+    },
+    {
+      "question": "Where can I inspect the technical work?",
+      "answer": "Use the interactive hardware explorer and the public repository links. CAD drawings and source code demonstrate the current work; they do not establish physical performance, certification or customer deployment."
+    },
+    {
+      "question": "Is Claude already controlling the hardware?",
+      "answer": "No. Claude-assisted engineering is planned. Any future command path requires deterministic validation and bounded parameters; local firmware retains real-time control."
+    },
+    {
+      "question": "Does the contact form send my message automatically?",
+      "answer": "No. It opens your email application with a draft. You review and send that draft there. The website cannot confirm email delivery."
+    }
+  ],
+  "resources": [
+    {
+      "title": "Industrial LoRa Platform",
+      "description": "Explore the completed company project, its layered architecture and factory notification workflow.",
+      "href": "/products/industrial-lora/",
+      "kind": "Company project"
+    },
+    {
+      "title": "Quadropod CAD explorer",
+      "description": "Inspect the articulated leg, removable covers and nominal servo geometry.",
+      "href": "/?hardware=quadropod#signature",
+      "kind": "Interactive CAD"
+    },
+    {
+      "title": "Hardware geometry notes",
+      "description": "Read the asset export, geometry validation and browser rendering documentation.",
+      "href": "https://github.com/BGirginn/bgirginn.github.io/blob/main/docs/hardware-explorer.md",
+      "kind": "Engineering documentation"
+    },
+    {
+      "title": "Public engineering projects",
+      "description": "Follow software and device development through the source-linked project summaries.",
+      "href": "/projects/",
+      "kind": "Project archive"
+    },
+    {
+      "title": "Development roadmap",
+      "description": "Follow the current milestones and plans for embedded control and physical validation.",
+      "href": "/venture/",
+      "kind": "Roadmap"
+    }
+  ],
+  "featuredProductIds": ["quadropod", "industrial-lora"]
+}

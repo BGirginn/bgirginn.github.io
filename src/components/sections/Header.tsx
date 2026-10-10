@@ -1,6 +1,7 @@
 "use client";
 
-import { Download, Menu, X } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { type MouseEvent, useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import { siteContent } from "@/content/site";
@@ -60,6 +61,8 @@ export function Header() {
       event.altKey
     )
       return;
+    setOpen(false);
+    if (!href.startsWith("#")) return;
     const target = document.querySelector<HTMLElement>(href);
     if (!target) return;
     event.preventDefault();
@@ -84,39 +87,39 @@ export function Header() {
   return (
     <header className="site-header">
       <div className="container-grid header-inner">
-        <a
-          href="#hero"
+        <Link
+          href="/"
           className="site-brand"
-          aria-label="bgirgin.dev home"
-          onClick={(event) => navigate(event, "#hero")}
+          aria-label={`${siteContent.brand.name} home`}
+          onClick={(event) => navigate(event, "/")}
         >
           <span className="brand-mark">
             BG<span>.</span>
           </span>
           <span className="brand-copy">
             <strong>{siteContent.brand.name}</strong>
-            <span>Embedded engineering</span>
+            <span>Hardware & embedded systems</span>
           </span>
-        </a>
+        </Link>
         <nav className="desktop-nav" aria-label="Main navigation">
           {siteContent.nav.map((item) => (
-            <a
+            <Link
               key={item.href}
               href={item.href}
               onClick={(event) => navigate(event, item.href)}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="header-actions">
-          <a
-            href="/cv.pdf"
-            className="header-cv"
-            onClick={() => track("cv_download", { location: "top_bar" })}
+          <Link
+            href="/contact/"
+            className="header-contact"
+            onClick={(event) => navigate(event, "/contact/")}
           >
-            <Download size={14} /> CV
-          </a>
+            Contact <ArrowUpRight size={14} aria-hidden="true" />
+          </Link>
           <button
             ref={toggle}
             type="button"
@@ -142,7 +145,7 @@ export function Header() {
               Navigation / Engineering studies
             </p>
             {siteContent.nav.map((item, index) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={(event) => {
@@ -155,7 +158,7 @@ export function Header() {
               >
                 <span>{String(index + 1).padStart(2, "0")}</span>
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
         </nav>

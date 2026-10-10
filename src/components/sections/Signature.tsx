@@ -69,6 +69,18 @@ export function Signature() {
         ? quadropodStages
         : pcbStages;
   const currentStage = stages[Math.min(phase, stages.length - 1)];
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get(
+      "hardware",
+    );
+    if (
+      requested === "quadropod" ||
+      requested === "robot" ||
+      requested === "pcb"
+    )
+      setSubject(requested);
+  }, []);
+
   const project = hardwareSubjects[subject];
   const markReady = useCallback(() => setReady(true), []);
   const markFailed = useCallback(() => {
@@ -219,7 +231,11 @@ export function Signature() {
           ))}
         </div>
         {subject !== "pcb" ? (
-          <div className="explorer-appearance" role="group" aria-label="Model appearance">
+          <div
+            className="explorer-appearance"
+            role="group"
+            aria-label="Model appearance"
+          >
             {(["line", "solid"] as const).map((mode) => (
               <button
                 key={mode}
@@ -288,7 +304,10 @@ export function Signature() {
                 ? "ORIGINAL FREECAD GEOMETRY"
                 : "ORIGINAL KICAD GEOMETRY"}
             <br />
-            {subject !== "pcb" && appearance === "solid" ? "SOLID" : "LINE"} ASSEMBLY / {project.number}
+            {subject !== "pcb" && appearance === "solid"
+              ? "SOLID"
+              : "LINE"}{" "}
+            ASSEMBLY / {project.number}
           </span>
         </div>
         <div className="assembly-story" aria-live="polite">

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { track } from "@vercel/analytics";
 import { siteContent } from "@/content/site";
 import { Button } from "@/components/ui/Button";
@@ -15,7 +16,7 @@ export function Hero() {
       <Container>
         <div className="hero-text-layout">
           <p className="engineering-eyebrow mb-7">
-            <span /> Electrical / Embedded / Robotics
+            <span /> {siteContent.brand.name} / Robotics & industrial systems
           </p>
           <h1 className="hero-title">
             {siteContent.hero.title.split("\n").map((line, index) => (
@@ -61,6 +62,19 @@ export function Hero() {
             <span>Board design</span>
             <span>Embedded code</span>
             <span>System integration</span>
+            <Button
+              href="#signature"
+              variant="secondary"
+              className="hero-evidence-link"
+            >
+              Explore the Hardware
+            </Button>
+            <Link
+              href="/products/industrial-lora/"
+              className="hero-industrial-link"
+            >
+              Industrial LoRa Platform ↗
+            </Link>
           </div>
         </div>
       </Container>

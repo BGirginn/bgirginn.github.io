@@ -1,14 +1,24 @@
-const contactEmail = "girginbora30@gmail.com";
+import { business, publicEmail, verifiedProfiles } from "./business";
+
+const contactEmail = publicEmail;
 
 export const siteContent = {
   brand: {
-    name: "Bora Girgin",
+    name: business.displayName,
     mark: "BG.",
-    tagline: "Embedded Systems & PCB Design",
+    tagline: "Hardware · Embedded systems · Robotics",
     email: contactEmail,
-    copyright: "© Bora Girgin",
+    copyright: `© ${business.displayName}`,
   },
   nav: [
+    { label: "Home", href: "/" },
+    { label: "Services", href: "/services/" },
+    { label: "Products", href: "/products/" },
+    { label: "Projects", href: "/projects/" },
+    { label: "Company", href: "/about/" },
+    { label: "Contact", href: "/contact/" },
+  ],
+  sectionNav: [
     { label: "Hardware", href: "#signature" },
     { label: "Work", href: "#work" },
     { label: "Process", href: "#process" },
@@ -17,10 +27,9 @@ export const siteContent = {
     { label: "Contact", href: "#contact" },
   ],
   hero: {
-    title: "Hardware.\nFirmware.\nOne system.",
-    description:
-      "Electrical and embedded systems engineering, from the circuit board to the code that brings it to life.",
-    primaryCta: { label: "Explore the Hardware", href: "#signature" },
+    title: "Quadropod.\nHardware.\nEmbedded.",
+    description: business.venture.context,
+    primaryCta: { label: "Explore Quadropod", href: "/products/#quadropod" },
     secondaryCta: { label: "Get In Touch", href: "#contact" },
   },
   signature: {
@@ -36,38 +45,7 @@ export const siteContent = {
     ],
     flow: ["MCU", "Sensor", "Communication", "Output"],
   },
-  work: [
-    {
-      eyebrow: "01 Featured Project",
-      name: "OS",
-      summary:
-        "C-based operating-system work focused on low-level structure, control flow and system behavior.",
-      role: "Low-level C · Systems Programming",
-      stack: "C · GNU GPL-3.0 · Main branch",
-      outcome: "Active systems-level codebase",
-      href: "https://github.com/BGirginn/OS",
-    },
-    {
-      eyebrow: "02 System Build",
-      name: "rasp_pi_webUI",
-      summary:
-        "Raspberry Pi web interface work connecting hardware-oriented operation with a browser-based control surface.",
-      role: "Interface · Runtime Control · Deployment",
-      stack: "JavaScript · Raspberry Pi · Web UI",
-      outcome: "Remote device control layer",
-      href: "https://github.com/BGirginn/rasp_pi_webUI",
-    },
-    {
-      eyebrow: "03 Reliability Work",
-      name: "NightLamp",
-      summary:
-        "C++ embedded-style project for controlled lighting behavior and compact device logic.",
-      role: "Embedded Logic · C++ · Device Behavior",
-      stack: "C++ · Control Logic · Hardware-facing code",
-      outcome: "Small device firmware prototype",
-      href: "https://github.com/BGirginn/NightLamp",
-    },
-  ],
+  work: business.projects,
   process: [
     "Requirements",
     "Architecture",
@@ -112,14 +90,19 @@ export const siteContent = {
     title: "Let's build reliable electronic systems.",
     description:
       "Send a concise note about the product, board, firmware or review you need.",
-    success: "Your email app is ready with the message.",
+    success:
+      "Email draft requested. If your email app opened, review and send it there. Delivery is not confirmed.",
     error: `Something went wrong. Email ${contactEmail} directly.`,
   },
   footerLinks: [
-    { label: "GitHub", href: "https://github.com/BGirginn" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/" },
+    ...verifiedProfiles.map((profile) => ({
+      label: profile.label,
+      href: profile.value,
+    })),
     { label: "Email", href: `mailto:${contactEmail}` },
     { label: "CV", href: "/cv.pdf" },
+    { label: "Resources", href: "/resources/" },
+    { label: "Privacy", href: "/privacy/" },
   ],
 };
 

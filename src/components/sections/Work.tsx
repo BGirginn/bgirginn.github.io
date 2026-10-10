@@ -8,6 +8,8 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { ProjectDrawing } from "@/components/ui/EngineeringDrawing";
 import { siteContent } from "@/content/site";
 
+import { statusLabels } from "@/content/business";
+
 const drawingKinds = ["system", "interface", "lighting"] as const;
 
 export function Work() {
@@ -60,6 +62,10 @@ export function Work() {
                 <div>
                   <dt>Outcome</dt>
                   <dd>{project.outcome}</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>{statusLabels[project.status]}</dd>
                 </div>
               </dl>
               <span className="project-open">

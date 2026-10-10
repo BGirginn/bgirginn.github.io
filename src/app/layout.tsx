@@ -3,8 +3,10 @@ import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import { NavigationFocus } from "@/components/ui/NavigationFocus";
+import { business, publicEmail, verifiedProfiles } from "@/content/business";
 
-const siteUrl = "https://bgirgin.dev";
+const siteUrl = business.websiteUrl;
 const displayFont = localFont({
   src: "../../public/fonts/ChakraPetch-SemiBold.ttf",
   variable: "--font-display",
@@ -14,24 +16,22 @@ const displayFont = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Bora Girgin | Embedded Systems & PCB Design",
-  description:
-    "Hardware, firmware and system-level engineering for reliable electronic products.",
+  title: `${business.displayName} | Quadropod & Industrial LoRa`,
+  description: business.venture.context,
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: "Bora Girgin | Embedded Systems & PCB Design",
-    description:
-      "Hardware, firmware and system-level engineering for reliable electronic products.",
+    title: `${business.displayName} | Quadropod & Industrial LoRa`,
+    description: business.venture.context,
     url: siteUrl,
-    siteName: "bgirgin.dev",
+    siteName: business.displayName,
     images: [
       {
-        url: "/og-image.svg",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Bora Girgin holographic embedded systems and PCB design interface",
+        alt: `${business.displayName} — Quadropod and Industrial LoRa Platform`,
       },
     ],
     locale: "en_US",
@@ -39,10 +39,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bora Girgin | Embedded Systems & PCB Design",
-    description:
-      "Hardware, firmware and system-level engineering for reliable electronic products.",
-    images: ["/og-image.svg"],
+    title: `${business.displayName} | Quadropod & Industrial LoRa`,
+    description: business.venture.context,
+    images: ["/og-image.png"],
   },
   keywords: [
     "Embedded Systems Engineer",
@@ -62,9 +61,10 @@ export const viewport: Viewport = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
-  name: "Bora Girgin",
+  name: business.founder.name,
   url: siteUrl,
-  jobTitle: "Embedded Systems & PCB Design Engineer",
+  email: publicEmail,
+  sameAs: verifiedProfiles.map((profile) => profile.value),
   knowsAbout: [
     "Embedded Systems",
     "PCB Design",
@@ -81,10 +81,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={displayFont.variable}>
       <body>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
+        <NavigationFocus />
         {children}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+          }}
         />
         {process.env.VERCEL ? <Analytics /> : null}
         {process.env.VERCEL ? <SpeedInsights /> : null}

@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src",
     "typecheck": "tsc --noEmit",
     "preview": "node scripts/preview-static.mjs",
     "verify:preview": "node scripts/verify-preview.mjs",
     "verify:hardware": "node scripts/verify-hardware.mjs",
-    "verify:theme": "node scripts/verify-theme.mjs"
+    "verify:theme": "node scripts/verify-theme.mjs",
+    "verify:readiness": "node scripts/verify-readiness.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

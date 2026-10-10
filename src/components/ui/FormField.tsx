@@ -14,14 +14,18 @@ export function FormField({
   multiline = false,
 }: FormFieldProps) {
   const fieldClass = "contact-input";
+  const labelId = `${registration.name}-label`;
   const errorId = `${registration.name}-error`;
 
   return (
     <label className="contact-field">
-      <span className="contact-field-label">{label}</span>
+      <span id={labelId} className="contact-field-label">
+        {label}
+      </span>
       {multiline ? (
         <textarea
           className={fieldClass}
+          aria-labelledby={labelId}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
           maxLength={2000}
@@ -32,7 +36,8 @@ export function FormField({
           className={fieldClass}
           type={registration.name === "email" ? "email" : "text"}
           autoComplete={registration.name === "email" ? "email" : "name"}
-          maxLength={registration.name === "name" ? 100 : undefined}
+          maxLength={registration.name === "name" ? 100 : 254}
+          aria-labelledby={labelId}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
           {...registration}

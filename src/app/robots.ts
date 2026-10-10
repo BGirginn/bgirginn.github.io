@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+import { business } from "@/content/business";
+
 export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
@@ -8,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://bgirgin.dev/sitemap.xml",
+    sitemap: `${business.websiteUrl}/sitemap.xml`,
   };
 }

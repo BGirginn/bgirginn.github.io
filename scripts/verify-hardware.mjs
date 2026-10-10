@@ -739,7 +739,7 @@ try {
   await idleDraws(reducedPage);
   assert.equal(await reducedPage.evaluate(() => window.hardwareTest.triangles), surfaceDraws, "Line mode must stop rendering solid surfaces");
   await reducedPage.setViewportSize({ width: 320, height: 800 });
-  await reducedPage.locator('img[src="/models/quadropod.svg"]').waitFor();
+  await reducedPage.locator('.explorer-static img[src="/models/quadropod.svg"]').waitFor();
   assert.ok(await reducedPage.locator('.explorer-static img').evaluate((image) => image.complete && image.naturalWidth > 0));
   assert.ok(await reducedPage.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
   const openButton = await reducedPage.getByRole("button", { name: "Open interactive 3D" }).boundingBox();

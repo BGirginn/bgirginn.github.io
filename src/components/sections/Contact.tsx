@@ -2,7 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
-import { useState } from "react";
+import Link from "next/link";
+import { business } from "@/content/business";
+import { Suspense, useCallback, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { track } from "@vercel/analytics";
 import { Container } from "@/components/ui/Container";
@@ -11,16 +14,41 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { siteContent } from "@/content/site";
 import { contactSchema, type ContactPayload } from "@/lib/contact-schema";
 
+function ServicePrefill({
+  onSelect,
+}: {
+  onSelect: (id: string | null) => void;
+}) {
+  const params = useSearchParams();
+  const requested = params.get("service");
+  useEffect(() => onSelect(requested), [requested, onSelect]);
+  return null;
+}
+
 export function Contact() {
+  const [selectedService, setSelectedService] = useState<string>();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ContactPayload>({
     resolver: zodResolver(contactSchema),
   });
+
+  const selectService = useCallback(
+    (id: string | null) => {
+      const service = business.services.find((item) => item.id === id);
+      setSelectedService(service?.name);
+      if (service)
+        setValue(
+          "message",
+          `I'd like to discuss ${service.name.toLowerCase()}.`,
+        );
+    },
+    [setValue],
+  );
 
   async function onSubmit(values: ContactPayload) {
     setStatus("idle");
@@ -34,7 +62,6 @@ export function Contact() {
       window.location.href = `mailto:${siteContent.brand.email}?subject=${subject}&body=${body}`;
       track("contact_submit", { status: "success" });
       setStatus("success");
-      reset();
       return;
     } catch {
       track("contact_submit", { status: "error" });
@@ -70,10 +97,18 @@ export function Contact() {
               onSubmit={handleSubmit(onSubmit)}
               noValidate
             >
+              <Suspense fallback={null}>
+                <ServicePrefill onSelect={selectService} />
+              </Suspense>
               <div className="console-heading">
                 <span>Project inquiry</span>
                 <span>EMAIL DRAFT</span>
               </div>
+              {selectedService ? (
+                <p className="contact-service-context">
+                  Project area: {selectedService}
+                </p>
+              ) : null}
               <FormField
                 label="Name"
                 registration={register("name")}
@@ -95,12 +130,13 @@ export function Contact() {
                 disabled={isSubmitting}
                 className="hud-button hud-button-primary gap-3 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <Send size={16} />
+                <Send size={16} aria-hidden="true" />
                 {isSubmitting ? "Preparing..." : "Prepare Email"}
               </button>
               <div className="contact-form-footer">
                 <p className="technical-caption">
-                  Opens your email app with a draft.
+                  Opens your email app with a draft; you send it there.{" "}
+                  <Link href="/privacy/">Privacy & site use</Link>
                 </p>
                 <div aria-live="polite" className="contact-status text-sm">
                   {status === "success" ? (
