@@ -83,7 +83,7 @@ export default function AboutPage() {
               <dt>Venture founding</dt>
               <dd>
                 <time dateTime={business.foundingDate.value}>
-                  Founded {ventureFoundedLabel}
+                  {`Founded ${ventureFoundedLabel}`}
                 </time>
               </dd>
             </div>

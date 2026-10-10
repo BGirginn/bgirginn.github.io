@@ -64,7 +64,7 @@ export default function VenturePage() {
               <dt>Venture founding</dt>
               <dd>
                 <time dateTime={business.foundingDate.value}>
-                  Founded {ventureFoundedLabel}
+                  {`Founded ${ventureFoundedLabel}`}
                 </time>
               </dd>
             </div>

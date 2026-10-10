@@ -13,6 +13,18 @@ try {
   assert.equal(home.headers.get("cache-control"), "no-store");
   assert.equal(home.headers.get("last-modified"), null);
   const html = await home.text();
+  for (const path of ["/about/", "/venture/"]) {
+    const response = await fetch(base + path);
+    assert.equal(response.status, 200, path);
+    const source = await response.text();
+    assert.match(source, /<time dateTime="2024-04">Founded April 2024<\/time>/);
+    assert.match(source, /<dt>Legal status<\/dt><dd>Registered Sole Proprietorship<\/dd>/);
+  }
+  const product = await fetch(base + "/products/industrial-lora/");
+  assert.equal(product.status, 200);
+  const productSource = await product.text();
+  assert.match(productSource, /Talu Tekstil/);
+  assert.match(productSource, /TÜBİTAK 2209-B/);
   const assets = [
     ...new Set(
       [...html.matchAll(/(?:href|src)="(\/_next\/[^"]+)"/g)].map(

@@ -184,6 +184,7 @@ export const businessSchema = z
         detailHref: link.optional(),
         completionEvidence: factSchema.optional(),
         productionStatus: factSchema.optional(),
+        productionContext: factSchema.optional(),
         verificationNote: z.string().min(1).optional(),
         developmentStages: z.array(milestone).min(1).optional(),
         architectureStages: z

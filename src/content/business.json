@@ -212,13 +212,13 @@
     {
       "id": "industrial-lora",
       "name": "Industrial LoRa Platform",
-      "description": "The main product at BGirgin Hardware, already produced for industrial monitoring and automation. Equipment interfaces and ESP32 nodes connect through LoRa to an SBC, notification registry, event journal and local-network management interface.",
+      "description": "The main product at BGirgin Hardware, already produced for industrial monitoring and automation in collaboration with Talu Tekstil under TÜBİTAK 2209-B. Equipment interfaces and ESP32 nodes connect through LoRa to an SBC, notification registry, event journal and local-network management interface.",
       "designation": "Main product · Produced",
       "detailHref": "/products/industrial-lora/",
       "completionEvidence": {
         "value": "Produced industrial product",
         "status": "verified",
-        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred."
+        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred. Founder also confirmed production with Talu Tekstil under TÜBİTAK 2209-B on 2026-10-10; programme participation is founder-provided, not independently audited."
       },
       "targetUser": {
         "value": "Factory operations and engineering teams",
@@ -298,13 +298,18 @@
           }
         ],
         "example": "A button event and a temperature reading illustrate the message path: each equipment interface produces its own notification type, the field node forwards it, and the main system records the event for review. This describes the system workflow rather than a live demonstration.",
-        "outcome": "Industrial LoRa Platform has been produced and is the main product at BGirgin Hardware. Integration, installation, delivery and support requirements are discussed for each prospective application."
+        "outcome": "Industrial LoRa Platform has been produced in collaboration with Talu Tekstil under TÜBİTAK 2209-B and is the main product at BGirgin Hardware. Integration, installation, delivery and support requirements are discussed for each prospective application."
       },
-      "verificationNote": "Production status is confirmed by the founder. Published technical material describes the system architecture; it does not establish certification, measured performance or customer deployments.",
+      "verificationNote": "Production and the Talu Tekstil / TÜBİTAK 2209-B project context are confirmed by the founder. Published technical material describes the system architecture; it does not establish certification, measured performance or customer deployments.",
       "productionStatus": {
         "value": "Produced",
         "status": "verified",
-        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred."
+        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred. Founder also confirmed production with Talu Tekstil under TÜBİTAK 2209-B on 2026-10-10; programme participation is founder-provided, not independently audited."
+      },
+      "productionContext": {
+        "value": "The product was produced in collaboration with Talu Tekstil under TÜBİTAK’s 2209-B programme for university students’ industry-oriented research projects in Türkiye.",
+        "status": "verified",
+        "evidence": "Founder confirmed production with Talu Tekstil under TÜBİTAK 2209-B on 2026-10-10. No award identifier, grant amount, programme year, customer purchase, certification or measured performance was supplied. This is founder confirmation, not an independent completion audit."
       }
     },
     {

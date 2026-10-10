@@ -214,10 +214,15 @@ try {
         assert.equal(await page.locator(".product-architecture li").count(), 3);
         assert.equal(await page.locator(".industrial-workflow li").count(), 4);
         const content = await page.locator("main").textContent();
+        assert.match(content, /Talu Tekstil/);
+        assert.match(content, /TÜBİTAK 2209-B/);
         assert.equal(
-          /TUBITAK|TÜBİTAK|2209|Sakarya|Talu|%/i.test(content),
-          false,
+          await page.getByRole("heading", {
+            name: "Production & industrial collaboration",
+          }).count(),
+          1,
         );
+        assert.doesNotMatch(content, /Sakarya|%/i);
       }
       if (path === "/products/") {
         assert.equal(await page.locator(".platform-stage-list li").count(), 4);

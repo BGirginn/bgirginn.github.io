@@ -29,6 +29,9 @@ export const metadata = pageMetadata(
 );
 
 export default function IndustrialLoRaPage() {
+  const productionContext = product.productionContext
+    ? verifiedValue(product.productionContext)
+    : undefined;
   return (
     <DetailPage
       eyebrow={`${business.displayName} / ${product.name}`}
@@ -68,6 +71,12 @@ export default function IndustrialLoRaPage() {
           <Link href="/products/">All products ↗</Link>
         </nav>
       </section>
+      {productionContext ? (
+        <section className="detail-section">
+          <h2>Production & industrial collaboration</h2>
+          <p>{productionContext}</p>
+        </section>
+      ) : null}
       <section className="detail-section">
         <h2>The engineering problem</h2>
         <p>{caseStudy.problem}</p>

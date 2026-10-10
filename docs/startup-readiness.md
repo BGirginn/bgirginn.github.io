@@ -2,6 +2,16 @@
 
 Review date: 2026-10-10. This is a website review, not proof of program eligibility.
 
+## HTML founding text and LoRa production context
+
+Direct live HTML contains the About legal status and venture founding month. React previously emitted `Founded <!-- -->April 2024`, which breaks a literal source-string search despite rendering correctly. About and Venture now render the full founding label as one text node. Static preview checks assert the founding time element and legal-status definition in HTTP response HTML before JavaScript executes. This does not refresh third-party search indexes or guarantee a web extraction tool can access the site.
+
+The founder confirmed that Industrial LoRa Platform was produced with Talu Tekstil under TÜBİTAK 2209-B. This supersedes the earlier instruction to omit programme and collaborator references. The central product description, production context, outcome and evidence record now include this history; the product page displays a dedicated industrial-collaboration section. Programme naming was checked against https://tubitak.gov.tr/tr/burslar/lisans-onlisans/destek-programlari/2209-b-universite-ogrencileri-sanayiye-yonelik-arastirma-projeleri-destegi-programi . The official programme page establishes programme scope, not this particular project's participation or completion. Production and collaboration remain founder-confirmed; no programme year, award ID, grant amount, purchase, certification, logo or measured performance is inferred. The venture's bootstrapped funding label does not imply an investment from TÜBİTAK or Talu Tekstil.
+
+Design classes, CAD assets, Quadropod status and the planned Claude sections are unchanged. No deployment, commit or push was performed for this revision.
+
+Validation passed: lint (three existing warnings), typecheck, production static build, static-preview HTTP assertions, and readiness across eleven routes and four responsive widths. All 22 axe scans reported no violations; no browser errors were observed. The build also retains Node DEP0205. Theme and full hardware suites were not rerun because no styles, geometry, 3D code or interaction code changed. Final diff and whitespace checks passed.
+
 ## Founder-provided business information revision
 
 On 2026-10-10 the founder provided BGirgin Hardware / Bora Girgin, venture founding in April 2024, Türkiye, registered sole proprietorship, Sole Proprietorship (Türkiye), bootstrapped funding and founder@bgirgin.dev. These facts are recorded in the shared business.json with founder-provided evidence; they are not described as independently registry-verified. This update supersedes the earlier About legal-status omission.
