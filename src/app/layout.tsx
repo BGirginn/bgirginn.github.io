@@ -4,7 +4,12 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { NavigationFocus } from "@/components/ui/NavigationFocus";
-import { business, publicEmail, verifiedProfiles } from "@/content/business";
+import {
+  business,
+  publicEmail,
+  ventureEmail,
+  verifiedProfiles,
+} from "@/content/business";
 
 const siteUrl = business.websiteUrl;
 const displayFont = localFont({
@@ -48,6 +53,9 @@ export const metadata: Metadata = {
     "PCB Designer",
     "Firmware Developer",
     "Embedded Firmware",
+    "Independent Engineering Venture",
+    "Quadropod V0",
+    "Robotics Product Development",
     "Electronics Engineer",
   ],
 };
@@ -64,6 +72,18 @@ const structuredData = {
   name: business.founder.name,
   url: siteUrl,
   email: publicEmail,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      email: publicEmail,
+      contactType: "general inquiries",
+    },
+    {
+      "@type": "ContactPoint",
+      email: ventureEmail,
+      contactType: "venture inquiries",
+    },
+  ],
   sameAs: verifiedProfiles.map((profile) => profile.value),
   knowsAbout: [
     "Embedded Systems",

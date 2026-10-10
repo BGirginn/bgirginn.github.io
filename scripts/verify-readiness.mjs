@@ -24,7 +24,7 @@ async function loadSource(path) {
   module._compile(compiled, filename);
   return module.exports;
 }
-const { business, businessSchema, verifiedValue, publicEmail } =
+const { business, businessSchema, verifiedValue, publicEmail, ventureEmail } =
   await loadSource("src/content/business.ts");
 const { contactSchema } = await loadSource("src/lib/contact-schema.ts");
 assert.equal(
@@ -68,6 +68,14 @@ const duplicateServices = structuredClone(business);
 duplicateServices.services[1].id = duplicateServices.services[0].id;
 assert.equal(businessSchema.safeParse(duplicateServices).success, false);
 assert.equal(publicEmail, "contact@bgirgin.dev");
+assert.equal(ventureEmail, "founder@bgirgin.dev");
+const invalidVentureContact = structuredClone(business);
+invalidVentureContact.ventureContactEmail.value = "invalid";
+assert.equal(businessSchema.safeParse(invalidVentureContact).success, false);
+assert.equal(
+  business.claude.roadmap.every((step) => step.status === "planned"),
+  true,
+);
 const invalidDomainContact = structuredClone(business);
 invalidDomainContact.domainContactEmail.value = "invalid";
 assert.equal(businessSchema.safeParse(invalidDomainContact).success, false);
@@ -179,7 +187,7 @@ try {
       if (path === "/products/industrial-lora/") {
         assert.equal(
           await page
-            .getByText("Completed company project", { exact: true })
+            .getByText("Completed · Founder-reported", { exact: true })
             .isVisible(),
           true,
         );
@@ -215,14 +223,47 @@ try {
           business.engagementSteps.length,
         );
       }
+      if (path === "/venture/") {
+        assert.match(
+          await page.locator("main").textContent(),
+          /not a legally incorporated company/,
+        );
+        const development = page.getByRole("region", {
+          name: "Quadropod V0 product development",
+        });
+        assert.equal(
+          await development.locator(".development-roadmap li").count(),
+          4,
+        );
+        assert.match(await development.textContent(), /website, not servo motion/);
+        assert.match(await page.locator("main").textContent(), /planned, not implemented/);
+        assert.equal(
+          await page.locator(`main a[href="mailto:${ventureEmail}"]`).count(),
+          1,
+        );
+        assert.equal(
+          await page.locator(`main a[href="mailto:${publicEmail}"]`).count(),
+          1,
+        );
+        for (const profile of business.socialProfiles.filter(
+          (item) => item.status === "verified",
+        )) {
+          assert.equal(
+            await page.locator(`main a[href="${profile.value}"]`).count(),
+            1,
+          );
+        }
+      }
       if (path === "/about/") {
         assert.equal(
           await page.getByText("Registered address", { exact: true }).count(),
           0,
         );
         assert.equal(
-          await page.getByText("Registration", { exact: true }).count(),
-          0,
+          await page
+            .getByText(business.legalRegistrationStatus.value, { exact: true })
+            .count(),
+          1,
         );
       }
       assert.equal(await page.locator("main").count(), 1, path);
@@ -240,6 +281,16 @@ try {
       assert.equal(identity["@type"], "Person");
       assert.equal(identity.name, business.founder.name);
       assert.equal(identity.email, publicEmail);
+      assert.deepEqual(
+        identity.contactPoint.map((point) => point.email),
+        [publicEmail, ventureEmail],
+      );
+      assert.deepEqual(
+        identity.sameAs,
+        business.socialProfiles
+          .filter((profile) => profile.status === "verified")
+          .map((profile) => profile.value),
+      );
       assert.equal(
         await page.evaluate(
           () => document.documentElement.scrollWidth > innerWidth,
@@ -307,7 +358,7 @@ try {
         )) {
         const url = new URL(href, base + path);
         if (url.protocol === "mailto:") {
-          assert.equal(url.pathname, publicEmail);
+          assert.ok([publicEmail, ventureEmail].includes(url.pathname));
           continue;
         }
         if (url.origin !== base) {

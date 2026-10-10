@@ -18,14 +18,14 @@ export default function ProjectsPage() {
       <section className="detail-section">
         <div className="detail-section-heading">
           <h2>Industrial LoRa Platform</h2>
-          <span className="status-tag">Completed company project</span>
+          <span className="status-tag">Completed · Founder-reported</span>
         </div>
         <p>
           Factory monitoring and automation through equipment interfaces, ESP32
           nodes, LoRa transport and central SBC management.
         </p>
         <Link href="/products/industrial-lora/">
-          Explore the company project ↗
+          Explore the engineering project ↗
         </Link>
       </section>
       {business.projects.map((project) => {

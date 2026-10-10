@@ -16,6 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ].map((path) => ({
     url: new URL(path, business.websiteUrl).href,
     changeFrequency: "monthly",
-    priority: path === "/" ? 1 : 0.7,
+    priority: path === "/" ? 1 : path === "/venture/" ? 0.9 : 0.7,
   }));
 }

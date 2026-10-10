@@ -7,9 +7,9 @@
     "evidence": ""
   },
   "legalRegistrationStatus": {
-    "value": "",
-    "status": "needs_verification",
-    "evidence": ""
+    "value": "Not legally incorporated",
+    "status": "verified",
+    "evidence": "User explicitly requested an independent founder-led venture in development, not a legally incorporated company, on 2026-10-10. This records the declared status, not a registry search."
   },
   "foundingDate": {
     "value": "",
@@ -30,9 +30,9 @@
     "name": "Bora Girgin",
     "role": "Hardware & embedded systems developer",
     "ventureFounderRole": {
-      "value": "",
-      "status": "needs_verification",
-      "evidence": ""
+      "value": "Founder & engineering lead",
+      "status": "verified",
+      "evidence": "User requested founder-led venture positioning; engineering identity is supported by the linked public GitHub profile."
     },
     "background": {
       "value": "Electrical and electronics engineering",
@@ -59,9 +59,9 @@
     },
     {
       "label": "LinkedIn",
-      "value": "",
-      "status": "needs_verification",
-      "evidence": ""
+      "value": "https://www.linkedin.com/in/boragirgin",
+      "status": "verified",
+      "evidence": "Founder supplied linkedin.com/in/boragirgin on 2026-10-10 (initial domain typo normalized). GitHub currently links an older profile URL; direct LinkedIn access is restricted, so ownership verification relies on founder confirmation."
     }
   ],
   "venture": {
@@ -90,14 +90,14 @@
       "status": "needs_verification",
       "evidence": ""
     },
-    "stage": "Industrial platform completed / Quadropod CAD prototype",
-    "context": "BGirgin Hardware develops robotics and industrial embedded systems. Its main products are Quadropod, a robotics project at the CAD prototype stage, and Industrial LoRa Platform, a completed company project connecting factory equipment to central monitoring."
+    "stage": "Independent, founder-led engineering venture in development",
+    "context": "BGirgin Hardware is an independent, founder-led engineering venture in development, led by Bora Girgin. It is not a legally incorporated company. Its work spans robotics CAD prototypes and industrial embedded systems."
   },
   "milestones": [
     {
       "name": "Industrial LoRa Platform",
       "status": "completed",
-      "detail": "Completed company project for modular factory data collection, notification routing and central management.",
+      "detail": "Completion reported by the founder. The supplied technical proposal documents the architecture; independently verifiable implementation and test results are not published here.",
       "evidence": "/products/industrial-lora/"
     },
     {
@@ -121,7 +121,7 @@
   ],
   "claude": {
     "status": "planned",
-    "description": "Planned for Quadropod engineering workflows: documentation analysis, configuration assistance and diagnostic suggestions. Hardware commands must remain behind a deterministic validation layer; local firmware retains real-time control.",
+    "description": "Claude API research and integration are planned, not implemented. Proposed uses include robotics task configuration, structured outputs and engineering assistance. No API-backed feature or autonomous hardware command path is currently offered by this website.",
     "evidence": [],
     "useCases": [
       "Technical documentation analysis",
@@ -140,7 +140,43 @@
       "value": "",
       "status": "needs_verification",
       "evidence": ""
-    }
+    },
+    "roadmap": [
+      {
+        "name": "Research task configuration and API requirements",
+        "status": "planned",
+        "detail": "Define supported robotics tasks, input context, privacy boundaries and success criteria. Review the Messages API and structured-output constraints before selecting an implementation.",
+        "evidence": ""
+      },
+      {
+        "name": "Structured task configuration prototype",
+        "status": "planned",
+        "detail": "Evaluate schema-constrained JSON for task type, bounded parameters and expected device state. Test refusal, incomplete responses, invalid semantics and unsupported tasks offline; a valid schema alone cannot establish hardware safety.",
+        "evidence": ""
+      },
+      {
+        "name": "Engineering assistance prototype",
+        "status": "planned",
+        "detail": "Evaluate documentation summaries and diagnostic suggestions against cited project evidence and known answers. Keep an API key in a future server-side service, never in the static website; require human review of engineering advice.",
+        "evidence": ""
+      },
+      {
+        "name": "Simulation and supervised integration",
+        "status": "planned",
+        "detail": "Only after offline evaluation, validate proposed tasks against allowlists, operating limits and device state in simulation. Require explicit operator approval and bench-test local control and emergency stops before any physical execution.",
+        "evidence": ""
+      }
+    ],
+    "references": [
+      {
+        "label": "Claude API structured outputs",
+        "href": "https://platform.claude.com/docs/en/build-with-claude/structured-outputs"
+      },
+      {
+        "label": "Claude API strict tool use",
+        "href": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use"
+      }
+    ]
   },
   "products": [
     {
@@ -194,16 +230,42 @@
         "alt": "CAD-derived drawing of the Quadropod V0 articulated leg with removable covers and SG90 servo references.",
         "caption": "Quadropod V0 · articulated leg CAD prototype"
       },
-      "designation": "Main robotics product"
+      "designation": "Main robotics product",
+      "developmentStages": [
+        {
+          "name": "CAD design",
+          "status": "completed",
+          "detail": "Existing Quadropod V0 single-leg FreeCAD geometry, removable covers and nominal SG90 references are available in the viewer. This is not a complete quadruped.",
+          "evidence": "/?hardware=quadropod#signature"
+        },
+        {
+          "name": "Physical prototype development",
+          "status": "planned",
+          "detail": "Fabrication, assembly fit, structural loads and electrical integration require physical validation. No validated physical prototype is claimed.",
+          "evidence": ""
+        },
+        {
+          "name": "Tested functionality — browser visualization",
+          "status": "completed",
+          "detail": "Repository browser regressions cover model loading, appearance switching, orbit/reset and responsive fallback. These checks exercise the website, not servo motion, walking, power delivery or physical safety.",
+          "evidence": "https://github.com/BGirginn/bgirginn.github.io/blob/main/scripts/verify-hardware.mjs"
+        },
+        {
+          "name": "Planned product features",
+          "status": "planned",
+          "detail": "Local embedded control, telemetry, bounded task configuration and system-level motion/safety tests are planned. Walking, autonomous operation and Claude integration are not implemented or physically validated.",
+          "evidence": ""
+        }
+      ]
     },
     {
       "id": "industrial-lora",
       "name": "Industrial LoRa Platform",
-      "description": "A completed BGirgin Hardware project for factory monitoring and automation. Modular equipment interfaces and ESP32 field nodes connect through LoRa to a central SBC, with structured notification routing, event history and a local-network management interface.",
+      "description": "An industrial monitoring and automation project with completion reported by the founder. Its documented architecture connects equipment interfaces and ESP32 nodes through LoRa to an SBC, notification registry, event journal and local-network management interface.",
       "designation": "Main industrial product",
       "detailHref": "/products/industrial-lora/",
       "completionEvidence": {
-        "value": "Completed company engineering project",
+        "value": "Founder-reported completed engineering project",
         "status": "verified",
         "evidence": "User instructed this project to be presented as a completed BGirgin Hardware company project on 2026-10-10. Technical scope derives from bora_girgin_projesi.docx.pdf pages 4-6; that PDF is a proposal, not a completion or measurement report."
       },
@@ -225,7 +287,7 @@
       "demo": "",
       "evidence": [
         {
-          "label": "Company project overview",
+          "label": "Engineering project overview",
           "href": "/products/industrial-lora/"
         }
       ],
@@ -285,8 +347,9 @@
           }
         ],
         "example": "A button event and a temperature reading illustrate the message path: each equipment interface produces its own notification type, the field node forwards it, and the main system records the event for review. This describes the system workflow rather than a live demonstration.",
-        "outcome": "The completed company project brings equipment interfaces, distributed nodes and central management into a modular industrial automation system, with identifiable notifications, event history and local-network access."
-      }
+        "outcome": "The founder reports this project as completed. The available document establishes its proposed technical scope; implementation acceptance, physical measurements and deployment evidence still require verification."
+      },
+      "verificationNote": "Completion is founder-reported. The supplied document is a technical proposal, not an implementation or measurement report. The architecture and capabilities below describe documented project scope; no independent hardware tests, deployed customer systems or measured performance are evidenced here."
     },
     {
       "id": "pi-control",
@@ -370,7 +433,7 @@
   "primaryProductId": "quadropod",
   "company": {
     "headline": "Engineering the connection between mechanics, electronics and code.",
-    "description": "BGirgin Hardware is a hardware and embedded systems engineering brand led by Bora Girgin. Its main products bring two disciplines together: Quadropod for robotics development and Industrial LoRa Platform for factory monitoring and automation.",
+    "description": "BGirgin Hardware is Bora Girgin’s independent engineering venture in development, focused on hardware, embedded systems and robotics. It is not a legally incorporated company. Quadropod and Industrial LoRa Platform are its main engineering projects.",
     "principles": [
       {
         "title": "Systems before components",
@@ -513,7 +576,7 @@
     },
     {
       "question": "What is Industrial LoRa Platform?",
-      "answer": "A completed BGirgin Hardware company project for factory monitoring and automation. It combines modular equipment interfaces, ESP32 nodes, LoRa transport, an SBC-based Go management layer, a notification registry and an event journal with local-network access."
+      "answer": "An industrial monitoring and automation project with founder-reported completion. Its documented scope includes equipment interfaces, ESP32 nodes, LoRa transport, SBC/Go management, a notification registry and an event journal. The available proposal does not independently verify implementation or physical performance."
     },
     {
       "question": "How do I start an engineering discussion?",
@@ -543,9 +606,9 @@
   "resources": [
     {
       "title": "Industrial LoRa Platform",
-      "description": "Explore the completed company project, its layered architecture and factory notification workflow.",
+      "description": "Explore the founder-reported project, its documented architecture, notification workflow and verification limits.",
       "href": "/products/industrial-lora/",
-      "kind": "Company project"
+      "kind": "Engineering project"
     },
     {
       "title": "Quadropod CAD explorer",
@@ -572,5 +635,13 @@
       "kind": "Roadmap"
     }
   ],
-  "featuredProductIds": ["quadropod", "industrial-lora"]
+  "featuredProductIds": [
+    "quadropod",
+    "industrial-lora"
+  ],
+  "ventureContactEmail": {
+    "value": "founder@bgirgin.dev",
+    "status": "verified",
+    "evidence": "User requested this address for venture inquiries on 2026-10-10; mailbox delivery has not been tested."
+  }
 }

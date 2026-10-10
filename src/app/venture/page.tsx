@@ -5,17 +5,25 @@ import {
   business,
   verifiedValue,
   publicEmail,
+  ventureEmail,
+  verifiedProfiles,
   statusLabels,
 } from "@/content/business";
 import { pageMetadata } from "@/lib/page-metadata";
 
 export const metadata = pageMetadata(
   "/venture/",
-  "Engineering approach",
-  `${business.displayName}’s engineering focus, Quadropod development and plans for AI-assisted workflows.`,
+  "Independent engineering venture",
+  business.venture.context,
 );
 export default function VenturePage() {
   const venture = business.venture;
+  const product = business.products.find(
+    (item) => item.id === business.primaryProductId,
+  );
+  if (!product?.developmentStages) {
+    throw new Error("The main product requires development-stage evidence.");
+  }
   const details = [
     { label: "Mission", fact: venture.mission },
     { label: "Problem", fact: venture.problem },
@@ -27,7 +35,7 @@ export default function VenturePage() {
   ];
   return (
     <DetailPage
-      eyebrow={`${business.displayName} / Engineering approach`}
+      eyebrow={`${business.displayName} / Venture`}
       title={
         verifiedValue(venture.name) ??
         "Hardware and software. Developed together."
@@ -38,7 +46,8 @@ export default function VenturePage() {
         <h2>Engineering focus</h2>
         <p>
           {business.displayName} brings robotics and industrial automation
-          together. Industrial LoRa Platform is a completed company project;
+          together as an independent venture led by {business.founder.name}.
+          Industrial LoRa Platform has founder-reported completion;
           Quadropod continues from CAD design towards physical validation and
           embedded control.
         </p>
@@ -56,6 +65,22 @@ export default function VenturePage() {
           Explore existing prototypes and development work ↗
         </Link>
       </section>
+      <section
+        className="detail-section"
+        aria-labelledby="product-development-heading"
+      >
+        <h2 id="product-development-heading">Quadropod V0 product development</h2>
+        <p>{product.description}</p>
+        <DevelopmentRoadmap items={product.developmentStages} />
+        <nav className="evidence-links" aria-label="Quadropod project evidence">
+          {product.evidence.map((item) => (
+            <Link key={item.href} href={item.href}>
+              {item.label} ↗
+            </Link>
+          ))}
+          <Link href={product.repository}>Project source ↗</Link>
+        </nav>
+      </section>
       <section className="detail-section">
         <h2>Development roadmap</h2>
         <DevelopmentRoadmap items={business.milestones} />
@@ -68,6 +93,8 @@ export default function VenturePage() {
           </span>
         </div>
         <p>{business.claude.description}</p>
+        <h3>Claude API research and integration roadmap</h3>
+        <DevelopmentRoadmap items={business.claude.roadmap} />
         <h3>Potential uses to evaluate</h3>
         <ul className="detail-list">
           {business.claude.useCases.map((useCase) => (
@@ -82,6 +109,13 @@ export default function VenturePage() {
             implemented control system.
           </p>
         </aside>
+        <nav className="evidence-links" aria-label="Claude API research sources">
+          {business.claude.references.map((reference) => (
+            <a key={reference.href} href={reference.href}>
+              {reference.label} ↗
+            </a>
+          ))}
+        </nav>
         {business.claude.evidence.map((href) => (
           <Link key={href} href={href}>
             Integration evidence ↗
@@ -89,7 +123,7 @@ export default function VenturePage() {
         ))}
       </section>
       <section className="detail-section">
-        <h2>The developer</h2>
+        <h2>The founder</h2>
         <p>
           {business.founder.name} ·{" "}
           {verifiedValue(business.founder.ventureFounderRole) ??
@@ -101,9 +135,19 @@ export default function VenturePage() {
             embedded systems, control and robotics.
           </p>
         ) : null}
-        <Link href="/about/">Background and public profiles ↗</Link>
+        <nav className="evidence-links" aria-label="Founder identity and profiles">
+          <Link href="/about/">Background and project history ↗</Link>
+          {verifiedProfiles.map((profile) => (
+            <a key={profile.label} href={profile.value}>
+              {profile.label} ↗
+            </a>
+          ))}
+        </nav>
         <p>
-          <Link href={`mailto:${publicEmail}`}>{publicEmail}</Link>
+          Venture inquiries: <a href={`mailto:${ventureEmail}`}>{ventureEmail}</a>
+        </p>
+        <p>
+          General contact: <Link href={`mailto:${publicEmail}`}>{publicEmail}</Link>
         </p>
       </section>
     </DetailPage>

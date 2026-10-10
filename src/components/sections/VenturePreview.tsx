@@ -12,7 +12,7 @@ export function VenturePreview() {
               Circuit, code and mechanical design. One workflow.
             </h2>
             <p>
-              Explore the completed Industrial LoRa Platform and follow
+              Explore the founder-reported Industrial LoRa Platform and follow
               Quadropod towards embedded control, physical validation and
               integration.
             </p>

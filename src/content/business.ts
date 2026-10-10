@@ -57,6 +57,12 @@ export const businessSchema = z
         z.string().email().safeParse(fact.value).success,
       "Invalid domain email.",
     ),
+    ventureContactEmail: factSchema.refine(
+      (fact) =>
+        fact.status === "verified" &&
+        z.string().email().safeParse(fact.value).success,
+      "A verified venture email is required.",
+    ),
     founder: z.object({
       name: z.string().min(1),
       role: z.string(),
@@ -141,6 +147,8 @@ export const businessSchema = z
       description: z.string(),
       evidence: z.array(link),
       useCases: z.array(z.string()),
+      roadmap: z.array(milestone).min(1),
+      references: z.array(z.object({ label: z.string().min(1), href: link })),
       safety: z.string(),
       prototypeEvidence: factSchema,
       integrationEvidence: factSchema,
@@ -153,6 +161,8 @@ export const businessSchema = z
         designation: z.string().min(1),
         detailHref: link.optional(),
         completionEvidence: factSchema.optional(),
+        verificationNote: z.string().min(1).optional(),
+        developmentStages: z.array(milestone).min(1).optional(),
         architectureStages: z
           .array(
             z.object({ title: z.string().min(1), detail: z.string().min(1) }),
@@ -293,6 +303,7 @@ export function verifiedValue(fact: z.infer<typeof factSchema>) {
 export const publicEmail =
   verifiedValue(business.domainContactEmail) ??
   business.publicContactEmail.value;
+export const ventureEmail = business.ventureContactEmail.value;
 export const verifiedProfiles = business.socialProfiles.filter(
   (profile) => profile.status === "verified",
 );

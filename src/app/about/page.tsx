@@ -13,7 +13,7 @@ export default function AboutPage() {
   const background = verifiedValue(business.founder.background);
   return (
     <DetailPage
-      eyebrow={`${business.displayName} / Company`}
+      eyebrow={`${business.displayName} / Venture`}
       title={business.company.headline}
       introduction={business.company.description}
     >
@@ -29,7 +29,7 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="detail-section">
-        <h2>Company information</h2>
+        <h2>Venture information</h2>
         <dl className="fact-list">
           <div>
             <dt>Brand</dt>

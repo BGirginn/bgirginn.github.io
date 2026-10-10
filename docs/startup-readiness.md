@@ -2,6 +2,24 @@
 
 Review date: 2026-10-10. This is a website review, not proof of program eligibility.
 
+## Current venture-readiness revision
+
+This section supersedes the earlier company-style positioning recorded below. The latest request explicitly defines BGirgin Hardware as an independent, founder-led engineering venture in development, not a legally incorporated company. No registration number, legal entity, founding date, customer, revenue, funding or partnership has been inferred.
+
+- `/venture/` retains the existing DetailPage styling and navigation. Its founder identity, declared incorporation status, four Quadropod development stages, evidence links and Claude API roadmap come from the centralized `business.json`, validated by `business.ts`.
+- Quadropod V0 remains the original single-leg CAD design. CAD availability and browser visualization regression checks are distinct from planned fabrication, embedded control and physical validation. The website does not establish walking, autonomous operation, servo performance or physical safety.
+- Claude API task configuration, structured outputs, engineering assistance and supervised integration are all planned. Official structured-output and strict-tool-use documentation are research sources, not evidence of an implemented integration. Schema compliance does not establish valid hardware semantics or safe execution. No API request, credential, server service or physical command path was added.
+- Venture inquiries use `founder@bgirgin.dev`; general contact and the existing email-draft form use `contact@bgirgin.dev`. Both are user-requested addresses; delivery and inbox access were not tested. The expanded detail-page footer exposes the venture address without changing the compact home footer.
+- Founder GitHub and existing project/source evidence links were checked for reachability. The user confirmed `https://www.linkedin.com/in/boragirgin`; the typed domain typo was normalized. LinkedIn returned HTTP 999 to direct fetching, so profile verification relies on founder confirmation. The current GitHub profile links a different older LinkedIn URL; that external profile was not edited.
+- Industrial LoRa retains the founder-reported completion status requested earlier, with an explicit public qualification: the supplied PDF is a technical proposal, not an implementation or measurement report. Documented architecture and capabilities are presented as scope, not independently demonstrated performance.
+- Venture metadata, root keywords, Person contact points and sitemap priority now describe this identity. Person markup is retained; no incorporated Organization or LocalBusiness is claimed. Existing canonical URLs, sitemap coverage, skip link, keyboard navigation and form accessibility are preserved. The new product-development section has a labelled landmark.
+- No CSS, CAD assets, 3D rendering code, animations, dependency versions or navigation entries were changed.
+
+Observed checks for this revision: lint passed with the same three existing warnings; production build/static export and typecheck passed. Static preview, ten-route readiness regressions, existing theme/contact-fit/navigation checks and full hardware regression passed. Twenty axe page/viewport scans reported zero violations. Desktop and mobile venture captures were visually reviewed; final diff and whitespace checks were reviewed. These browser results do not establish physical hardware performance.
+
+Remaining verification: founding date; customer problem and commercial scope; physical prototype and bench-test results; LoRa implementation/deployment evidence; mailbox delivery; direct LinkedIn profile access; any future Claude prototype/integration evidence. Unconfirmed information stays absent or clearly planned. No deployment, commit, push or application submission was performed.
+
+
 ## Initial audit
 
 - Clean working tree at the start. Next.js 15 App Router, React 19, TypeScript, npm/package-lock, Tailwind 4 global CSS. Existing reusable Container, Button, form fields and section components; Chakra Petch is self-hosted.

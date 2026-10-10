@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { track } from "@vercel/analytics";
 import { Container } from "@/components/ui/Container";
+import { ventureEmail } from "@/content/business";
 import { siteContent } from "@/content/site";
 
 export function Footer({ expanded = false }: { expanded?: boolean }) {
@@ -41,6 +42,9 @@ export function Footer({ expanded = false }: { expanded?: boolean }) {
                 step.
               </p>
               <Link href="/contact/">Start a project discussion ↗</Link>
+              <a href={`mailto:${ventureEmail}`}>
+                Venture inquiries: {ventureEmail}
+              </a>
               <Link href="/privacy/">Privacy & site use</Link>
             </div>
           </div>

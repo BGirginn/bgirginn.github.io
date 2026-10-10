@@ -39,9 +39,10 @@ export default function IndustrialLoRaPage() {
         <div className="detail-section-heading">
           <h2>{product.name}</h2>
           <span className="status-tag">
-            {statusLabels[product.status]} company project
+            {statusLabels[product.status]} · Founder-reported
           </span>
         </div>
+        <p>{product.verificationNote}</p>
         <dl className="fact-list">
           <div>
             <dt>Product area</dt>
@@ -77,7 +78,7 @@ export default function IndustrialLoRaPage() {
         />
       </section>
       <section className="detail-section">
-        <h2>Core capabilities</h2>
+        <h2>Documented capability scope</h2>
         <div className="industrial-capabilities">
           {caseStudy.capabilities.map((capability) => (
             <article key={capability.title}>
