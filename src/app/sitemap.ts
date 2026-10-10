@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services/",
     "/resources/",
     "/privacy/",
+    "/legal/",
   ].map((path) => ({
     url: new URL(path, business.websiteUrl).href,
     changeFrequency: "monthly",

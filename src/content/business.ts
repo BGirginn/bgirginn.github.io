@@ -45,6 +45,16 @@ export const businessSchema = z
     legalEntityName: factSchema,
     legalRegistrationStatus: factSchema,
     foundingDate: factSchema,
+    legal: z.object({
+      updatedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      jurisdiction: factSchema,
+      entityType: factSchema,
+      registrationNumber: factSchema,
+      dataController: factSchema,
+      processingBasis: factSchema,
+      retentionPolicy: factSchema,
+      dataTransfers: factSchema,
+    }),
     publicContactEmail: factSchema.refine(
       (fact) =>
         fact.status === "verified" &&
@@ -161,6 +171,7 @@ export const businessSchema = z
         designation: z.string().min(1),
         detailHref: link.optional(),
         completionEvidence: factSchema.optional(),
+        productionStatus: factSchema.optional(),
         verificationNote: z.string().min(1).optional(),
         developmentStages: z.array(milestone).min(1).optional(),
         architectureStages: z
@@ -251,6 +262,16 @@ export const businessSchema = z
       });
     }
     config.products.forEach((product, index) => {
+      if (
+        product.productionStatus?.status === "verified" &&
+        product.status !== "completed"
+      ) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["products", index, "productionStatus"],
+          message: "A produced product must also have confirmed completion.",
+        });
+      }
       if (
         product.status === "completed" &&
         product.completionEvidence?.status !== "verified"

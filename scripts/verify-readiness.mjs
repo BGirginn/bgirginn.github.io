@@ -53,6 +53,11 @@ unconfirmedCompletion.products.find(
   (product) => product.id === "industrial-lora",
 ).completionEvidence.status = "planned";
 assert.equal(businessSchema.safeParse(unconfirmedCompletion).success, false);
+const unfinishedProduction = structuredClone(business);
+unfinishedProduction.products.find(
+  (product) => product.id === "industrial-lora",
+).status = "development";
+assert.equal(businessSchema.safeParse(unfinishedProduction).success, false);
 const invalidFeatured = structuredClone(business);
 invalidFeatured.featuredProductIds.push("missing-product");
 assert.equal(businessSchema.safeParse(invalidFeatured).success, false);
@@ -68,6 +73,13 @@ const duplicateServices = structuredClone(business);
 duplicateServices.services[1].id = duplicateServices.services[0].id;
 assert.equal(businessSchema.safeParse(duplicateServices).success, false);
 assert.equal(publicEmail, "contact@bgirgin.dev");
+assert.equal(business.primaryProductId, "industrial-lora");
+assert.equal(business.products[0].id, business.primaryProductId);
+assert.equal(
+  business.products.find((item) => item.id === "quadropod").status,
+  "development",
+);
+assert.equal(business.legal.entityType.value, "Sole proprietorship");
 assert.equal(ventureEmail, "founder@bgirgin.dev");
 const invalidVentureContact = structuredClone(business);
 invalidVentureContact.ventureContactEmail.value = "invalid";
@@ -124,6 +136,7 @@ const routes = [
   "/services/",
   "/resources/",
   "/privacy/",
+  "/legal/",
 ];
 const artifacts = "output/playwright/readiness";
 await mkdir(artifacts, { recursive: true });
@@ -160,9 +173,9 @@ try {
         );
         assert.equal(
           await page
-            .getByRole("link", { name: "Explore Quadropod", exact: true })
+            .getByRole("link", { name: "Explore Industrial LoRa", exact: true })
             .getAttribute("href"),
-          "/products/#quadropod",
+          "/products/industrial-lora/",
         );
       }
       if (path === "/") {
@@ -173,7 +186,7 @@ try {
         const industrialCard = page.locator('[data-product="industrial-lora"]');
         assert.equal(
           await industrialCard
-            .getByText("Completed", { exact: true })
+            .getByText("Produced", { exact: true })
             .isVisible(),
           true,
         );
@@ -187,7 +200,7 @@ try {
       if (path === "/products/industrial-lora/") {
         assert.equal(
           await page
-            .getByText("Completed · Founder-reported", { exact: true })
+            .getByText("Produced · Main product", { exact: true })
             .isVisible(),
           true,
         );
@@ -206,12 +219,15 @@ try {
           business.primaryProductId,
         );
         const drawing = page.locator(".product-drawing img");
+        await drawing.scrollIntoViewIfNeeded();
+        await drawing.evaluate((image) => image.decode());
         assert.equal(
           await drawing.evaluate(
             (image) => image.complete && image.naturalWidth > 0,
           ),
           true,
         );
+        await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
       }
       if (path === "/services/") {
         assert.equal(
@@ -226,10 +242,10 @@ try {
       if (path === "/venture/") {
         assert.match(
           await page.locator("main").textContent(),
-          /not a legally incorporated company/,
+          /Industrial LoRa Platform is its main product, already produced/,
         );
         const development = page.getByRole("region", {
-          name: "Quadropod V0 product development",
+          name: "Quadropod V0 robotics R&D",
         });
         assert.equal(
           await development.locator(".development-roadmap li").count(),
@@ -253,6 +269,17 @@ try {
             1,
           );
         }
+      }
+      if (path === "/legal/") {
+        assert.equal(
+          await page.getByText("Sole proprietorship", { exact: true }).count(),
+          1,
+        );
+        assert.equal(
+          await page.getByText("Registration number", { exact: true }).count(),
+          0,
+        );
+        assert.match(await page.locator("main").textContent(), /no checkout/);
       }
       if (path === "/about/") {
         assert.equal(

@@ -2,6 +2,28 @@
 
 Review date: 2026-10-10. This is a website review, not proof of program eligibility.
 
+## Latest product and sole-proprietorship revision
+
+This revision supersedes the independent-unincorporated positioning below. On 2026-10-10 the user confirmed a **sole proprietorship**, a produced **Industrial LoRa Platform** as the main product, and **Quadropod** as ongoing R&D. The public legal description is “Sole proprietorship”, not “incorporated”, which would misstate the legal form.
+
+- LoRa is first in the central product order, the main product ID, Home CTA and product listings. Its production status is recorded as founder-confirmed. No customer installations, certifications or performance measurements are inferred from that statement. Quadropod is labelled ongoing robotics R&D; the original single-leg model and all 3D controls/assets are unchanged.
+- Upcoming Quadropod R&D includes robot-side image processing and a hybrid edge/server decision mechanism developed with Claude. Robot-side perception, main-server Claude-assisted task proposals and local deterministic control are separate planned layers. Server-side Claude is not described as an on-device model. Hardware selection, latency, accuracy, network-loss behaviour and physical safety must be evaluated; the website implements none of these robot features.
+- `/legal/` adds real website terms covering business identity, enquiry-only operation, separate commercial agreements, product/R&D status, licences and privacy. Privacy, About and the expanded footer link to it; it is in the sitemap. No checkout, consent banner, automatic sale, legal certification or invented contractual guarantee was added.
+- The owner and sole-proprietorship type are public. Registration numbers, address and other details the user did not provide remain empty and are omitted. All business.json content is public in client bundles; do not store private details in that file, even if a page would omit them.
+- The existing technical privacy notice remains a description of the current site flow. Data controller identity, exact processing grounds, actual email retention and service-provider/transfers details must be confirmed to complete a business-specific statutory disclosure. Unknown values are not replaced with generic consent claims or fabricated retention periods. This revision does not certify legal compliance.
+
+Legal scope researched using primary sources on 2026-10-10:
+
+- https://ticaret.gov.tr/ic-ticaret/sikca-sorulan-sorular/elektronik-ticaret — ETBIS scope includes online contract/order facilities; this is not a blanket exemption from other disclosure duties.
+- https://www.ticaret.gov.tr/ic-ticaret/sikca-sorulan-sorular/sirketler — the statutory company website obligation concerns independently audited companies; do not transfer that rule automatically to every sole-proprietorship brochure site.
+- https://www.kvkk.gov.tr/Icerik/2033/Aydinlatma-Yukumlulugu- — required data-processing disclosure includes controller identity, purposes, recipients, collection/legal basis and rights.
+- https://platform.claude.com/docs/en/build-with-claude/vision — research reference for a planned server-side image-analysis evaluation, not an implemented robotics feature.
+
+Validation for this revision: lint and production static build passed with the same three existing lint warnings; typecheck and static preview passed. The updated readiness suite passed eleven routes and four responsive widths, and 22 axe page/viewport scans found zero violations. The initial image-loading assertion failed after Quadropod moved below the fold; the regression now scrolls to and decodes the lazy-loaded image before retaining the load assertion. Existing theme/contact-fit/navigation and full hardware regressions passed, including original geometry hashes and 3D controls. Legal desktop and Products mobile captures were reviewed; final diff and whitespace checks passed. These checks do not establish physical product performance or legal compliance.
+
+The website currently provides information and an email draft, without checkout, payment or online order acceptance. The precise Turkish disclosure obligations depend on the actual business classification, sales process and data processing. Withholding unnecessary private information is distinct from omitting legally required information; no blanket exemption is claimed. No deployment, commit or push is authorized.
+
+
 ## Current venture-readiness revision
 
 This section supersedes the earlier company-style positioning recorded below. The latest request explicitly defines BGirgin Hardware as an independent, founder-led engineering venture in development, not a legally incorporated company. No registration number, legal entity, founding date, customer, revenue, funding or partnership has been inferred.

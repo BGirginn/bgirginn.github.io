@@ -3,7 +3,7 @@ import { ProductArchitecture } from "@/components/company/ProductArchitecture";
 import { ProductDrawing } from "@/components/company/ProductDrawing";
 import { ArrowUpRight, Cpu, Layers, Radio } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { business, statusLabels } from "@/content/business";
+import { business, statusLabels, verifiedValue } from "@/content/business";
 
 export function ProductShowcase() {
   return (
@@ -39,7 +39,9 @@ export function ProductShowcase() {
                   <Layers size={28} aria-hidden="true" />
                 )}
                 <span className="status-tag">
-                  {statusLabels[product.status]}
+                  {(product.productionStatus &&
+                    verifiedValue(product.productionStatus)) ??
+                    statusLabels[product.status]}
                 </span>
               </div>
               <p className="product-designation">{product.designation}</p>

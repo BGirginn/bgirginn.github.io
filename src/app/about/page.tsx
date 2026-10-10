@@ -29,7 +29,7 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="detail-section">
-        <h2>Venture information</h2>
+        <h2>Business information</h2>
         <dl className="fact-list">
           <div>
             <dt>Brand</dt>
@@ -51,7 +51,7 @@ export default function AboutPage() {
           </div>
           {[
             { label: "Legal entity", fact: business.legalEntityName },
-            { label: "Registration", fact: business.legalRegistrationStatus },
+            { label: "Business type", fact: business.legalRegistrationStatus },
             { label: "Founded", fact: business.foundingDate },
             {
               label: "Registered address",
@@ -106,6 +106,7 @@ export default function AboutPage() {
           <Link href="/services/">Engineering services ↗</Link>
           <Link href="/resources/#faq">Frequently asked questions ↗</Link>
         </nav>
+        <Link href="/legal/">Business information and website terms ↗</Link>
         <Link href="/venture/">
           Engineering approach and development roadmap ↗
         </Link>

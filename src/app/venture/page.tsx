@@ -13,16 +13,16 @@ import { pageMetadata } from "@/lib/page-metadata";
 
 export const metadata = pageMetadata(
   "/venture/",
-  "Independent engineering venture",
+  "Products & robotics R&D",
   business.venture.context,
 );
 export default function VenturePage() {
   const venture = business.venture;
   const product = business.products.find(
-    (item) => item.id === business.primaryProductId,
+    (item) => item.id === "quadropod",
   );
   if (!product?.developmentStages) {
-    throw new Error("The main product requires development-stage evidence.");
+    throw new Error("Quadropod requires development-stage evidence.");
   }
   const details = [
     { label: "Mission", fact: venture.mission },
@@ -30,7 +30,7 @@ export default function VenturePage() {
     { label: "Proposed solution", fact: venture.solution },
     { label: "Intended customers", fact: venture.intendedCustomers },
     { label: "Legal entity", fact: business.legalEntityName },
-    { label: "Registration", fact: business.legalRegistrationStatus },
+    { label: "Business type", fact: business.legalRegistrationStatus },
     { label: "Founded", fact: business.foundingDate },
   ];
   return (
@@ -46,10 +46,10 @@ export default function VenturePage() {
         <h2>Engineering focus</h2>
         <p>
           {business.displayName} brings robotics and industrial automation
-          together as an independent venture led by {business.founder.name}.
-          Industrial LoRa Platform has founder-reported completion;
-          Quadropod continues from CAD design towards physical validation and
-          embedded control.
+          together under the engineering direction of {business.founder.name}.
+          Industrial LoRa Platform is our main, already-produced product.
+          Quadropod remains in active R&D, with image processing and a
+          Claude-assisted edge/server decision system planned.
         </p>
         <dl className="fact-list">
           {details.map(({ label, fact }) =>
@@ -69,7 +69,7 @@ export default function VenturePage() {
         className="detail-section"
         aria-labelledby="product-development-heading"
       >
-        <h2 id="product-development-heading">Quadropod V0 product development</h2>
+        <h2 id="product-development-heading">Quadropod V0 robotics R&D</h2>
         <p>{product.description}</p>
         <DevelopmentRoadmap items={product.developmentStages} />
         <nav className="evidence-links" aria-label="Quadropod project evidence">

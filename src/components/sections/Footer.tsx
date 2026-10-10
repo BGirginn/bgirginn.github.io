@@ -46,6 +46,7 @@ export function Footer({ expanded = false }: { expanded?: boolean }) {
                 Venture inquiries: {ventureEmail}
               </a>
               <Link href="/privacy/">Privacy & site use</Link>
+              <Link href="/legal/">Business information & terms</Link>
             </div>
           </div>
         ) : null}

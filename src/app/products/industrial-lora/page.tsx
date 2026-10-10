@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { DetailPage } from "@/components/ui/DetailPage";
 import { ProductArchitecture } from "@/components/company/ProductArchitecture";
-import { business, statusLabels, verifiedValue } from "@/content/business";
+import { business, verifiedValue } from "@/content/business";
 import { pageMetadata } from "@/lib/page-metadata";
 
 function loadIndustrialPlatform() {
@@ -39,7 +39,8 @@ export default function IndustrialLoRaPage() {
         <div className="detail-section-heading">
           <h2>{product.name}</h2>
           <span className="status-tag">
-            {statusLabels[product.status]} · Founder-reported
+            {(product.productionStatus &&
+              verifiedValue(product.productionStatus)) ?? "Completed"} · Main product
           </span>
         </div>
         <p>{product.verificationNote}</p>
@@ -78,7 +79,7 @@ export default function IndustrialLoRaPage() {
         />
       </section>
       <section className="detail-section">
-        <h2>Documented capability scope</h2>
+        <h2>Product capabilities</h2>
         <div className="industrial-capabilities">
           {caseStudy.capabilities.map((capability) => (
             <article key={capability.title}>

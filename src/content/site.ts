@@ -27,9 +27,12 @@ export const siteContent = {
     { label: "Contact", href: "#contact" },
   ],
   hero: {
-    title: "Quadropod.\nHardware.\nEmbedded.",
+    title: "LoRa.\nHardware.\nEmbedded.",
     description: business.venture.context,
-    primaryCta: { label: "Explore Quadropod", href: "/products/#quadropod" },
+    primaryCta: {
+      label: "Explore Industrial LoRa",
+      href: "/products/industrial-lora/",
+    },
     secondaryCta: { label: "Get In Touch", href: "#contact" },
   },
   signature: {

@@ -21,13 +21,13 @@ const displayFont = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: `${business.displayName} | Quadropod & Industrial LoRa`,
+  title: `${business.displayName} | Industrial LoRa & Quadropod R&D`,
   description: business.venture.context,
   alternates: {
     canonical: siteUrl,
   },
   openGraph: {
-    title: `${business.displayName} | Quadropod & Industrial LoRa`,
+    title: `${business.displayName} | Industrial LoRa & Quadropod R&D`,
     description: business.venture.context,
     url: siteUrl,
     siteName: business.displayName,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${business.displayName} | Quadropod & Industrial LoRa`,
+    title: `${business.displayName} | Industrial LoRa & Quadropod R&D`,
     description: business.venture.context,
     images: ["/og-image.png"],
   },
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     "PCB Designer",
     "Firmware Developer",
     "Embedded Firmware",
-    "Independent Engineering Venture",
+    "Industrial LoRa Monitoring",
     "Quadropod V0",
     "Robotics Product Development",
     "Electronics Engineer",

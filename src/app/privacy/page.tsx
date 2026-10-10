@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { DetailPage } from "@/components/ui/DetailPage";
-import { business, publicEmail } from "@/content/business";
+import { business, publicEmail, verifiedValue } from "@/content/business";
 import { pageMetadata } from "@/lib/page-metadata";
 
 export const metadata = pageMetadata(
@@ -17,6 +17,32 @@ export default function PrivacyPage() {
       title="How this website handles your enquiry."
       introduction="This page describes the website’s current contact and data flow, and how to use its technical material. Updated 10 October 2026."
     >
+      <section className="detail-section">
+        <h2>Business contact and enquiry information</h2>
+        <p>
+          {business.displayName} operates as a sole proprietorship led by{" "}
+          {business.founder.name}. Use {publicEmail} for questions about
+          your enquiry, to request information about its handling, or to request
+          correction or deletion of information you sent, subject to applicable
+          legal obligations.
+        </p>
+        <dl className="fact-list">
+          {[
+            { label: "Data controller", fact: business.legal.dataController },
+            { label: "Processing basis", fact: business.legal.processingBasis },
+            { label: "Retention", fact: business.legal.retentionPolicy },
+            { label: "Data transfers", fact: business.legal.dataTransfers },
+          ].map(({ label, fact }) =>
+            verifiedValue(fact) ? (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{verifiedValue(fact)}</dd>
+              </div>
+            ) : null,
+          )}
+        </dl>
+        <Link href="/legal/">Business information and website terms ↗</Link>
+      </section>
       <section className="detail-section">
         <h2>Contact drafts</h2>
         <p>

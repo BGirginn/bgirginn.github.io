@@ -17,7 +17,7 @@ export default function ProductsPage() {
     <DetailPage
       eyebrow={`${business.displayName} / Products`}
       title="Robotics & industrial automation."
-      introduction="Meet our main products: Quadropod for robotics development and Industrial LoRa Platform, a factory monitoring and automation project with founder-reported completion. Device software supports the broader engineering work."
+      introduction="Industrial LoRa Platform is our main, already-produced product. Quadropod is an ongoing robotics R&D product, with image processing and Claude-assisted edge/server decisions planned. Device software supports the broader engineering work."
     >
       {business.products.map((product) => (
         <article
@@ -28,7 +28,11 @@ export default function ProductsPage() {
           <p className="engineering-eyebrow">{product.designation}</p>
           <div className="detail-section-heading">
             <h2>{product.name}</h2>
-            <span className="status-tag">{statusLabels[product.status]}</span>
+            <span className="status-tag">
+              {(product.productionStatus &&
+                verifiedValue(product.productionStatus)) ??
+                statusLabels[product.status]}
+            </span>
           </div>
           <p>{product.description}</p>
           {product.verificationNote ? <p>{product.verificationNote}</p> : null}

@@ -18,7 +18,7 @@ export default function ProjectsPage() {
       <section className="detail-section">
         <div className="detail-section-heading">
           <h2>Industrial LoRa Platform</h2>
-          <span className="status-tag">Completed · Founder-reported</span>
+          <span className="status-tag">Produced · Main product</span>
         </div>
         <p>
           Factory monitoring and automation through equipment interfaces, ESP32

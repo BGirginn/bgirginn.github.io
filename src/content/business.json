@@ -7,9 +7,9 @@
     "evidence": ""
   },
   "legalRegistrationStatus": {
-    "value": "Not legally incorporated",
+    "value": "Sole proprietorship",
     "status": "verified",
-    "evidence": "User explicitly requested an independent founder-led venture in development, not a legally incorporated company, on 2026-10-10. This records the declared status, not a registry search."
+    "evidence": "User explicitly confirmed a sole proprietorship on 2026-10-10. Legal name, jurisdiction and registration details were not supplied; no registry verification is asserted."
   },
   "foundingDate": {
     "value": "",
@@ -71,9 +71,9 @@
       "evidence": "User-confirmed BGirgin Hardware brand and hardware / embedded systems focus on 2026-10-10"
     },
     "mission": {
-      "value": "Hardware and embedded systems engineering across robotics and industrial automation, led by Quadropod and Industrial LoRa Platform.",
+      "value": "Hardware and embedded systems engineering, led by the produced Industrial LoRa Platform and ongoing Quadropod robotics R&D.",
       "status": "verified",
-      "evidence": "User identified Quadropod and the supplied industrial automation project as main company products on 2026-10-10."
+      "evidence": "Founder confirmed LoRa as the main already-produced product and Quadropod as ongoing R&D on 2026-10-10."
     },
     "problem": {
       "value": "",
@@ -90,14 +90,14 @@
       "status": "needs_verification",
       "evidence": ""
     },
-    "stage": "Independent, founder-led engineering venture in development",
-    "context": "BGirgin Hardware is an independent, founder-led engineering venture in development, led by Bora Girgin. It is not a legally incorporated company. Its work spans robotics CAD prototypes and industrial embedded systems."
+    "stage": "Produced industrial product / ongoing robotics R&D",
+    "context": "BGirgin Hardware develops hardware and embedded systems. Industrial LoRa Platform is its main product, already produced. Quadropod is an ongoing robotics R&D product, with image processing and a Claude-assisted edge/server decision system planned for its next stages."
   },
   "milestones": [
     {
       "name": "Industrial LoRa Platform",
       "status": "completed",
-      "detail": "Completion reported by the founder. The supplied technical proposal documents the architecture; independently verifiable implementation and test results are not published here.",
+      "detail": "Industrial LoRa Platform has already been produced and is the main product, as confirmed by the founder.",
       "evidence": "/products/industrial-lora/"
     },
     {
@@ -117,20 +117,34 @@
       "status": "planned",
       "detail": "Connect validated mechanical and embedded subsystems, with documented operating limits.",
       "evidence": ""
+    },
+    {
+      "name": "Robot image processing",
+      "status": "planned",
+      "detail": "Evaluate camera input, local preprocessing and on-device perception for task context. Select compute hardware and validate accuracy, latency and resource use before claiming working vision.",
+      "evidence": ""
+    },
+    {
+      "name": "Claude-assisted edge/server decisions",
+      "status": "planned",
+      "detail": "Develop a hybrid architecture: robot-side perception supplies selected observations to the main server for Claude-assisted task evaluation. Return structured proposals to a local deterministic validator; real-time control remains on the robot. Server-side Claude is not an on-device model.",
+      "evidence": ""
     }
   ],
   "claude": {
     "status": "planned",
-    "description": "Claude API research and integration are planned, not implemented. Proposed uses include robotics task configuration, structured outputs and engineering assistance. No API-backed feature or autonomous hardware command path is currently offered by this website.",
+    "description": "Planned for upcoming Quadropod R&D: robot image processing and an edge/server decision mechanism developed with Claude. Robot-side perception and a main-server Claude integration will be evaluated together with structured task configuration and engineering assistance. This architecture is planned, not implemented.",
     "evidence": [],
     "useCases": [
       "Technical documentation analysis",
       "Engineering workflow automation",
       "Hardware diagnostics assistance",
       "Natural-language robotics task configuration",
-      "Structured command generation"
+      "Structured command generation",
+      "Image-assisted robotics scene analysis",
+      "Main-server task decisions using robot-side perception"
     ],
-    "safety": "Any future hardware command path must use deterministic schema validation, an allowlist, bounded parameters, device-state checks and explicit operator approval before execution. Local controllers retain real-time motor control and emergency-stop authority.",
+    "safety": "The planned main-server decision path must validate schema, task allowlists, bounded parameters and current device state, and require explicit operator approval. Stale observations, server timeouts and network loss must not trigger unvalidated movement. Local firmware retains real-time control, motion limits and emergency-stop authority.",
     "prototypeEvidence": {
       "value": "",
       "status": "needs_verification",
@@ -149,9 +163,21 @@
         "evidence": ""
       },
       {
+        "name": "Robot image processing",
+        "status": "planned",
+        "detail": "Evaluate camera input, local preprocessing and on-device perception for task context. Select compute hardware and validate accuracy, latency and resource use before claiming working vision.",
+        "evidence": ""
+      },
+      {
         "name": "Structured task configuration prototype",
         "status": "planned",
         "detail": "Evaluate schema-constrained JSON for task type, bounded parameters and expected device state. Test refusal, incomplete responses, invalid semantics and unsupported tasks offline; a valid schema alone cannot establish hardware safety.",
+        "evidence": ""
+      },
+      {
+        "name": "Claude-assisted edge/server decisions",
+        "status": "planned",
+        "detail": "Develop a hybrid architecture: robot-side perception supplies selected observations to the main server for Claude-assisted task evaluation. Return structured proposals to a local deterministic validator; real-time control remains on the robot. Server-side Claude is not an on-device model.",
         "evidence": ""
       },
       {
@@ -175,99 +201,24 @@
       {
         "label": "Claude API strict tool use",
         "href": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/strict-tool-use"
+      },
+      {
+        "label": "Claude API vision research",
+        "href": "https://platform.claude.com/docs/en/build-with-claude/vision"
       }
     ]
   },
   "products": [
     {
-      "id": "quadropod",
-      "name": "Quadropod",
-      "description": "The main robotics project at BGirgin Hardware. Its current V0 CAD prototype is a single articulated leg with removable femur and tibia covers and nominal SG90 servo references.",
-      "targetUser": {
-        "value": "",
-        "status": "needs_verification",
-        "evidence": ""
-      },
-      "status": "prototype",
-      "architecture": "FreeCAD assembly → exported geometry → interactive Three.js inspection with a mobile SVG fallback.",
-      "components": [
-        "FreeCAD",
-        "SG90 CAD references",
-        "Removable covers / M2 fastener references",
-        "Three.js / React Three Fiber"
-      ],
-      "repository": "https://github.com/BGirginn/bgirginn.github.io",
-      "demo": "/?hardware=quadropod#signature",
-      "evidence": [
-        {
-          "label": "Inspect the original CAD-derived geometry",
-          "href": "/#signature"
-        },
-        {
-          "label": "Geometry export and validation notes",
-          "href": "https://github.com/BGirginn/bgirginn.github.io/blob/main/docs/hardware-explorer.md"
-        }
-      ],
-      "roadmap": [
-        {
-          "name": "Physical prototype validation",
-          "status": "planned",
-          "detail": "Measure assembly fit, cover access and structural behaviour on a physical leg prototype."
-        },
-        {
-          "name": "Embedded control prototype",
-          "status": "planned",
-          "detail": "Define actuator interfaces, local motion control, bounded commands and device telemetry."
-        },
-        {
-          "name": "System integration tests",
-          "status": "planned",
-          "detail": "Establish repeatable bench tests for motion limits, emergency stop and hardware/software integration."
-        }
-      ],
-      "preview": {
-        "src": "/models/quadropod.svg",
-        "alt": "CAD-derived drawing of the Quadropod V0 articulated leg with removable covers and SG90 servo references.",
-        "caption": "Quadropod V0 · articulated leg CAD prototype"
-      },
-      "designation": "Main robotics product",
-      "developmentStages": [
-        {
-          "name": "CAD design",
-          "status": "completed",
-          "detail": "Existing Quadropod V0 single-leg FreeCAD geometry, removable covers and nominal SG90 references are available in the viewer. This is not a complete quadruped.",
-          "evidence": "/?hardware=quadropod#signature"
-        },
-        {
-          "name": "Physical prototype development",
-          "status": "planned",
-          "detail": "Fabrication, assembly fit, structural loads and electrical integration require physical validation. No validated physical prototype is claimed.",
-          "evidence": ""
-        },
-        {
-          "name": "Tested functionality — browser visualization",
-          "status": "completed",
-          "detail": "Repository browser regressions cover model loading, appearance switching, orbit/reset and responsive fallback. These checks exercise the website, not servo motion, walking, power delivery or physical safety.",
-          "evidence": "https://github.com/BGirginn/bgirginn.github.io/blob/main/scripts/verify-hardware.mjs"
-        },
-        {
-          "name": "Planned product features",
-          "status": "planned",
-          "detail": "Local embedded control, telemetry, bounded task configuration and system-level motion/safety tests are planned. Walking, autonomous operation and Claude integration are not implemented or physically validated.",
-          "evidence": ""
-        }
-      ]
-    },
-    {
       "id": "industrial-lora",
       "name": "Industrial LoRa Platform",
-      "description": "An industrial monitoring and automation project with completion reported by the founder. Its documented architecture connects equipment interfaces and ESP32 nodes through LoRa to an SBC, notification registry, event journal and local-network management interface.",
-      "designation": "Main industrial product",
+      "description": "The main product at BGirgin Hardware, already produced for industrial monitoring and automation. Equipment interfaces and ESP32 nodes connect through LoRa to an SBC, notification registry, event journal and local-network management interface.",
+      "designation": "Main product · Produced",
       "detailHref": "/products/industrial-lora/",
       "completionEvidence": {
-        "value": "Founder-reported completed engineering project",
+        "value": "Produced industrial product",
         "status": "verified",
-        "evidence": "User instructed this project to be presented as a completed BGirgin Hardware company project on 2026-10-10. Technical scope derives from bora_girgin_projesi.docx.pdf pages 4-6; that PDF is a proposal, not a completion or measurement report."
+        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred."
       },
       "targetUser": {
         "value": "Factory operations and engineering teams",
@@ -347,9 +298,105 @@
           }
         ],
         "example": "A button event and a temperature reading illustrate the message path: each equipment interface produces its own notification type, the field node forwards it, and the main system records the event for review. This describes the system workflow rather than a live demonstration.",
-        "outcome": "The founder reports this project as completed. The available document establishes its proposed technical scope; implementation acceptance, physical measurements and deployment evidence still require verification."
+        "outcome": "Industrial LoRa Platform has been produced and is the main product at BGirgin Hardware. Integration, installation, delivery and support requirements are discussed for each prospective application."
       },
-      "verificationNote": "Completion is founder-reported. The supplied document is a technical proposal, not an implementation or measurement report. The architecture and capabilities below describe documented project scope; no independent hardware tests, deployed customer systems or measured performance are evidenced here."
+      "verificationNote": "Production status is confirmed by the founder. Published technical material describes the system architecture; it does not establish certification, measured performance or customer deployments.",
+      "productionStatus": {
+        "value": "Produced",
+        "status": "verified",
+        "evidence": "Founder explicitly confirmed that LoRa is the main product and has already been produced on 2026-10-10. No certification, customer installation or measured performance is inferred."
+      }
+    },
+    {
+      "id": "quadropod",
+      "name": "Quadropod",
+      "description": "A robotics product in ongoing research and development. The current public Quadropod V0 evidence is a single-leg CAD prototype. Upcoming R&D includes image processing and a Claude-assisted edge/server decision mechanism.",
+      "targetUser": {
+        "value": "",
+        "status": "needs_verification",
+        "evidence": ""
+      },
+      "status": "development",
+      "architecture": "FreeCAD assembly → exported geometry → interactive Three.js inspection with a mobile SVG fallback.",
+      "components": [
+        "FreeCAD",
+        "SG90 CAD references",
+        "Removable covers / M2 fastener references",
+        "Three.js / React Three Fiber"
+      ],
+      "repository": "https://github.com/BGirginn/bgirginn.github.io",
+      "demo": "/?hardware=quadropod#signature",
+      "evidence": [
+        {
+          "label": "Inspect the original CAD-derived geometry",
+          "href": "/#signature"
+        },
+        {
+          "label": "Geometry export and validation notes",
+          "href": "https://github.com/BGirginn/bgirginn.github.io/blob/main/docs/hardware-explorer.md"
+        }
+      ],
+      "roadmap": [
+        {
+          "name": "Physical prototype validation",
+          "status": "planned",
+          "detail": "Measure assembly fit, cover access and structural behaviour on a physical leg prototype."
+        },
+        {
+          "name": "Embedded control prototype",
+          "status": "planned",
+          "detail": "Define actuator interfaces, local motion control, bounded commands and device telemetry."
+        },
+        {
+          "name": "System integration tests",
+          "status": "planned",
+          "detail": "Establish repeatable bench tests for motion limits, emergency stop and hardware/software integration."
+        },
+        {
+          "name": "Robot image processing",
+          "status": "planned",
+          "detail": "Evaluate camera input, local preprocessing and on-device perception for task context. Select compute hardware and validate accuracy, latency and resource use before claiming working vision.",
+          "evidence": ""
+        },
+        {
+          "name": "Claude-assisted edge/server decisions",
+          "status": "planned",
+          "detail": "Develop a hybrid architecture: robot-side perception supplies selected observations to the main server for Claude-assisted task evaluation. Return structured proposals to a local deterministic validator; real-time control remains on the robot. Server-side Claude is not an on-device model.",
+          "evidence": ""
+        }
+      ],
+      "preview": {
+        "src": "/models/quadropod.svg",
+        "alt": "CAD-derived drawing of the Quadropod V0 articulated leg with removable covers and SG90 servo references.",
+        "caption": "Quadropod V0 · articulated leg CAD prototype"
+      },
+      "designation": "Robotics product · R&D",
+      "developmentStages": [
+        {
+          "name": "CAD design",
+          "status": "completed",
+          "detail": "Existing Quadropod V0 single-leg FreeCAD geometry, removable covers and nominal SG90 references are available in the viewer. This is not a complete quadruped.",
+          "evidence": "/?hardware=quadropod#signature"
+        },
+        {
+          "name": "Physical prototype development",
+          "status": "planned",
+          "detail": "Fabrication, assembly fit, structural loads and electrical integration require physical validation. No validated physical prototype is claimed.",
+          "evidence": ""
+        },
+        {
+          "name": "Tested functionality — browser visualization",
+          "status": "completed",
+          "detail": "Repository browser regressions cover model loading, appearance switching, orbit/reset and responsive fallback. These checks exercise the website, not servo motion, walking, power delivery or physical safety.",
+          "evidence": "https://github.com/BGirginn/bgirginn.github.io/blob/main/scripts/verify-hardware.mjs"
+        },
+        {
+          "name": "Planned product features",
+          "status": "planned",
+          "detail": "Local embedded control, telemetry, robot image processing and a hybrid edge/server decision mechanism developed with Claude are upcoming R&D. These features and autonomous operation are not yet implemented or physically validated in the published evidence.",
+          "evidence": ""
+        }
+      ]
     },
     {
       "id": "pi-control",
@@ -430,10 +477,10 @@
       "href": "https://github.com/BGirginn/NightLamp"
     }
   ],
-  "primaryProductId": "quadropod",
+  "primaryProductId": "industrial-lora",
   "company": {
     "headline": "Engineering the connection between mechanics, electronics and code.",
-    "description": "BGirgin Hardware is Bora Girgin’s independent engineering venture in development, focused on hardware, embedded systems and robotics. It is not a legally incorporated company. Quadropod and Industrial LoRa Platform are its main engineering projects.",
+    "description": "BGirgin Hardware develops industrial hardware, embedded systems and robotics, led by Bora Girgin. Industrial LoRa Platform is its main product and has already been produced. Quadropod remains in active research and development. The business operates as a sole proprietorship.",
     "principles": [
       {
         "title": "Systems before components",
@@ -568,15 +615,15 @@
   "faq": [
     {
       "question": "What does BGirgin Hardware focus on?",
-      "answer": "Hardware, embedded systems, robotics and industrial automation. Quadropod and Industrial LoRa Platform are the main products, supported by electronics, firmware and device software work."
+      "answer": "Hardware, embedded systems, robotics and industrial automation. Industrial LoRa Platform is our main, already-produced product. Quadropod is an ongoing robotics R&D product, supported by electronics, firmware and device software work."
     },
     {
       "question": "Can I buy a Quadropod robot today?",
-      "answer": "Quadropod is currently a development project, not an off-the-shelf robot. The available V0 evidence is an articulated leg CAD prototype. Physical validation and embedded control are planned."
+      "answer": "Quadropod is an ongoing R&D product, not an off-the-shelf robot. The public V0 evidence is a single-leg CAD prototype. Physical validation, embedded control, image processing and Claude-assisted edge/server decision-making are planned."
     },
     {
       "question": "What is Industrial LoRa Platform?",
-      "answer": "An industrial monitoring and automation project with founder-reported completion. Its documented scope includes equipment interfaces, ESP32 nodes, LoRa transport, SBC/Go management, a notification registry and an event journal. The available proposal does not independently verify implementation or physical performance."
+      "answer": "Our main product, already produced for factory monitoring and automation. Its architecture includes equipment interfaces, ESP32 nodes, LoRa transport, SBC/Go management, a notification registry and an event journal. Production is founder-confirmed; certifications, customer installations and performance measurements are not claimed."
     },
     {
       "question": "How do I start an engineering discussion?",
@@ -606,7 +653,7 @@
   "resources": [
     {
       "title": "Industrial LoRa Platform",
-      "description": "Explore the founder-reported project, its documented architecture, notification workflow and verification limits.",
+      "description": "Explore our produced main product, its architecture, notification workflow and integration scope.",
       "href": "/products/industrial-lora/",
       "kind": "Engineering project"
     },
@@ -636,12 +683,50 @@
     }
   ],
   "featuredProductIds": [
-    "quadropod",
-    "industrial-lora"
+    "industrial-lora",
+    "quadropod"
   ],
   "ventureContactEmail": {
     "value": "founder@bgirgin.dev",
     "status": "verified",
     "evidence": "User requested this address for venture inquiries on 2026-10-10; mailbox delivery has not been tested."
+  },
+  "legal": {
+    "updatedOn": "2026-10-10",
+    "jurisdiction": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "entityType": {
+      "value": "Sole proprietorship",
+      "status": "verified",
+      "evidence": "User explicitly confirmed a sole proprietorship on 2026-10-10. Legal name, jurisdiction and registration details were not supplied; no registry verification is asserted."
+    },
+    "registrationNumber": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "dataController": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "processingBasis": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "retentionPolicy": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    },
+    "dataTransfers": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": ""
+    }
   }
 }
