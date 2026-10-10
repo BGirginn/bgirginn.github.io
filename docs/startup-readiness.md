@@ -52,7 +52,7 @@ npm run verify:hardware
 - Verified founding date, founder role and public professional details. Brand name and engineering focus are user-confirmed.
 - Concrete customer problem, proposed solution and intended customer segment. The confirmed mission centres on hardware, embedded systems and Quadropod.
 - Intended users, accepted product scope, milestones and dated validation evidence.
-- Owned domain email, individual LinkedIn URL, education/institution and professional experience if they should be published.
+- Individual LinkedIn URL, education/institution and professional experience if they should be published. The company mailbox is user-confirmed; delivery remains untested.
 - Claude prototype/integration proof before increasing the status; program application/account information and any funding/traction must be checked privately. No customers, investors, funding or partnerships are claimed here.
 
 ## Claude Startups readiness checklist
