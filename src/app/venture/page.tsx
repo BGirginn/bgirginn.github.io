@@ -6,6 +6,7 @@ import {
   verifiedValue,
   publicEmail,
   ventureEmail,
+  ventureFoundedLabel,
   verifiedProfiles,
   statusLabels,
 } from "@/content/business";
@@ -30,8 +31,14 @@ export default function VenturePage() {
     { label: "Proposed solution", fact: venture.solution },
     { label: "Intended customers", fact: venture.intendedCustomers },
     { label: "Legal entity", fact: business.legalEntityName },
-    { label: "Business type", fact: business.legalRegistrationStatus },
-    { label: "Founded", fact: business.foundingDate },
+    { label: "Legal status", fact: business.legalRegistrationStatus },
+    { label: "Business structure", fact: business.legal.entityType },
+    { label: "Country", fact: business.legal.jurisdiction },
+    { label: "Funding model", fact: business.fundingModel },
+    {
+      label: "Business registration date",
+      fact: business.legal.registrationDate,
+    },
   ];
   return (
     <DetailPage
@@ -52,6 +59,16 @@ export default function VenturePage() {
           Claude-assisted edge/server decision system planned.
         </p>
         <dl className="fact-list">
+          {ventureFoundedLabel ? (
+            <div>
+              <dt>Venture founding</dt>
+              <dd>
+                <time dateTime={business.foundingDate.value}>
+                  Founded {ventureFoundedLabel}
+                </time>
+              </dd>
+            </div>
+          ) : null}
           {details.map(({ label, fact }) =>
             verifiedValue(fact) ? (
               <div key={label}>
@@ -61,6 +78,10 @@ export default function VenturePage() {
             ) : null,
           )}
         </dl>
+        <p>
+          The venture founding date is separate from the official business
+          registration date.
+        </p>
         <Link href="/products/">
           Explore existing prototypes and development work ↗
         </Link>

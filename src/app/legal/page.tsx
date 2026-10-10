@@ -12,9 +12,11 @@ export const metadata = pageMetadata(
 export default function LegalPage() {
   const details = [
     { label: "Registered name", fact: business.legalEntityName },
+    { label: "Legal status", fact: business.legalRegistrationStatus },
     { label: "Business type", fact: business.legal.entityType },
     { label: "Jurisdiction", fact: business.legal.jurisdiction },
     { label: "Registration number", fact: business.legal.registrationNumber },
+    { label: "Business registration date", fact: business.legal.registrationDate },
     { label: "Registered address", fact: business.company.registeredAddress },
     { label: "Phone", fact: business.company.phone },
   ];

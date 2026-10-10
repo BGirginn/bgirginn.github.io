@@ -7,14 +7,14 @@
     "evidence": ""
   },
   "legalRegistrationStatus": {
-    "value": "Sole proprietorship",
+    "value": "Registered Sole Proprietorship",
     "status": "verified",
-    "evidence": "User explicitly confirmed a sole proprietorship on 2026-10-10. Legal name, jurisdiction and registration details were not supplied; no registry verification is asserted."
+    "evidence": "Founder-provided business information on 2026-10-10. This records founder confirmation, not an independent registry search. No registration date or identifier was supplied."
   },
   "foundingDate": {
-    "value": "",
-    "status": "needs_verification",
-    "evidence": ""
+    "value": "2024-04",
+    "status": "verified",
+    "evidence": "Founder-provided business information on 2026-10-10. April 2024 is the venture founding month; no founding day or official business registration date is asserted."
   },
   "publicContactEmail": {
     "value": "girginbora30@gmail.com",
@@ -91,7 +91,7 @@
       "evidence": ""
     },
     "stage": "Produced industrial product / ongoing robotics R&D",
-    "context": "BGirgin Hardware develops hardware and embedded systems. Industrial LoRa Platform is its main product, already produced. Quadropod is an ongoing robotics R&D product, with image processing and a Claude-assisted edge/server decision system planned for its next stages."
+    "context": "Founded in April 2024, BGirgin Hardware is a founder-led engineering venture operating as a registered sole proprietorship in Türkiye, specializing in embedded systems, industrial telemetry, control technologies, and robotics. Industrial LoRa Platform is its main product, already produced. Quadropod remains an ongoing robotics R&D product."
   },
   "milestones": [
     {
@@ -480,7 +480,7 @@
   "primaryProductId": "industrial-lora",
   "company": {
     "headline": "Engineering the connection between mechanics, electronics and code.",
-    "description": "BGirgin Hardware develops industrial hardware, embedded systems and robotics, led by Bora Girgin. Industrial LoRa Platform is its main product and has already been produced. Quadropod remains in active research and development.",
+    "description": "Founded in April 2024, BGirgin Hardware is a founder-led engineering venture operating as a registered sole proprietorship in Türkiye, specializing in embedded systems, industrial telemetry, control technologies, and robotics. Industrial LoRa Platform is its main product, already produced. Quadropod remains an ongoing robotics R&D product.",
     "principles": [
       {
         "title": "Systems before components",
@@ -689,19 +689,19 @@
   "ventureContactEmail": {
     "value": "founder@bgirgin.dev",
     "status": "verified",
-    "evidence": "User requested this address for venture inquiries on 2026-10-10; mailbox delivery has not been tested."
+    "evidence": "Founder-provided business information on 2026-10-10. Business/venture contact supplied by the founder; mailbox delivery was not tested."
   },
   "legal": {
     "updatedOn": "2026-10-10",
     "jurisdiction": {
-      "value": "",
-      "status": "needs_verification",
-      "evidence": ""
+      "value": "Türkiye",
+      "status": "verified",
+      "evidence": "Founder-provided business information on 2026-10-10. Founder-confirmed country."
     },
     "entityType": {
-      "value": "Sole proprietorship",
+      "value": "Sole Proprietorship (Türkiye)",
       "status": "verified",
-      "evidence": "User explicitly confirmed a sole proprietorship on 2026-10-10. Legal name, jurisdiction and registration details were not supplied; no registry verification is asserted."
+      "evidence": "Founder-provided business information on 2026-10-10. Founder-confirmed business structure."
     },
     "registrationNumber": {
       "value": "",
@@ -727,6 +727,16 @@
       "value": "",
       "status": "needs_verification",
       "evidence": ""
+    },
+    "registrationDate": {
+      "value": "",
+      "status": "needs_verification",
+      "evidence": "Not supplied. The venture founding month must not be copied into this field without confirmation."
     }
+  },
+  "fundingModel": {
+    "value": "Bootstrapped",
+    "status": "verified",
+    "evidence": "Founder-provided business information on 2026-10-10. No external funding amount or investor is asserted."
   }
 }

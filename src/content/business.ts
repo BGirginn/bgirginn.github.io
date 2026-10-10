@@ -44,12 +44,24 @@ export const businessSchema = z
     websiteUrl: z.string().url().startsWith("https://"),
     legalEntityName: factSchema,
     legalRegistrationStatus: factSchema,
-    foundingDate: factSchema,
+    foundingDate: factSchema.refine(
+      (fact) =>
+        fact.status !== "verified" ||
+        /^\d{4}-(0[1-9]|1[0-2])$/.test(fact.value),
+      "Venture founding dates use year-month precision (YYYY-MM).",
+    ),
+    fundingModel: factSchema,
     legal: z.object({
       updatedOn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
       jurisdiction: factSchema,
       entityType: factSchema,
       registrationNumber: factSchema,
+      registrationDate: factSchema.refine(
+        (fact) =>
+          fact.status !== "verified" ||
+          z.string().date().safeParse(fact.value).success,
+        "Official registration dates require a verified calendar date.",
+      ),
       dataController: factSchema,
       processingBasis: factSchema,
       retentionPolicy: factSchema,
@@ -325,6 +337,15 @@ export const publicEmail =
   verifiedValue(business.domainContactEmail) ??
   business.publicContactEmail.value;
 export const ventureEmail = business.ventureContactEmail.value;
+const foundingMonth = verifiedValue(business.foundingDate);
+// Use a formatting anchor without publishing an invented founding day.
+export const ventureFoundedLabel = foundingMonth
+  ? new Intl.DateTimeFormat("en", {
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(`${foundingMonth}-01T00:00:00Z`))
+  : undefined;
 export const verifiedProfiles = business.socialProfiles.filter(
   (profile) => profile.status === "verified",
 );

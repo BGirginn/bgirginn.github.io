@@ -79,8 +79,15 @@ assert.equal(
   business.products.find((item) => item.id === "quadropod").status,
   "development",
 );
-assert.equal(business.legal.entityType.value, "Sole proprietorship");
+assert.equal(business.legal.entityType.value, "Sole Proprietorship (Türkiye)");
 assert.equal(ventureEmail, "founder@bgirgin.dev");
+assert.equal(verifiedValue(business.legal.registrationDate), undefined);
+const invalidFoundingMonth = structuredClone(business);
+invalidFoundingMonth.foundingDate.value = "2024-13";
+assert.equal(businessSchema.safeParse(invalidFoundingMonth).success, false);
+const inventedRegistrationDay = structuredClone(business);
+inventedRegistrationDay.legal.registrationDate = { value: "2024-04", status: "verified", evidence: "Founding month alone is insufficient" };
+assert.equal(businessSchema.safeParse(inventedRegistrationDay).success, false);
 const invalidVentureContact = structuredClone(business);
 invalidVentureContact.ventureContactEmail.value = "invalid";
 assert.equal(businessSchema.safeParse(invalidVentureContact).success, false);
@@ -272,7 +279,7 @@ try {
       }
       if (path === "/legal/") {
         assert.equal(
-          await page.getByText("Sole proprietorship", { exact: true }).count(),
+          await page.getByText("Sole Proprietorship (Türkiye)", { exact: true }).count(),
           1,
         );
         assert.equal(
@@ -281,10 +288,19 @@ try {
         );
         assert.match(await page.locator("main").textContent(), /no checkout/);
       }
+      if (path === "/about/" || path === "/venture/") {
+        assert.equal(await page.getByText("Founded April 2024", { exact: true }).count(), 1);
+        assert.equal(await page.locator('time[datetime="2024-04"]').count(), 1);
+        assert.equal(await page.getByText("Registered Sole Proprietorship", { exact: true }).count(), 1);
+        assert.equal(await page.getByText("Türkiye", { exact: true }).count(), 1);
+        assert.equal(await page.getByText("Bootstrapped", { exact: true }).count(), 1);
+        assert.equal(await page.getByText("Business registration date", { exact: true }).count(), 0);
+        assert.equal(await page.locator(`main a[href="mailto:${ventureEmail}"]`).count(), 1);
+      }
       if (path === "/about/") {
         assert.doesNotMatch(
           await page.locator("main").textContent(),
-          /not legally incorporated|unincorporated|sole proprietorship/i,
+          /not legally incorporated|unincorporated/i,
         );
         assert.equal(
           await page.getByText("Registered address", { exact: true }).count(),
@@ -294,7 +310,7 @@ try {
           await page
             .getByText(business.legalRegistrationStatus.value, { exact: true })
             .count(),
-          0,
+          1,
         );
       }
       assert.equal(await page.locator("main").count(), 1, path);
@@ -311,7 +327,13 @@ try {
       );
       assert.equal(identity["@type"], "Person");
       assert.equal(identity.name, business.founder.name);
-      assert.equal(identity.email, publicEmail);
+      assert.equal(identity.email, ventureEmail);
+      assert.equal(identity.affiliation.name, business.displayName);
+      assert.equal(identity.affiliation.foundingDate, "2024-04");
+      assert.equal(identity.affiliation.email, ventureEmail);
+      assert.equal(identity.affiliation.location.name, "Türkiye");
+      assert.match(identity.affiliation.description, /Bootstrapped/);
+      assert.equal(identity.affiliation.legalName, undefined);
       assert.deepEqual(
         identity.contactPoint.map((point) => point.email),
         [publicEmail, ventureEmail],

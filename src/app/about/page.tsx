@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { DetailPage } from "@/components/ui/DetailPage";
-import { business, verifiedProfiles, verifiedValue } from "@/content/business";
+import {
+  business,
+  ventureEmail,
+  ventureFoundedLabel,
+  verifiedProfiles,
+  verifiedValue,
+} from "@/content/business";
 import { siteContent } from "@/content/site";
 import { pageMetadata } from "@/lib/page-metadata";
 
 export const metadata = pageMetadata(
   "/about/",
   `About ${business.displayName}`,
-  `${business.displayName}’s engineering focus and the developer behind its embedded systems, software and robotics work.`,
+  business.company.description,
 );
 export default function AboutPage() {
   const background = verifiedValue(business.founder.background);
@@ -51,7 +57,14 @@ export default function AboutPage() {
           </div>
           {[
             { label: "Legal entity", fact: business.legalEntityName },
-            { label: "Founded", fact: business.foundingDate },
+            { label: "Legal status", fact: business.legalRegistrationStatus },
+            { label: "Business structure", fact: business.legal.entityType },
+            { label: "Country", fact: business.legal.jurisdiction },
+            { label: "Funding model", fact: business.fundingModel },
+            {
+              label: "Business registration date",
+              fact: business.legal.registrationDate,
+            },
             {
               label: "Registered address",
               fact: business.company.registeredAddress,
@@ -65,7 +78,27 @@ export default function AboutPage() {
               </div>
             ) : null,
           )}
+          {ventureFoundedLabel ? (
+            <div>
+              <dt>Venture founding</dt>
+              <dd>
+                <time dateTime={business.foundingDate.value}>
+                  Founded {ventureFoundedLabel}
+                </time>
+              </dd>
+            </div>
+          ) : null}
+          <div>
+            <dt>Founder contact</dt>
+            <dd>
+              <a href={`mailto:${ventureEmail}`}>{ventureEmail}</a>
+            </dd>
+          </div>
         </dl>
+        <p>
+          The venture founding date describes the start of the engineering
+          venture; it is separate from the official business registration date.
+        </p>
       </section>
       <section className="detail-section">
         <h2>{business.founder.name}</h2>

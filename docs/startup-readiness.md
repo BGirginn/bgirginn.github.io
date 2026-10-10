@@ -2,6 +2,18 @@
 
 Review date: 2026-10-10. This is a website review, not proof of program eligibility.
 
+## Founder-provided business information revision
+
+On 2026-10-10 the founder provided BGirgin Hardware / Bora Girgin, venture founding in April 2024, Türkiye, registered sole proprietorship, Sole Proprietorship (Türkiye), bootstrapped funding and founder@bgirgin.dev. These facts are recorded in the shared business.json with founder-provided evidence; they are not described as independently registry-verified. This update supersedes the earlier About legal-status omission.
+
+About and Venture display the registered status, country, structure, funding model, founder contact and “Founded April 2024”. Founding is stored at month precision as 2024-04; the formatter’s internal first-day anchor is not published as a founding day. Official business registration has a separate, unverified registrationDate field and stays absent. No tax/MERSIS numbers, legal registered name, address, certification or registration date is invented.
+
+Root and route metadata follow the updated business description. Person structured data uses the founder mailbox and links to the engineering brand as an Organization affiliation, with founder, month-precision venture founding, Türkiye location and the declared funding model. The description explicitly separates venture founding from official registration. Organization markup does not assert a Corporation or create an unknown legalName. Existing general contact@bgirgin.dev draft routing and contact points remain separate.
+
+The readiness regression checks displayed founding/status/structure/country/funding, founder contact, missing registration date and identifiers, metadata/structured-data consistency, and rejection of invalid founding months or month-only official registration dates. Claude roadmap content, visual styles, navigation and 3D assets/interactions remain unchanged. No deployment, commit or push is authorized.
+
+Observed validation: lint, production static build, typecheck, preview, readiness, theme and hardware checks passed. Lint/build retain three existing warnings (two image-element warnings and one effect-ref cleanup warning); build also reports Node DEP0205. Readiness covered eleven routes and 22 axe page/viewport scans with no violations. Theme checks covered responsive navigation and keyboard use; hardware checks covered original geometry hashes, Quadropod loading, controls, mobile fallback and WebGL fallback. The updated About desktop capture was reviewed. Claude and product configuration were compared with HEAD and remain unchanged. Final whitespace checks passed. No deployment, commit or push was performed.
+
 ## About presentation update
 
 The user requested removing legal-status wording from About as an alternative to adding a sole-proprietorship statement. About now uses the Company label and an engineering/product introduction without an incorporation or sole-proprietorship declaration. The shared company introduction on Home follows the same wording. The About business-type row is omitted; the existing legal page and centrally configured business facts are retained. No registration details, visual styles, CAD assets or interactions were changed. The readiness regression verifies that legal-status prose is absent from About while retaining legal-page checks. This is a local content revision, not a deployment or change to the business’s actual legal status. Lint (three existing warnings), production build, typecheck and the eleven-route readiness regression passed; 22 axe page/viewport scans reported no violations.

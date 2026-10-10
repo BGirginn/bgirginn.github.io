@@ -8,6 +8,7 @@ import {
   business,
   publicEmail,
   ventureEmail,
+  verifiedValue,
   verifiedProfiles,
 } from "@/content/business";
 
@@ -69,9 +70,30 @@ export const viewport: Viewport = {
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${siteUrl}/#founder`,
   name: business.founder.name,
   url: siteUrl,
-  email: publicEmail,
+  email: ventureEmail,
+  affiliation: {
+    "@type": "Organization",
+    "@id": `${siteUrl}/#business`,
+    name: business.displayName,
+    url: siteUrl,
+    email: ventureEmail,
+    foundingDate: verifiedValue(business.foundingDate),
+    description: [
+      business.venture.context,
+      verifiedValue(business.fundingModel)
+        ? `Funding model: ${verifiedValue(business.fundingModel)}.`
+        : undefined,
+      "The venture founding month is separate from the official business registration date.",
+    ].filter(Boolean).join(" "),
+    location: {
+      "@type": "Country",
+      name: verifiedValue(business.legal.jurisdiction),
+    },
+    founder: { "@id": `${siteUrl}/#founder` },
+  },
   contactPoint: [
     {
       "@type": "ContactPoint",
