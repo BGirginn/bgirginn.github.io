@@ -13,7 +13,7 @@ export default function AboutPage() {
   const background = verifiedValue(business.founder.background);
   return (
     <DetailPage
-      eyebrow={`${business.displayName} / Venture`}
+      eyebrow={`${business.displayName} / Company`}
       title={business.company.headline}
       introduction={business.company.description}
     >
@@ -51,7 +51,6 @@ export default function AboutPage() {
           </div>
           {[
             { label: "Legal entity", fact: business.legalEntityName },
-            { label: "Business type", fact: business.legalRegistrationStatus },
             { label: "Founded", fact: business.foundingDate },
             {
               label: "Registered address",

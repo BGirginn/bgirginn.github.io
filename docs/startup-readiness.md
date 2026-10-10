@@ -2,6 +2,10 @@
 
 Review date: 2026-10-10. This is a website review, not proof of program eligibility.
 
+## About presentation update
+
+The user requested removing legal-status wording from About as an alternative to adding a sole-proprietorship statement. About now uses the Company label and an engineering/product introduction without an incorporation or sole-proprietorship declaration. The shared company introduction on Home follows the same wording. The About business-type row is omitted; the existing legal page and centrally configured business facts are retained. No registration details, visual styles, CAD assets or interactions were changed. The readiness regression verifies that legal-status prose is absent from About while retaining legal-page checks. This is a local content revision, not a deployment or change to the business’s actual legal status. Lint (three existing warnings), production build, typecheck and the eleven-route readiness regression passed; 22 axe page/viewport scans reported no violations.
+
 ## Latest product and sole-proprietorship revision
 
 This revision supersedes the independent-unincorporated positioning below. On 2026-10-10 the user confirmed a **sole proprietorship**, a produced **Industrial LoRa Platform** as the main product, and **Quadropod** as ongoing R&D. The public legal description is “Sole proprietorship”, not “incorporated”, which would misstate the legal form.

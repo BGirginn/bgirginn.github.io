@@ -282,6 +282,10 @@ try {
         assert.match(await page.locator("main").textContent(), /no checkout/);
       }
       if (path === "/about/") {
+        assert.doesNotMatch(
+          await page.locator("main").textContent(),
+          /not legally incorporated|unincorporated|sole proprietorship/i,
+        );
         assert.equal(
           await page.getByText("Registered address", { exact: true }).count(),
           0,
@@ -290,7 +294,7 @@ try {
           await page
             .getByText(business.legalRegistrationStatus.value, { exact: true })
             .count(),
-          1,
+          0,
         );
       }
       assert.equal(await page.locator("main").count(), 1, path);
